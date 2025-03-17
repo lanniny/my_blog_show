@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>中文 on 演示站点</title>
+        <title>中文 on lanniny-blog</title>
         <link>http://localhost:1313/tags/%E4%B8%AD%E6%96%87/</link>
-        <description>Recent content in 中文 on 演示站点</description>
+        <description>Recent content in 中文 on lanniny-blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Example Person</copyright>
