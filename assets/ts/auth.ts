@@ -219,11 +219,11 @@ const AuthUtils = {
         const guestElements = document.querySelectorAll('[data-guest-only]');
 
         adminElements.forEach(element => {
-            (element as HTMLElement).style.display = isAdmin ? '' : 'none';
+            (element as HTMLElement).style.display = isAdmin ? 'block' : 'none';
         });
 
         guestElements.forEach(element => {
-            (element as HTMLElement).style.display = isAdmin ? 'none' : '';
+            (element as HTMLElement).style.display = isAdmin ? 'none' : 'block';
         });
     },
 
