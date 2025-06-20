@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>博客 on lanniny-blog</title><link>https://lanniny-blog.netlify.app/tags/%E5%8D%9A%E5%AE%A2/</link><description>Recent content in 博客 on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Mon, 20 Jan 2025 20:30:00 +0800</lastBuildDate><atom:link href="https://lanniny-blog.netlify.app/tags/%E5%8D%9A%E5%AE%A2/index.xml" rel="self" type="application/rss+xml"/><item><title>博客界面美化测试文章</title><link>https://lanniny-blog.netlify.app/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</link><pubDate>Mon, 20 Jan 2025 20:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</guid><description>&lt;img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&amp;h=400&amp;fit=crop" alt="Featured image of post 博客界面美化测试文章" />&lt;h1 id="博客界面美化测试文章">博客界面美化测试文章
+&lt;/h1>&lt;p>这是一篇专门用于测试博客界面美化效果的示例文章。文章包含了各种常见的内容元素，用于验证文章详情页的显示效果。&lt;/p>
+&lt;h2 id="文章简介">文章简介
+&lt;/h2>&lt;p>本文将展示各种Markdown元素在博客中的显示效果，包括：&lt;/p>
+&lt;ul>
+&lt;li>标题层级&lt;/li>
+&lt;li>段落文本&lt;/li>
+&lt;li>列表项目&lt;/li>
+&lt;li>代码块&lt;/li>
+&lt;li>引用块&lt;/li>
+&lt;li>图片展示&lt;/li>
+&lt;li>链接样式&lt;/li>
+&lt;/ul>
+&lt;h2 id="代码示例">代码示例
+&lt;/h2>&lt;h3 id="javascript代码">JavaScript代码
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 这是一个JavaScript代码示例
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kd">function&lt;/span> &lt;span class="nx">beautifyBlog&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;开始美化博客界面...&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kr">const&lt;/span> &lt;span class="nx">elements&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">document&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">querySelectorAll&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;.article-content&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">elements&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">forEach&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">element&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">element&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">classList&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">add&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;beautified&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="s1">&amp;#39;界面美化完成！&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 调用函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">const&lt;/span> &lt;span class="nx">result&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">beautifyBlog&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">result&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="css样式">CSS样式
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-css" data-lang="css">&lt;span class="line">&lt;span class="cl">&lt;span class="c">/* 文章内容美化样式 */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">.&lt;/span>&lt;span class="nc">article-content&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">font-family&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">apple-system&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">BlinkMacSystemFont&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Segoe UI&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kc">sans-serif&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">line-height&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mf">1.6&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mh">#333&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">.&lt;/span>&lt;span class="nc">article-content&lt;/span> &lt;span class="nt">h1&lt;/span>&lt;span class="o">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">.&lt;/span>&lt;span class="nc">article-content&lt;/span> &lt;span class="nt">h2&lt;/span>&lt;span class="o">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">.&lt;/span>&lt;span class="nc">article-content&lt;/span> &lt;span class="nt">h3&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">color&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mh">#2c3e50&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">margin-top&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="kt">rem&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">margin-bottom&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="kt">rem&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">.&lt;/span>&lt;span class="nc">article-content&lt;/span> &lt;span class="nt">p&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">margin-bottom&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mf">1.5&lt;/span>&lt;span class="kt">rem&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">text-align&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">justify&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="引用示例">引用示例
+&lt;/h2>&lt;blockquote>
+&lt;p>这是一个引用块的示例。引用块通常用于展示重要的观点、名言或者来自其他来源的内容。&lt;/p>
+&lt;p>好的设计不仅仅是外观和感觉，更重要的是它如何工作。&lt;/p>
+&lt;p>—— Steve Jobs&lt;/p>&lt;/blockquote>
+&lt;h2 id="列表示例">列表示例
+&lt;/h2>&lt;h3 id="无序列表">无序列表
+&lt;/h3>&lt;ul>
+&lt;li>前台页面美化
+&lt;ul>
+&lt;li>文章卡片设计&lt;/li>
+&lt;li>导航栏优化&lt;/li>
+&lt;li>侧边栏美化&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>管理面板优化
+&lt;ul>
+&lt;li>表单美化&lt;/li>
+&lt;li>按钮设计&lt;/li>
+&lt;li>交互效果&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>文章详情页优化
+&lt;ul>
+&lt;li>排版优化&lt;/li>
+&lt;li>代码高亮&lt;/li>
+&lt;li>阅读体验&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="有序列表">有序列表
+&lt;/h3>&lt;ol>
+&lt;li>分析现有界面问题&lt;/li>
+&lt;li>设计美化方案&lt;/li>
+&lt;li>实施界面改进&lt;/li>
+&lt;li>测试用户体验&lt;/li>
+&lt;li>优化细节效果&lt;/li>
+&lt;/ol>
+&lt;h2 id="表格示例">表格示例
+&lt;/h2>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>功能模块&lt;/th>
+&lt;th>优化前&lt;/th>
+&lt;th>优化后&lt;/th>
+&lt;th>改进程度&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>前台界面&lt;/td>
+&lt;td>基础样式&lt;/td>
+&lt;td>现代化设计&lt;/td>
+&lt;td>⭐⭐⭐⭐⭐&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>管理面板&lt;/td>
+&lt;td>简单表单&lt;/td>
+&lt;td>美化界面&lt;/td>
+&lt;td>⭐⭐⭐⭐⭐&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>文章页面&lt;/td>
+&lt;td>纯文本&lt;/td>
+&lt;td>富媒体展示&lt;/td>
+&lt;td>⭐⭐⭐⭐&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="图片展示">图片展示
+&lt;/h2>&lt;p>&lt;img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&amp;amp;h=400&amp;amp;fit=crop"
+loading="lazy"
+alt="博客界面美化效果"
+>&lt;/p>
+&lt;p>&lt;em>图：现代化的博客界面设计&lt;/em>&lt;/p>
+&lt;h2 id="链接示例">链接示例
+&lt;/h2>&lt;p>这里有一些有用的链接：&lt;/p>
+&lt;ul>
+&lt;li>&lt;a class="link" href="https://gohugo.io/documentation/" target="_blank" rel="noopener"
+>Hugo官方文档&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.markdownguide.org/" target="_blank" rel="noopener"
+>Markdown语法指南&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://css-tricks.com/" target="_blank" rel="noopener"
+>CSS美化技巧&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="总结">总结
+&lt;/h2>&lt;p>通过这篇测试文章，我们可以验证博客界面美化的各种效果。文章详情页的优化包括：&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>排版优化&lt;/strong>：改善文字间距、行高和字体大小&lt;/li>
+&lt;li>&lt;strong>代码美化&lt;/strong>：语法高亮和复制功能&lt;/li>
+&lt;li>&lt;strong>图片优化&lt;/strong>：响应式显示和懒加载&lt;/li>
+&lt;li>&lt;strong>交互增强&lt;/strong>：目录导航和阅读进度&lt;/li>
+&lt;li>&lt;strong>移动适配&lt;/strong>：确保各设备最佳体验&lt;/li>
+&lt;/ol>
+&lt;p>希望这些改进能够为用户带来更好的阅读体验！&lt;/p></description></item></channel></rss>
