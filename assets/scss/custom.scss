@@ -1,22 +1,14 @@
-/* Hugo Theme Stack - Admin Authentication Styles */
+/* Modern Blog Layout - Clean and User-Friendly Design */
 
-/* Import form validation styles */
+/* Import modern blog layout - replaces all previous chaotic styles */
+@import "modern-blog-layout";
+
+/* Import Hugo Stack theme overrides for proper integration */
+@import "hugo-stack-override";
+
+/* Keep only essential admin functionality */
 @import "form-validation";
-
-/* Import frontend beautification styles */
-@import "frontend-beautify";
-
-/* Import navigation beautification styles */
-@import "navigation-beautify";
-
-/* Import admin panel enhancement styles */
 @import "admin-panel-enhance";
-
-/* Import layout and typography optimization styles */
-@import "layout-typography-optimize";
-
-/* Import article detail beautification styles */
-@import "article-detail-beautify";
 
 /* Admin Modal Styles - Enhanced */
 .admin-modal {

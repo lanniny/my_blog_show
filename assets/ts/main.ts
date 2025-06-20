@@ -1635,5 +1635,46 @@ import './navigation-enhance';
 // Import admin panel enhancement module
 import './admin-panel-enhance';
 
-// Import article detail enhancement module
-import './article-detail-enhance';
+// Modern layout initialization
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🎨 Modern blog layout initialized');
+
+    // Add smooth scrolling to all anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add loading states to buttons
+    document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', function() {
+            if (!this.classList.contains('btn-loading')) {
+                this.classList.add('btn-loading');
+                setTimeout(() => {
+                    this.classList.remove('btn-loading');
+                }, 2000);
+            }
+        });
+    });
+
+    // Enhance article cards with better hover effects
+    document.querySelectorAll('.article-card, .article-list article').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-4px)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    console.log('✅ Modern layout enhancements applied');
+});
