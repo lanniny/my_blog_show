@@ -45,6 +45,16 @@
                 </time>
             </div>
         {{ end }}
+
+        {{ $showWordCount := .Site.Params.article.wordCount | default true }}
+        {{ if $showWordCount }}
+            <div>
+                {{ partial "helper/icon" "hash" }}
+                <span class="article-time--wordcount">
+                    {{ .WordCount }} 字
+                </span>
+            </div>
+        {{ end }}
     </footer>
     {{ end }}
 
