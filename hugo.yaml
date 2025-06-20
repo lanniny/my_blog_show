@@ -161,7 +161,7 @@ params:
             repo: my_blog_source              # 用于存储评论的GitHub仓库
             clientID: "Ov23li9uepNcJIfMUmP1"                      # GitHub OAuth App Client ID（需要创建OAuth应用获取）
             clientSecret: "65abca1c431ab760ddc6b52f81533569cc90e5e9"                  # GitHub OAuth App Client Secret（需要创建OAuth应用获取）
-            proxy: "https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token"  # 代理服务器（可选）
+            # proxy: "https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token"  # 代理服务器（可选，已禁用）
 
         cusdis:
             host:
