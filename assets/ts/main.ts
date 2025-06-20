@@ -218,7 +218,7 @@ let Stack = {
             });
         }
 
-        // Global click handler for admin panel - most robust version
+        // Global click handler for admin panel - FIXED VERSION
         document.addEventListener('click', (e) => {
             const target = e.target as HTMLElement;
 
@@ -241,15 +241,27 @@ let Stack = {
                 if (isAdminPanelClick) {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Admin panel click detected:', target);
-                    console.log('Clicked text:', clickedText);
+                    console.log('🎯 Admin panel click detected:', target);
+                    console.log('🎯 Clicked text:', clickedText);
 
                     // Ensure we're in admin mode before showing panel
                     if (globalAuth && globalAuth.isAuthenticated()) {
-                        console.log('User is authenticated, showing admin panel');
-                        Stack.showAdminPanel();
+                        console.log('✅ User is authenticated, showing admin panel');
+
+                        // DIRECT PANEL SHOW - bypass Stack.showAdminPanel if needed
+                        const panel = document.getElementById('admin-panel-modal');
+                        if (panel) {
+                            console.log('✅ Panel found, showing directly');
+                            panel.style.display = 'flex';
+                            // Load settings
+                            if (Stack.loadAdminSettings) {
+                                Stack.loadAdminSettings();
+                            }
+                        } else {
+                            console.error('❌ Panel not found in DOM');
+                        }
                     } else {
-                        console.log('User not authenticated, cannot show admin panel');
+                        console.log('❌ User not authenticated, cannot show admin panel');
                     }
                 }
             }
