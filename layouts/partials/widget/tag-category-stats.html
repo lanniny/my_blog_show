@@ -1,0 +1,305 @@
+{{/* 标签分类统计组件 */}}
+<section class="widget tag-category-stats">
+    <div class="widget-icon">
+        {{ partial "helper/icon" "tag" }}
+    </div>
+    <h2 class="widget-title section-title">标签分类统计</h2>
+    
+    <div class="stats-container">
+        {{/* 分类统计 */}}
+        <div class="stats-section">
+            <h3 class="stats-title">
+                {{ partial "helper/icon" "folder" }}
+                分类统计
+            </h3>
+            <div class="stats-grid">
+                {{ range .Site.Taxonomies.categories }}
+                    {{ $categoryName := .Page.Title }}
+                    {{ $categoryCount := len .Pages }}
+                    <div class="stats-item">
+                        <a href="{{ .Page.RelPermalink }}" class="stats-link">
+                            <span class="stats-name">{{ $categoryName }}</span>
+                            <span class="stats-count">{{ $categoryCount }}</span>
+                        </a>
+                    </div>
+                {{ end }}
+            </div>
+        </div>
+
+        {{/* 热门标签 */}}
+        <div class="stats-section">
+            <h3 class="stats-title">
+                {{ partial "helper/icon" "hash" }}
+                热门标签
+            </h3>
+            <div class="tag-cloud-widget">
+                {{ $tags := .Site.Taxonomies.tags }}
+                {{ range $tags.ByCount | first 15 }}
+                    {{ $tagName := .Page.Title }}
+                    {{ $tagCount := len .Pages }}
+                    {{ $fontSize := add 0.8 (mul 0.3 (div $tagCount 5.0)) }}
+                    <a href="{{ .Page.RelPermalink }}" 
+                       class="tag-item" 
+                       style="font-size: {{ $fontSize }}rem;"
+                       title="{{ $tagName }} ({{ $tagCount }} 篇文章)">
+                        {{ $tagName }}
+                        <span class="tag-count">{{ $tagCount }}</span>
+                    </a>
+                {{ end }}
+            </div>
+        </div>
+
+        {{/* 统计概览 */}}
+        <div class="stats-section">
+            <h3 class="stats-title">
+                {{ partial "helper/icon" "bar-chart" }}
+                统计概览
+            </h3>
+            <div class="overview-stats">
+                <div class="overview-item">
+                    <span class="overview-number">{{ len .Site.Taxonomies.categories }}</span>
+                    <span class="overview-label">个分类</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-number">{{ len .Site.Taxonomies.tags }}</span>
+                    <span class="overview-label">个标签</span>
+                </div>
+                <div class="overview-item">
+                    <span class="overview-number">{{ len .Site.RegularPages }}</span>
+                    <span class="overview-label">篇文章</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.tag-category-stats {
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-l1);
+    border: 1px solid var(--card-separator-color);
+}
+
+.tag-category-stats .widget-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--card-text-color-main);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.tag-category-stats .widget-icon {
+    color: var(--accent-color);
+}
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.stats-section {
+    border-bottom: 1px solid var(--card-separator-color);
+    padding-bottom: 1.5rem;
+}
+
+.stats-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.stats-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: var(--card-text-color-main);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.stats-title .icon {
+    width: 16px;
+    height: 16px;
+    color: var(--accent-color);
+}
+
+/* 分类统计样式 */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+
+.stats-item {
+    background: var(--card-background-selected);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.stats-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stats-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: var(--card-text-color-main);
+    transition: color 0.2s ease;
+}
+
+.stats-link:hover {
+    color: var(--accent-color);
+}
+
+.stats-name {
+    font-weight: 500;
+}
+
+.stats-count {
+    background: var(--accent-color);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+/* 标签云样式 */
+.tag-cloud-widget {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.tag-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4rem 0.8rem;
+    background: var(--accent-color-lighter);
+    color: var(--accent-color);
+    text-decoration: none;
+    border-radius: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    line-height: 1.2;
+}
+
+.tag-item:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.tag-count {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.tag-item:hover .tag-count {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 统计概览样式 */
+.overview-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+}
+
+.overview-item {
+    text-align: center;
+    padding: 1rem;
+    background: var(--card-background-selected);
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.overview-item:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.overview-number {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.overview-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--card-text-color-secondary);
+    font-weight: 500;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .stats-container {
+        gap: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tag-cloud-widget {
+        justify-content: center;
+    }
+    
+    .overview-stats {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.75rem;
+    }
+    
+    .overview-item {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .overview-number {
+        font-size: 1.5rem;
+    }
+    
+    .overview-label {
+        font-size: 0.8rem;
+    }
+}
+
+/* 深色模式优化 */
+[data-scheme="dark"] {
+    .tag-item {
+        background: rgba(var(--accent-color-rgb), 0.2);
+        color: var(--accent-color-lighter);
+    }
+    
+    .tag-item:hover {
+        background: var(--accent-color);
+        color: white;
+    }
+    
+    .stats-item:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+}
+</style>
