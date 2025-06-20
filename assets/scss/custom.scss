@@ -1019,28 +1019,29 @@ kbd {
 
     /* 主搜索框样式优化 */
     label {
-        position: absolute;
-        top: 12px !important; /* 调整label位置，避免与input文本重叠 */
-        inset-inline-start: 20px;
-        font-size: 1.3rem !important; /* 稍微减小字体避免视觉冲突 */
-        color: var(--card-text-color-tertiary);
-        z-index: 2; /* 确保label在input之上 */
-        pointer-events: none; /* 防止label阻挡input点击 */
-        transition: all 0.3s ease; /* 平滑过渡效果 */
-        transform-origin: left top;
+        position: absolute !important;
+        top: 8px !important; /* 进一步调整label位置，避免与input文本重叠 */
+        inset-inline-start: 20px !important;
+        font-size: 1.1rem !important; /* 减小字体避免视觉冲突 */
+        color: var(--card-text-color-tertiary) !important;
+        z-index: 10 !important; /* 确保label在input之上 */
+        pointer-events: none !important; /* 防止label阻挡input点击 */
+        transition: all 0.3s ease !important; /* 平滑过渡效果 */
+        transform-origin: left top !important;
+        line-height: 1.2 !important;
     }
 
     input {
-        padding: 48px 20px 18px 20px !important; /* 增加top padding为label留出足够空间 */
-        border-radius: var(--card-border-radius);
-        background-color: var(--card-background);
-        box-shadow: var(--shadow-l1);
-        color: var(--card-text-color-main);
-        width: 100%;
-        border: 0;
-        font-size: 1.6rem !important; /* 稍微减小字体大小 */
-        line-height: 1.4;
-        transition: all 0.3s ease;
+        padding: 50px 20px 18px 20px !important; /* 增加top padding为label留出足够空间 */
+        border-radius: var(--card-border-radius) !important;
+        background-color: var(--card-background) !important;
+        box-shadow: var(--shadow-l1) !important;
+        color: var(--card-text-color-main) !important;
+        width: 100% !important;
+        border: 0 !important;
+        font-size: 1.5rem !important; /* 减小字体大小避免与label冲突 */
+        line-height: 1.4 !important;
+        transition: all 0.3s ease !important;
 
         /* 确保placeholder不与label重叠 */
         &::placeholder {
@@ -1074,13 +1075,15 @@ kbd {
     /* Widget版本的搜索框特殊处理 */
     &.widget {
         label {
-            font-size: 1.2rem !important;
-            top: 8px !important; /* Widget版本的label位置调整 */
+            font-size: 1rem !important;
+            top: 5px !important; /* Widget版本的label位置调整 */
+            line-height: 1.1 !important;
         }
 
         input {
-            font-size: 1.4rem !important;
-            padding: 38px 20px 12px 20px !important; /* Widget版本的padding调整 */
+            font-size: 1.3rem !important;
+            padding: 40px 20px 12px 20px !important; /* Widget版本的padding调整 */
+            line-height: 1.3 !important;
         }
     }
 
@@ -1121,24 +1124,26 @@ kbd {
 @media (max-width: 768px) {
     .search-form {
         label {
-            font-size: 1.1rem !important;
-            top: 10px !important;
+            font-size: 1rem !important;
+            top: 6px !important;
+            line-height: 1.1 !important;
         }
 
         input {
-            font-size: 1.4rem !important;
-            padding: 40px 15px 15px 15px !important;
+            font-size: 1.3rem !important;
+            padding: 42px 15px 15px 15px !important;
+            line-height: 1.3 !important;
         }
 
         &.widget {
             label {
-                font-size: 1rem !important;
-                top: 6px !important;
+                font-size: 0.9rem !important;
+                top: 4px !important;
             }
 
             input {
-                font-size: 1.2rem !important;
-                padding: 32px 15px 10px 15px !important;
+                font-size: 1.1rem !important;
+                padding: 35px 15px 10px 15px !important;
             }
         }
     }
@@ -1147,13 +1152,15 @@ kbd {
 @media (max-width: 480px) {
     .search-form {
         label {
-            font-size: 1rem !important;
-            top: 8px !important;
+            font-size: 0.9rem !important;
+            top: 5px !important;
+            line-height: 1.1 !important;
         }
 
         input {
-            font-size: 1.3rem !important;
-            padding: 38px 12px 12px 12px !important;
+            font-size: 1.2rem !important;
+            padding: 40px 12px 12px 12px !important;
+            line-height: 1.3 !important;
         }
     }
 }
