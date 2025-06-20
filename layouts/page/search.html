@@ -6,14 +6,80 @@
 {{ end }}
 {{ define "main" }}
 <form action="{{ .RelPermalink }}" class="search-form"{{ with .OutputFormats.Get "json" -}} data-json="{{ .RelPermalink }}"{{- end }}>
-    <p>
-        <label>{{ T "search.title" }}</label>
-        <input name="keyword" placeholder="{{ T `search.placeholder` }}" />
-    </p>
+    <div class="search-input-container">
+        <div class="search-main">
+            <label>{{ T "search.title" }}</label>
+            <input name="keyword" placeholder="{{ T `search.placeholder` }}" />
+            <button type="submit" title="{{ T `search.title` }}">
+                {{ partial "helper/icon" "search" }}
+            </button>
+        </div>
 
-    <button title="{{ T `search.title` }}">
-        {{ partial "helper/icon" "search" }}
-    </button>
+        <button type="button" class="advanced-search-toggle" title="高级搜索选项">
+            <span class="toggle-text">高级搜索</span>
+            <svg class="toggle-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 10l5 5 5-5z"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="advanced-search-panel" id="advanced-search-panel">
+        <div class="advanced-search-grid">
+            <!-- 分类筛选 -->
+            <div class="filter-group">
+                <label class="filter-label">分类筛选</label>
+                <select name="category" class="filter-select">
+                    <option value="">所有分类</option>
+                    {{ range .Site.Taxonomies.categories }}
+                        <option value="{{ .Page.Title }}">{{ .Page.Title }} ({{ len .Pages }})</option>
+                    {{ end }}
+                </select>
+            </div>
+
+            <!-- 标签筛选 -->
+            <div class="filter-group">
+                <label class="filter-label">标签筛选</label>
+                <div class="tag-filter-container">
+                    <input type="text" class="tag-filter-input" placeholder="输入标签名称..." />
+                    <div class="tag-filter-dropdown">
+                        {{ range .Site.Taxonomies.tags }}
+                            <label class="tag-filter-option">
+                                <input type="checkbox" name="tags" value="{{ .Page.Title }}" />
+                                <span class="tag-name">{{ .Page.Title }}</span>
+                                <span class="tag-count">({{ len .Pages }})</span>
+                            </label>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- 时间范围筛选 -->
+            <div class="filter-group">
+                <label class="filter-label">时间范围</label>
+                <div class="date-range-container">
+                    <input type="date" name="date-from" class="date-input" />
+                    <span class="date-separator">至</span>
+                    <input type="date" name="date-to" class="date-input" />
+                </div>
+            </div>
+
+            <!-- 排序选项 -->
+            <div class="filter-group">
+                <label class="filter-label">排序方式</label>
+                <select name="sort" class="filter-select">
+                    <option value="relevance">相关性</option>
+                    <option value="date-desc">最新发布</option>
+                    <option value="date-asc">最早发布</option>
+                    <option value="title">标题排序</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="advanced-search-actions">
+            <button type="button" class="btn-reset">重置筛选</button>
+            <button type="submit" class="btn-search">应用筛选</button>
+        </div>
+    </div>
 </form>
 
 <div class="search-result">
@@ -27,7 +93,40 @@
 
 {{- $opts := dict "minify" hugo.IsProduction "JSXFactory" "createElement" -}}
 {{- $searchScript := resources.Get "ts/search.tsx" | js.Build $opts -}}
+{{- $advancedSearchScript := resources.Get "ts/advanced-search.ts" | js.Build $opts -}}
 <script type="text/javascript" src="{{ $searchScript.RelPermalink }}" defer></script>
+<script type="text/javascript" src="{{ $advancedSearchScript.RelPermalink }}" defer></script>
+
+<script>
+// 初始化高级搜索功能
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        // 等待原始搜索初始化完成
+        const searchForm = document.querySelector('.search-form');
+        if (searchForm && window.AdvancedSearch) {
+            // 获取原始搜索实例（假设它被存储在全局变量中）
+            const originalSearchInstance = window.searchInstance || {
+                getData: async () => {
+                    const jsonURL = searchForm.dataset.json;
+                    const response = await fetch(jsonURL);
+                    const data = await response.json();
+                    const parser = new DOMParser();
+
+                    for (const item of data) {
+                        item.content = parser.parseFromString(item.content, 'text/html').body.innerText;
+                    }
+
+                    return data;
+                }
+            };
+
+            // 初始化高级搜索
+            new window.AdvancedSearch(originalSearchInstance);
+            console.log('✅ 高级搜索功能已启用');
+        }
+    }, 100);
+});
+</script>
 
 {{ partialCached "footer/footer" . }}
 {{ end }}

@@ -7,6 +7,33 @@
 {{- range $filtered -}}
     {{- $data := dict "title" .Title "date" .Date "permalink" .Permalink "content" (.Plain) -}}
 
+    {{/* 添加分类信息 */}}
+    {{- $categories := slice -}}
+    {{- range .Params.categories -}}
+        {{- $categories = $categories | append . -}}
+    {{- end -}}
+    {{- $data = merge $data (dict "categories" $categories) -}}
+
+    {{/* 添加标签信息 */}}
+    {{- $tags := slice -}}
+    {{- range .Params.tags -}}
+        {{- $tags = $tags | append . -}}
+    {{- end -}}
+    {{- $data = merge $data (dict "tags" $tags) -}}
+
+    {{/* 添加摘要信息 */}}
+    {{- $summary := .Summary | plainify | truncate 200 -}}
+    {{- $data = merge $data (dict "summary" $summary) -}}
+
+    {{/* 添加阅读时间 */}}
+    {{- $data = merge $data (dict "readingTime" .ReadingTime) -}}
+
+    {{/* 添加字数统计 */}}
+    {{- $data = merge $data (dict "wordCount" .WordCount) -}}
+
+    {{/* 添加最后修改时间 */}}
+    {{- $data = merge $data (dict "lastmod" .Lastmod) -}}
+
     {{- $image := partialCached "helper/image" (dict "Context" . "Type" "articleList") .RelPermalink "articleList" -}}
     {{- if $image.exists -}}
         {{- $imagePermalink := "" -}}
@@ -16,7 +43,7 @@
         {{- else -}}
             {{- $imagePermalink = $image.permalink -}}
         {{- end -}}
-        
+
         {{- $data = merge $data (dict "image" (absURL $imagePermalink)) -}}
     {{- end -}}
 
