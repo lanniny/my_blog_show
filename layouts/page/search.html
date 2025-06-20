@@ -32,10 +32,10 @@
         </div>
 
         <div class="filters-content">
+            <!-- 第一行：分类和排序 -->
             <div class="filters-row">
-                <!-- 分类筛选 -->
                 <div class="filter-item">
-                    <label class="filter-label">📁 分类</label>
+                    <label class="filter-label">📁 分类筛选</label>
                     <select name="category" class="filter-select">
                         <option value="">所有分类</option>
                         {{ range .Site.Taxonomies.categories }}
@@ -44,9 +44,8 @@
                     </select>
                 </div>
 
-                <!-- 排序选项 -->
                 <div class="filter-item">
-                    <label class="filter-label">📊 排序</label>
+                    <label class="filter-label">📊 排序方式</label>
                     <select name="sort" class="filter-select">
                         <option value="relevance">相关性</option>
                         <option value="date-desc">最新发布</option>
@@ -56,8 +55,8 @@
                 </div>
             </div>
 
-            <div class="filters-row">
-                <!-- 标签筛选 -->
+            <!-- 第二行：标签筛选 -->
+            <div class="filters-row filters-row-wide">
                 <div class="filter-item filter-item-wide">
                     <label class="filter-label">🏷️ 标签筛选</label>
                     <div class="tag-filter-wrapper">
@@ -75,14 +74,14 @@
                 </div>
             </div>
 
-            <div class="filters-row">
-                <!-- 时间范围筛选 -->
+            <!-- 第三行：时间范围 -->
+            <div class="filters-row filters-row-wide">
                 <div class="filter-item filter-item-wide">
                     <label class="filter-label">📅 时间范围</label>
                     <div class="date-range-wrapper">
-                        <input type="date" name="date-from" class="date-input" />
+                        <input type="date" name="date-from" class="date-input" placeholder="开始日期" />
                         <span class="date-separator">至</span>
-                        <input type="date" name="date-to" class="date-input" />
+                        <input type="date" name="date-to" class="date-input" placeholder="结束日期" />
                     </div>
                 </div>
             </div>
