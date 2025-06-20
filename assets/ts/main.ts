@@ -934,6 +934,8 @@ let Stack = {
                     avatarImg.src = result;
                     // Save to localStorage
                     localStorage.setItem('adminAvatar', result);
+                    // Update site avatar immediately
+                    Stack.updateSiteAvatar(result);
                 }
             };
             reader.readAsDataURL(file);
@@ -944,46 +946,17 @@ let Stack = {
      * Reset avatar to default
      */
     resetAvatar: () => {
+        const defaultAvatar = '/img/avatar_hu_f509edb42ecc0ebd.png';
         const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
         if (avatarImg) {
-            avatarImg.src = '/img/avatar_hu_f509edb42ecc0ebd.png';
+            avatarImg.src = defaultAvatar;
             localStorage.removeItem('adminAvatar');
+            // Update site avatar immediately
+            Stack.updateSiteAvatar(defaultAvatar);
         }
     },
 
-    /**
-     * Load admin settings
-     */
-    loadAdminSettings: () => {
-        // Load avatar
-        const savedAvatar = localStorage.getItem('adminAvatar');
-        if (savedAvatar) {
-            const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
-            if (avatarImg) avatarImg.src = savedAvatar;
-        }
 
-        // Load site title
-        const savedTitle = localStorage.getItem('adminSiteTitle');
-        if (savedTitle) {
-            const titleInput = document.getElementById('admin-site-title') as HTMLInputElement;
-            if (titleInput) titleInput.value = savedTitle;
-        }
-
-        // Load site description
-        const savedDesc = localStorage.getItem('adminSiteDescription');
-        if (savedDesc) {
-            const descInput = document.getElementById('admin-site-description') as HTMLTextAreaElement;
-            if (descInput) descInput.value = savedDesc;
-        }
-
-        // Load theme color
-        const savedColor = localStorage.getItem('adminThemeColor');
-        if (savedColor) {
-            const colorInput = document.getElementById('admin-theme-color') as HTMLInputElement;
-            if (colorInput) colorInput.value = savedColor;
-            Stack.updateThemeColor(savedColor);
-        }
-    },
 
     /**
      * Save admin settings
