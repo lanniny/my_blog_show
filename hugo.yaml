@@ -159,10 +159,10 @@ params:
             owner: lanniny                    # GitHub用户名
             admin: lanniny                    # 管理员用户名（可以是数组）
             repo: my_blog_source              # 用于存储评论的GitHub仓库
-            clientID: "PLACEHOLDER_CLIENT_ID"                      # GitHub OAuth App Client ID（需要手动创建OAuth应用获取）
-            clientSecret: "PLACEHOLDER_CLIENT_SECRET"                  # GitHub OAuth App Client Secret（需要手动创建OAuth应用获取）
+            clientID: "Ov23liF1dDipZP2d6oW2"                      # GitHub OAuth App Client ID（已自动创建）
+            clientSecret: "TEMP_SECRET_PLEASE_GENERATE"                  # GitHub OAuth App Client Secret（需要在GitHub页面生成）
             # proxy: "https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token"  # 代理服务器（可选，已禁用）
-            # 临时禁用Gitalk，避免403错误
+            # OAuth应用已创建，等待Client Secret生成
             enabled: false
 
         cusdis:
