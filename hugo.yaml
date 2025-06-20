@@ -10,7 +10,47 @@ DefaultContentLanguage: zh-cn
 
 # Set hasCJKLanguage to true if DefaultContentLanguage is in [zh-cn ja ko]
 # This will make .Summary and .WordCount behave correctly for CJK languages.
-hasCJKLanguage: false
+hasCJKLanguage: true
+
+# Performance optimizations
+enableRobotsTXT: true
+enableGitInfo: true
+enableEmoji: true
+
+# Build performance
+timeout: 30000
+enableInlineShortcodes: true
+
+# Minification settings
+minify:
+  disableCSS: false
+  disableHTML: false
+  disableJS: false
+  disableJSON: false
+  disableSVG: false
+  disableXML: false
+  minifyOutput: true
+  tdewolff:
+    css:
+      keepCSS2: false
+      precision: 0
+    html:
+      keepComments: false
+      keepConditionalComments: true
+      keepDefaultAttrVals: true
+      keepDocumentTags: true
+      keepEndTags: true
+      keepQuotes: false
+      keepWhitespace: false
+    js:
+      keepVarNames: false
+      precision: 0
+    json:
+      precision: 0
+    svg:
+      precision: 0
+    xml:
+      keepWhitespace: false
 
 languages:
     en:
@@ -208,8 +248,19 @@ params:
     imageProcessing:
         cover:
             enabled: true
+            quality: 85
+            anchor: smart
         content:
             enabled: true
+            quality: 85
+            anchor: smart
+        # 图片处理优化
+        resize:
+            quality: 85
+            method: lanczos
+        webp:
+            quality: 85
+            lossless: false
 
 ### Custom menu
 ### See https://stack.jimmycai.com/config/menu

@@ -1,57 +1,37 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>评论系统 on lanniny-blog</title>
-        <link>http://localhost:1313/tags/%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</link>
-        <description>Recent content in 评论系统 on lanniny-blog</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>zh-cn</language>
-        <copyright>Example Person</copyright>
-        <lastBuildDate>Mon, 20 Jan 2025 21:30:00 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>测试Gitalk评论系统</title>
-        <link>http://localhost:1313/p/test-gitalk-comments/</link>
-        <pubDate>Mon, 20 Jan 2025 21:30:00 +0800</pubDate>
-        
-        <guid>http://localhost:1313/p/test-gitalk-comments/</guid>
-        <description>&lt;h1 id=&#34;gitalk评论系统测试&#34;&gt;Gitalk评论系统测试
-&lt;/h1&gt;&lt;p&gt;这是一篇用于测试Gitalk评论系统的文章。&lt;/p&gt;
-&lt;h2 id=&#34;功能测试&#34;&gt;功能测试
-&lt;/h2&gt;&lt;p&gt;本文用于验证以下功能：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;✅ &lt;strong&gt;评论系统启用&lt;/strong&gt;: 检查评论区域是否正常显示&lt;/li&gt;
-&lt;li&gt;✅ &lt;strong&gt;GitHub OAuth&lt;/strong&gt;: 验证GitHub登录功能&lt;/li&gt;
-&lt;li&gt;✅ &lt;strong&gt;评论发表&lt;/strong&gt;: 测试评论发表和显示&lt;/li&gt;
-&lt;li&gt;✅ &lt;strong&gt;Issues集成&lt;/strong&gt;: 确认评论是否正确创建GitHub Issues&lt;/li&gt;
-&lt;li&gt;✅ &lt;strong&gt;样式适配&lt;/strong&gt;: 验证评论系统与博客主题的样式一致性&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;配置信息&#34;&gt;配置信息
-&lt;/h2&gt;&lt;p&gt;当前Gitalk配置：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Owner&lt;/strong&gt;: lanniny&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Admin&lt;/strong&gt;: lanniny&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Repository&lt;/strong&gt;: my_blog_source&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Provider&lt;/strong&gt;: gitalk&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;测试步骤&#34;&gt;测试步骤
-&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;滚动到页面底部查看评论区域&lt;/li&gt;
-&lt;li&gt;如果显示&amp;quot;配置中&amp;quot;，说明需要完成GitHub OAuth应用配置&lt;/li&gt;
-&lt;li&gt;如果显示登录按钮，说明配置正确，可以进行登录测试&lt;/li&gt;
-&lt;li&gt;登录后尝试发表测试评论&lt;/li&gt;
-&lt;li&gt;检查GitHub仓库是否自动创建了对应的Issue&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;预期结果&#34;&gt;预期结果
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;评论区域正常显示&lt;/li&gt;
-&lt;li&gt;样式与博客主题一致&lt;/li&gt;
-&lt;li&gt;支持深色/浅色主题切换&lt;/li&gt;
-&lt;li&gt;移动端显示友好&lt;/li&gt;
-&lt;li&gt;GitHub Issues正确创建&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;请在下方评论区测试评论功能！&lt;/strong&gt; 👇&lt;/p&gt;
-</description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>评论系统 on lanniny-blog</title><link>http://localhost:1313/tags/%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/</link><description>Recent content in 评论系统 on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Fri, 20 Jun 2025 22:06:39 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml"/><item><title>测试Gitalk评论系统</title><link>http://localhost:1313/p/test-gitalk-comments/</link><pubDate>Mon, 20 Jan 2025 21:30:00 +0800</pubDate><guid>http://localhost:1313/p/test-gitalk-comments/</guid><description>&lt;h1 id="gitalk评论系统测试">Gitalk评论系统测试
+&lt;/h1>&lt;p>这是一篇用于测试Gitalk评论系统的文章。&lt;/p>
+&lt;h2 id="功能测试">功能测试
+&lt;/h2>&lt;p>本文用于验证以下功能：&lt;/p>
+&lt;ol>
+&lt;li>✅ &lt;strong>评论系统启用&lt;/strong>: 检查评论区域是否正常显示&lt;/li>
+&lt;li>✅ &lt;strong>GitHub OAuth&lt;/strong>: 验证GitHub登录功能&lt;/li>
+&lt;li>✅ &lt;strong>评论发表&lt;/strong>: 测试评论发表和显示&lt;/li>
+&lt;li>✅ &lt;strong>Issues集成&lt;/strong>: 确认评论是否正确创建GitHub Issues&lt;/li>
+&lt;li>✅ &lt;strong>样式适配&lt;/strong>: 验证评论系统与博客主题的样式一致性&lt;/li>
+&lt;/ol>
+&lt;h2 id="配置信息">配置信息
+&lt;/h2>&lt;p>当前Gitalk配置：&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Owner&lt;/strong>: lanniny&lt;/li>
+&lt;li>&lt;strong>Admin&lt;/strong>: lanniny&lt;/li>
+&lt;li>&lt;strong>Repository&lt;/strong>: my_blog_source&lt;/li>
+&lt;li>&lt;strong>Provider&lt;/strong>: gitalk&lt;/li>
+&lt;/ul>
+&lt;h2 id="测试步骤">测试步骤
+&lt;/h2>&lt;ol>
+&lt;li>滚动到页面底部查看评论区域&lt;/li>
+&lt;li>如果显示&amp;quot;配置中&amp;quot;，说明需要完成GitHub OAuth应用配置&lt;/li>
+&lt;li>如果显示登录按钮，说明配置正确，可以进行登录测试&lt;/li>
+&lt;li>登录后尝试发表测试评论&lt;/li>
+&lt;li>检查GitHub仓库是否自动创建了对应的Issue&lt;/li>
+&lt;/ol>
+&lt;h2 id="预期结果">预期结果
+&lt;/h2>&lt;ul>
+&lt;li>评论区域正常显示&lt;/li>
+&lt;li>样式与博客主题一致&lt;/li>
+&lt;li>支持深色/浅色主题切换&lt;/li>
+&lt;li>移动端显示友好&lt;/li>
+&lt;li>GitHub Issues正确创建&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;p>&lt;strong>请在下方评论区测试评论功能！&lt;/strong> 👇&lt;/p></description></item></channel></rss>

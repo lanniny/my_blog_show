@@ -13,6 +13,7 @@ import StackColorScheme from 'ts/colorScheme';
 import { setupScrollspy } from 'ts/scrollspy';
 import { setupSmoothAnchors } from "ts/smoothAnchors";
 import StackAuth, { AuthUtils } from 'ts/auth';
+import './performance';
 
 // Global auth instance
 let globalAuth: StackAuth;
@@ -229,6 +230,11 @@ let Stack = {
         });
 
         new StackColorScheme(document.getElementById('dark-mode-toggle'));
+
+        /**
+         * Register Service Worker for performance optimization
+         */
+        Stack.registerServiceWorker();
     },
 
     /**
@@ -1846,3 +1852,84 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log('✅ Modern layout enhancements applied');
 });
+
+/**
+ * Register Service Worker for performance optimization
+ */
+Stack.registerServiceWorker = () => {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('✅ Service Worker 注册成功:', registration.scope);
+
+                    // 检查更新
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        if (newWorker) {
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // 有新版本可用
+                                    Stack.showUpdateNotification();
+                                }
+                            });
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.log('❌ Service Worker 注册失败:', error);
+                });
+        });
+    }
+};
+
+/**
+ * Show update notification
+ */
+Stack.showUpdateNotification = () => {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--accent-color);
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 10000;
+        max-width: 300px;
+        font-size: 0.9rem;
+    `;
+
+    notification.innerHTML = `
+        <div style="margin-bottom: 0.5rem;">🔄 有新版本可用</div>
+        <button onclick="location.reload()" style="
+            background: white;
+            color: var(--accent-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        ">立即更新</button>
+        <button onclick="this.parentElement.remove()" style="
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        ">稍后</button>
+    `;
+
+    document.body.appendChild(notification);
+
+    // 10秒后自动隐藏
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.remove();
+        }
+    }, 10000);
+};

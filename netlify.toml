@@ -1,11 +1,13 @@
 [build]
   publish = "public"
-  command = "hugo"
+  command = "hugo --minify --gc --enableGitInfo"
 
 [build.environment]
   HUGO_VERSION = "0.145.0"
   HUGO_ENV = "production"
   HUGO_ENABLEGITINFO = "true"
+  NODE_VERSION = "18"
+  GO_VERSION = "1.21"
 
 [context.production.environment]
   HUGO_ENV = "production"
@@ -39,3 +41,45 @@
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.ico"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.avif"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+# Enable compression
+[[headers]]
+  for = "*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Encoding = "gzip"
+
+[[headers]]
+  for = "*.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"

@@ -1,0 +1,282 @@
+/* ========================================
+   性能优化样式
+   ======================================== */
+
+/* 关键渲染路径优化 */
+.critical-above-fold {
+    /* 首屏内容优化 */
+    contain: layout style paint;
+    will-change: auto;
+}
+
+/* 图片懒加载优化 */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* 图片占位符 */
+.img-placeholder {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* 字体加载优化 */
+@font-face {
+    font-family: 'OptimizedFont';
+    src: url('/fonts/optimized.woff2') format('woff2');
+    font-display: swap;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* 减少重绘和回流 */
+.optimized-layout {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* 滚动性能优化 */
+.smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 动画性能优化 */
+.gpu-accelerated {
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+}
+
+.gpu-accelerated:hover {
+    will-change: auto;
+}
+
+/* 减少CSS选择器复杂度 */
+.btn-optimized {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-optimized:hover {
+    background: var(--accent-color-darker);
+}
+
+/* 内容可见性优化 */
+.content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
+/* 减少布局抖动 */
+.aspect-ratio-16-9 {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+}
+
+.aspect-ratio-4-3 {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+}
+
+.aspect-ratio-1-1 {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+}
+
+/* 优化的网格布局 */
+.optimized-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    contain: layout;
+}
+
+/* 减少重排的动画 */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 30px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* 优化的阴影 */
+.optimized-shadow {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
+}
+
+.optimized-shadow:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* 减少绘制复杂度 */
+.simple-border {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* 优化的渐变 */
+.optimized-gradient {
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-darker) 100%);
+}
+
+/* 性能友好的过渡 */
+.fast-transition {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* 减少重绘的悬停效果 */
+.hover-lift {
+    transition: transform 0.2s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-2px);
+}
+
+/* 优化的文本渲染 */
+.optimized-text {
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 减少内存使用的动画 */
+.memory-efficient-animation {
+    animation-fill-mode: both;
+    animation-duration: 0.3s;
+    animation-timing-function: ease-out;
+}
+
+/* 优化的滚动条 */
+.optimized-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) transparent;
+}
+
+.optimized-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.optimized-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.optimized-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 3px;
+}
+
+/* 减少重排的响应式设计 */
+@media (max-width: 768px) {
+    .mobile-optimized {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+    
+    .optimized-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 预加载关键资源 */
+.preload-hint::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    background-image: url('/images/critical-image.webp');
+}
+
+/* 优化的焦点样式 */
+.optimized-focus:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* 减少绘制的装饰 */
+.minimal-decoration {
+    text-decoration: none;
+    border: none;
+    background: none;
+}
+
+/* 性能监控辅助类 */
+.performance-marker {
+    /* 用于性能测试的标记类 */
+    position: relative;
+}
+
+.performance-marker::after {
+    content: attr(data-perf-id);
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-size: 10px;
+    color: #999;
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* 开发模式下显示性能标记 */
+[data-debug="true"] .performance-marker::after {
+    opacity: 1;
+}
+
+/* 优化的加载状态 */
+.loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+    border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* 减少重绘的状态变化 */
+.state-optimized {
+    transition: opacity 0.2s ease;
+}
+
+.state-optimized.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.state-optimized.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
