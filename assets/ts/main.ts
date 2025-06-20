@@ -435,6 +435,14 @@ let Stack = {
             });
         }
 
+        // Archives manager
+        const archivesManager = document.getElementById('admin-archives-manager');
+        if (archivesManager) {
+            archivesManager.addEventListener('click', () => {
+                Stack.openArchivesManager();
+            });
+        }
+
         console.log('Admin panel events bound successfully');
     },
 
@@ -1303,6 +1311,22 @@ let Stack = {
         Stack.hideAdminPanel();
 
         console.log('✅ Image manager opened in new tab');
+    },
+
+    /**
+     * Open archives manager in new tab
+     */
+    openArchivesManager: () => {
+        console.log('📚 Opening archives manager...');
+
+        // Open archives page in new tab
+        const archivesUrl = '/archives/';
+        window.open(archivesUrl, '_blank');
+
+        // Hide admin panel
+        Stack.hideAdminPanel();
+
+        console.log('✅ Archives manager opened in new tab');
     },
 
     /**

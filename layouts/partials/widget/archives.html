@@ -3,17 +3,25 @@
 {{- $limit := default 5 .Params.limit -}}
 {{- if $query -}}
     {{- $archivesPage := index $query 0 -}}
-    <section class="widget archives">
+    <section class="widget archives archives-widget-enhanced">
         <div class="widget-icon">
             {{ partial "helper/icon" "infinity" }}
         </div>
         <h2 class="widget-title section-title">{{ T "widget.archives.title" }}</h2>
 
+        <!-- Quick Stats -->
         {{ $pages := where $context.Site.RegularPages "Type" "in" $context.Site.Params.mainSections }}
         {{ $notHidden := where $context.Site.RegularPages "Params.hidden" "!=" true }}
         {{ $filtered := ($pages | intersect $notHidden) }}
+        <div class="archives-widget-stats">
+            <div class="stat-item">
+                <span class="stat-number">{{ len $filtered }}</span>
+                <span class="stat-label">篇文章</span>
+            </div>
+        </div>
+
         {{ $archives := $filtered.GroupByDate "2006" }}
-        
+
         <div class="widget-archive--list">
             {{ range $index, $item := first (add $limit 1) ($archives) }}
                 {{- $id := lower (replace $item.Key " " "-") -}}
@@ -25,9 +33,16 @@
                             <span class="year">{{ .Key }}</span>
                             <span class="count">{{ len $item.Pages }}</span>
                         {{ end }}
-                    </a> 
+                    </a>
                 </div>
             {{ end }}
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="archives-widget-actions">
+            <a href="{{ $archivesPage.RelPermalink }}" class="archives-view-all">
+                📚 查看完整归档
+            </a>
         </div>
     </section>
 {{- else -}}
