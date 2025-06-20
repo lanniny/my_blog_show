@@ -160,10 +160,10 @@ params:
             admin: lanniny                    # 管理员用户名（可以是数组）
             repo: my_blog_source              # 用于存储评论的GitHub仓库
             clientID: "Ov23liF1dDipZP2d6oW2"                      # GitHub OAuth App Client ID（已自动创建）
-            clientSecret: "TEMP_SECRET_PLEASE_GENERATE"                  # GitHub OAuth App Client Secret（需要在GitHub页面生成）
+            clientSecret: "28454f97c99cae7e7636ebe40e385ad13c6cd446"                  # GitHub OAuth App Client Secret（已生成）
             # proxy: "https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token"  # 代理服务器（可选，已禁用）
-            # OAuth应用已创建，等待Client Secret生成
-            enabled: false
+            # OAuth应用配置完成，评论系统已启用
+            enabled: true
 
         cusdis:
             host:
