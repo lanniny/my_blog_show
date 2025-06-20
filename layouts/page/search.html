@@ -32,8 +32,8 @@
         </div>
 
         <div class="filters-content">
-            <!-- 第一行：分类和排序 -->
-            <div class="filters-row">
+            <!-- 分类和排序 - 两列布局 -->
+            <div class="filter-two-columns">
                 <div class="filter-item">
                     <label class="filter-label">📁 分类筛选</label>
                     <select name="category" class="filter-select">
@@ -55,9 +55,9 @@
                 </div>
             </div>
 
-            <!-- 第二行：标签筛选 -->
-            <div class="filters-row filters-row-wide">
-                <div class="filter-item filter-item-wide">
+            <!-- 标签筛选 - 独立一行 -->
+            <div class="filter-section">
+                <div class="filter-item">
                     <label class="filter-label">🏷️ 标签筛选</label>
                     <div class="tag-filter-wrapper">
                         <input type="text" class="tag-filter-input" placeholder="搜索标签..." />
@@ -74,14 +74,14 @@
                 </div>
             </div>
 
-            <!-- 第三行：时间范围 -->
-            <div class="filters-row filters-row-wide">
-                <div class="filter-item filter-item-wide">
+            <!-- 时间范围 - 独立一行 -->
+            <div class="filter-section">
+                <div class="filter-item">
                     <label class="filter-label">📅 时间范围</label>
                     <div class="date-range-wrapper">
-                        <input type="date" name="date-from" class="date-input" placeholder="开始日期" />
+                        <input type="date" name="date-from" class="date-input" />
                         <span class="date-separator">至</span>
-                        <input type="date" name="date-to" class="date-input" placeholder="结束日期" />
+                        <input type="date" name="date-to" class="date-input" />
                     </div>
                 </div>
             </div>
