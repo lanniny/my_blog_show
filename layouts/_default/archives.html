@@ -1,7 +1,8 @@
 {{ define "body-class" }}template-archives{{ end }}
 {{ define "main" }}
     <!-- Include enhanced archives styles -->
-    <link rel="stylesheet" href="{{ "scss/archives-enhance.scss" | resources.ToCSS | resources.Minify | relURL }}">
+    {{ $archivesStyle := resources.Get "scss/archives-enhance.scss" | css.Sass | resources.Minify }}
+    <link rel="stylesheet" href="{{ $archivesStyle.RelPermalink }}">
 
     <header class="archives-header">
         <div class="archives-title-section">
@@ -83,7 +84,8 @@
     </div>
 
     <!-- Include enhanced archives script -->
-    <script type="module" src="{{ "ts/archives-enhance.js" | resources.ToCSS | relURL }}"></script>
+    {{ $archivesScript := resources.Get "ts/archives-enhance.ts" | js.Build }}
+    <script type="module" src="{{ $archivesScript.RelPermalink }}"></script>
 
     {{ partialCached "footer/footer" . }}
 {{ end }}

@@ -95,52 +95,79 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 检查必要的配置
     {{- if and .clientID .clientSecret .owner .repo -}}
-    // 生成唯一ID（限制在50字符以内）
-    var pageId = md5(location.pathname).substring(0, 50);
 
-    var gitalk = new Gitalk({
-        clientID: "{{- .clientID -}}",
-        clientSecret: "{{- .clientSecret -}}",
-        repo: "{{- .repo -}}",
-        owner: "{{- .owner -}}",
-        admin: ["{{- .admin -}}"],
-        id: pageId,
-        distractionFreeMode: false,
-        pagerDirection: 'last',
-        createIssueManually: false,
-        {{- if .proxy -}}
-        proxy: "{{- .proxy -}}",
-        {{- end -}}
-        // 本地化设置
-        language: 'zh-CN',
-        perPage: 10,
-        // 启用表情符号
-        enableHotKey: true,
-        // 标签设置
-        labels: ['gitalk', 'comment'],
-        // 主题适配
-        theme: document.documentElement.getAttribute('data-scheme') || 'light'
-    });
+    // 确保在DOM加载完成后初始化
+    function initializeGitalk() {
+        // 检查依赖是否加载
+        if (typeof Gitalk === 'undefined' || typeof md5 === 'undefined') {
+            console.log('Gitalk dependencies not loaded yet, retrying...');
+            setTimeout(initializeGitalk, 500);
+            return;
+        }
 
-    // 渲染评论
-    gitalk.render('gitalk-container');
+        // 检查容器是否存在
+        var container = document.getElementById('gitalk-container');
+        if (!container) {
+            console.log('Gitalk container not found, retrying...');
+            setTimeout(initializeGitalk, 500);
+            return;
+        }
 
-    // 监听主题变化
-    if (window.MutationObserver) {
-        var observer = new MutationObserver(function(mutations) {
-            for (var i = 0; i < mutations.length; i++) {
-                var mutation = mutations[i];
-                if (mutation.type === 'attributes' && mutation.attributeName === 'data-scheme') {
-                    // 主题变化时重新渲染（可选）
-                    console.log('Theme changed, Gitalk will adapt automatically');
+        // 生成唯一ID（限制在50字符以内）
+        var pageId = md5(location.pathname).substring(0, 50);
+
+        var gitalk = new Gitalk({
+            clientID: "{{- .clientID -}}",
+            clientSecret: "{{- .clientSecret -}}",
+            repo: "{{- .repo -}}",
+            owner: "{{- .owner -}}",
+            admin: ["{{- .admin -}}"],
+            id: pageId,
+            distractionFreeMode: false,
+            pagerDirection: 'last',
+            createIssueManually: false,
+            {{- if .proxy -}}
+            proxy: "{{- .proxy -}}",
+            {{- end -}}
+            // 本地化设置
+            language: 'zh-CN',
+            perPage: 10,
+            // 启用表情符号
+            enableHotKey: true,
+            // 标签设置
+            labels: ['gitalk', 'comment'],
+            // 主题适配
+            theme: document.documentElement.getAttribute('data-scheme') || 'light'
+        });
+
+        // 渲染评论
+        gitalk.render('gitalk-container');
+        console.log('✅ Gitalk initialized successfully');
+
+        // 监听主题变化
+        if (window.MutationObserver) {
+            var observer = new MutationObserver(function(mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                    var mutation = mutations[i];
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'data-scheme') {
+                        // 主题变化时重新渲染（可选）
+                        console.log('Theme changed, Gitalk will adapt automatically');
+                    }
                 }
-            }
-        });
+            });
 
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['data-scheme']
-        });
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-scheme']
+            });
+        }
+    }
+
+    // 自动初始化
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeGitalk);
+    } else {
+        initializeGitalk();
     }
     {{- else -}}
     // 配置不完整的提示

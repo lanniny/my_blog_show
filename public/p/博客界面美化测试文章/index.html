@@ -232,7 +232,12 @@
                 
                 
                 
-                    
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+  <circle cx="8.5" cy="8.5" r="1.5"/>
+  <polyline points="21,15 16,10 5,21"/>
+</svg>
+
                 
                 <span>图片管理</span>
             </a>
@@ -834,47 +839,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     
-    var pageId = md5(location.pathname).substring(0, 50);
-
-    var gitalk = new Gitalk({
-        clientID: "Ov23li9uepNcJIfMUmP1",
-        clientSecret: "65abca1c431ab760ddc6b52f81533569cc90e5e9",
-        repo: "my_blog_source",
-        owner: "lanniny",
-        admin: ["lanniny"],
-        id: pageId,
-        distractionFreeMode: false,
-        pagerDirection: 'last',
-        createIssueManually: false,proxy: "https:\/\/cors-anywhere.herokuapp.com\/https:\/\/github.com\/login\/oauth\/access_token",
-        language: 'zh-CN',
-        perPage: 10,
+    function initializeGitalk() {
         
-        enableHotKey: true,
-        
-        labels: ['gitalk', 'comment'],
-        
-        theme: document.documentElement.getAttribute('data-scheme') || 'light'
-    });
+        if (typeof Gitalk === 'undefined' || typeof md5 === 'undefined') {
+            console.log('Gitalk dependencies not loaded yet, retrying...');
+            setTimeout(initializeGitalk, 500);
+            return;
+        }
 
-    
-    gitalk.render('gitalk-container');
+        
+        var container = document.getElementById('gitalk-container');
+        if (!container) {
+            console.log('Gitalk container not found, retrying...');
+            setTimeout(initializeGitalk, 500);
+            return;
+        }
 
-    
-    if (window.MutationObserver) {
-        var observer = new MutationObserver(function(mutations) {
-            for (var i = 0; i < mutations.length; i++) {
-                var mutation = mutations[i];
-                if (mutation.type === 'attributes' && mutation.attributeName === 'data-scheme') {
-                    
-                    console.log('Theme changed, Gitalk will adapt automatically');
+        
+        var pageId = md5(location.pathname).substring(0, 50);
+
+        var gitalk = new Gitalk({
+            clientID: "Ov23li9uepNcJIfMUmP1",
+            clientSecret: "65abca1c431ab760ddc6b52f81533569cc90e5e9",
+            repo: "my_blog_source",
+            owner: "lanniny",
+            admin: ["lanniny"],
+            id: pageId,
+            distractionFreeMode: false,
+            pagerDirection: 'last',
+            createIssueManually: false,proxy: "https:\/\/cors-anywhere.herokuapp.com\/https:\/\/github.com\/login\/oauth\/access_token",
+            language: 'zh-CN',
+            perPage: 10,
+            
+            enableHotKey: true,
+            
+            labels: ['gitalk', 'comment'],
+            
+            theme: document.documentElement.getAttribute('data-scheme') || 'light'
+        });
+
+        
+        gitalk.render('gitalk-container');
+        console.log('✅ Gitalk initialized successfully');
+
+        
+        if (window.MutationObserver) {
+            var observer = new MutationObserver(function(mutations) {
+                for (var i = 0; i < mutations.length; i++) {
+                    var mutation = mutations[i];
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'data-scheme') {
+                        
+                        console.log('Theme changed, Gitalk will adapt automatically');
+                    }
                 }
-            }
-        });
+            });
 
-        observer.observe(document.documentElement, {
-            attributes: true,
-            attributeFilter: ['data-scheme']
-        });
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['data-scheme']
+            });
+        }
+    }
+
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeGitalk);
+    } else {
+        initializeGitalk();
     }});
 </script>
 

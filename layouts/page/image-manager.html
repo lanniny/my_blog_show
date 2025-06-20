@@ -81,12 +81,15 @@
 </div>
 
 <!-- Include required styles -->
-<link rel="stylesheet" href="{{ "scss/image-manager.scss" | resources.ToCSS | resources.Minify | relURL }}">
+{{ $imageManagerStyle := resources.Get "scss/image-manager.scss" | css.Sass | resources.Minify }}
+<link rel="stylesheet" href="{{ $imageManagerStyle.RelPermalink }}">
 
 <!-- Include required scripts -->
 <script type="module">
-    import { ImageUploader } from '{{ "ts/image-uploader.js" | resources.ToCSS | relURL }}';
-    import { ImageGallery } from '{{ "ts/image-gallery.js" | resources.ToCSS | relURL }}';
+    {{ $imageUploaderScript := resources.Get "ts/image-uploader.ts" | js.Build }}
+    {{ $imageGalleryScript := resources.Get "ts/image-gallery.ts" | js.Build }}
+    import { ImageUploader } from '{{ $imageUploaderScript.RelPermalink }}';
+    import { ImageGallery } from '{{ $imageGalleryScript.RelPermalink }}';
     
     // Initialize components when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
