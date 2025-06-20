@@ -1631,3 +1631,6 @@ import './frontend-beautify';
 
 // Import navigation enhancement module
 import './navigation-enhance';
+
+// Import admin panel enhancement module
+import './admin-panel-enhance';
