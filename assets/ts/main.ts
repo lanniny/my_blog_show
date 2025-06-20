@@ -1800,6 +1800,9 @@ import './navigation-enhance';
 // Import admin panel enhancement module
 import './admin-panel-enhance';
 
+// Import social share module
+import './share';
+
 // Modern layout initialization
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🎨 Modern blog layout initialized');
