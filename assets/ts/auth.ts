@@ -249,14 +249,14 @@ const AuthUtils = {
                 <div class="admin-modal-content">
                     <div class="admin-modal-header">
                         <h3>
-                            <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M9 12l2 2 4-4"></path>
-                                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
-                                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
-                                <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"></path>
-                                <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"></path>
-                            </svg>
-                            管理员登录
+                            <div class="admin-icon-wrapper">
+                                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                    <circle cx="12" cy="16" r="1"></circle>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                </svg>
+                            </div>
+                            <span class="admin-title-text">管理员登录</span>
                         </h3>
                         <button class="admin-modal-close" id="admin-modal-close" type="button" aria-label="关闭登录窗口">
                             <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -333,13 +333,23 @@ const AuthUtils = {
         const modal = document.getElementById('admin-login-modal');
         if (modal) {
             modal.style.display = 'flex';
+            // Clear any previous error messages
+            AuthUtils.clearMessages();
             // Focus management for accessibility
             setTimeout(() => {
                 const passwordInput = document.getElementById('admin-password') as HTMLInputElement;
                 if (passwordInput) {
                     passwordInput.focus();
+                    passwordInput.select(); // Select any existing text
                 }
-            }, 100);
+            }, 150);
+        } else {
+            console.warn('Admin login modal not found. Creating modal...');
+            // Recreate modal if it doesn't exist
+            const modalHTML = AuthUtils.createLoginModal();
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            // Retry showing modal
+            setTimeout(() => AuthUtils.showLoginModal(), 100);
         }
     },
 

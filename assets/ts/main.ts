@@ -53,12 +53,19 @@ let Stack = {
             }
         });
 
-        // Create and inject login modal
-        const modalHTML = AuthUtils.createLoginModal();
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        // Create and inject login modal with delay to ensure DOM is ready
+        setTimeout(() => {
+            const modalHTML = AuthUtils.createLoginModal();
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-        // Bind login modal events
-        Stack.bindAuthEvents();
+            // Bind login modal events
+            Stack.bindAuthEvents();
+
+            // Initialize admin state on page load
+            const isAdmin = globalAuth.isAuthenticated();
+            AuthUtils.toggleAdminElements(isAdmin);
+            AuthUtils.updateBodyClass(isAdmin);
+        }, 100);
 
         /**
          * Bind menu event

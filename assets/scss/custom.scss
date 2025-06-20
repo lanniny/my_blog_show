@@ -1,39 +1,73 @@
 /* Hugo Theme Stack - Admin Authentication Styles */
 
-/* Admin Modal Styles */
+/* Admin Modal Styles - Enhanced */
 .admin-modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(8px);
+    animation: modalBackdropFadeIn 0.3s ease-out;
+}
+
+@keyframes modalBackdropFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(8px);
+    }
 }
 
 .admin-modal-content {
     background: var(--card-background);
-    border-radius: var(--card-border-radius);
-    box-shadow: var(--shadow-l4);
-    max-width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), 0 8px 32px rgba(0, 0, 0, 0.2);
+    max-width: 420px;
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
-    animation: modalFadeIn 0.3s ease-out;
+    animation: modalFadeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+/* Glass morphism effect for modern look */
+.admin-modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border-radius: 16px;
+    pointer-events: none;
 }
 
 @keyframes modalFadeIn {
-    from {
+    0% {
         opacity: 0;
-        transform: scale(0.9) translateY(-20px);
+        transform: scale(0.8) translateY(-30px) rotateX(10deg);
+        filter: blur(4px);
     }
-    to {
+    50% {
+        opacity: 0.8;
+        transform: scale(1.02) translateY(-5px) rotateX(0deg);
+        filter: blur(1px);
+    }
+    100% {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: scale(1) translateY(0) rotateX(0deg);
+        filter: blur(0px);
     }
 }
 
@@ -48,11 +82,36 @@
 .admin-modal-header h3 {
     margin: 0;
     color: var(--card-text-color-main);
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.3rem;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
+}
+
+.admin-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--accent-color), #2980b9);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(52, 73, 94, 0.3);
+}
+
+.admin-icon-wrapper .admin-icon {
+    width: 20px;
+    height: 20px;
+    stroke: white;
+    stroke-width: 2.5;
+}
+
+.admin-title-text {
+    background: linear-gradient(135deg, var(--accent-color), #2980b9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .admin-modal-close {
@@ -96,20 +155,24 @@
 
 .admin-form-group input {
     width: 100%;
-    padding: 0.75rem;
+    padding: 1rem 1.25rem;
     border: 2px solid var(--card-separator-color);
-    border-radius: 6px;
+    border-radius: 12px;
     background: var(--body-background);
     color: var(--card-text-color-main);
     font-size: 1rem;
-    transition: border-color 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .admin-form-group input:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(52, 73, 94, 0.1);
+    box-shadow: 0 0 0 4px rgba(52, 73, 94, 0.15), 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    background: var(--card-background);
 }
 
 .admin-form-group input::placeholder {
@@ -138,33 +201,73 @@
 
 .admin-form-actions button {
     flex: 1;
-    padding: 0.75rem 1rem;
+    padding: 1rem 1.5rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 12px;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Button ripple effect */
+.admin-form-actions button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: width 0.6s, height 0.6s, top 0.6s, left 0.6s;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.admin-form-actions button:active::before {
+    width: 300px;
+    height: 300px;
 }
 
 #admin-login-btn {
-    background: var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-color), #2980b9);
     color: var(--accent-color-text);
+    position: relative;
+    z-index: 1;
 }
 
 #admin-login-btn:hover {
-    background: var(--accent-color-darker);
+    background: linear-gradient(135deg, #2980b9, var(--accent-color));
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(52, 73, 94, 0.3);
+}
+
+#admin-login-btn:active {
     transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(52, 73, 94, 0.2);
 }
 
 #admin-cancel-btn {
-    background: var(--card-separator-color);
-    color: var(--card-text-color-secondary);
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    color: white;
+    position: relative;
+    z-index: 1;
 }
 
 #admin-cancel-btn:hover {
-    background: var(--card-background-selected);
-    color: var(--card-text-color-main);
+    background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(127, 140, 141, 0.3);
+}
+
+#admin-cancel-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(127, 140, 141, 0.2);
 }
 
 /* Admin Message Styles */
@@ -203,13 +306,54 @@
     }
 }
 
-/* Admin Mode Body Classes */
+/* Admin Mode Body Classes - Enhanced */
 .admin-mode {
-    /* Add any global admin mode styles here */
+    position: relative;
+}
+
+/* Admin mode indicator overlay */
+.admin-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #27ae60, #2ecc71, #27ae60);
+    background-size: 200% 100%;
+    animation: adminModeIndicator 3s linear infinite;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+@keyframes adminModeIndicator {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Admin mode subtle background enhancement */
+.admin-mode .main-container {
+    position: relative;
+}
+
+.admin-mode .main-container::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(39, 174, 96, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
 }
 
 .guest-mode {
-    /* Add any global guest mode styles here */
+    /* Standard guest mode styles */
 }
 
 /* Admin Element Visibility */
@@ -340,20 +484,32 @@ kbd {
     100% { transform: rotate(360deg); }
 }
 
-/* Admin Sidebar Styles */
+/* Admin Sidebar Styles - Enhanced */
 .admin-status-indicator {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 24px;
-    height: 24px;
-    background: var(--accent-color);
+    top: -8px;
+    right: -8px;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-l2);
-    border: 2px solid var(--card-background);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2);
+    border: 3px solid var(--card-background);
+    animation: adminPulse 2s infinite;
+}
+
+@keyframes adminPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4), 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(39, 174, 96, 0.6), 0 3px 8px rgba(0, 0, 0, 0.3);
+    }
 }
 
 .admin-status-indicator .admin-icon {
