@@ -14,6 +14,7 @@ import { setupScrollspy } from 'ts/scrollspy';
 import { setupSmoothAnchors } from "ts/smoothAnchors";
 import StackAuth, { AuthUtils } from 'ts/auth';
 import './performance';
+import './links-enhance';
 
 // Global auth instance
 let globalAuth: StackAuth;

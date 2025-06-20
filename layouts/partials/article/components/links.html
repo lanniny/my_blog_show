@@ -1,30 +1,158 @@
-<div class="article-list--compact links">
-    {{ range $i, $link := .Params.links }}
-        <article>
-            <a href="{{ $link.website }}" target="_blank" rel="noopener">
-                <div class="article-details">
-                    <h2 class="article-title">
-                        {{- $link.title -}}
-                    </h2>
-                    <footer class="article-time">
-                        {{ with $link.description }}
-                            {{ . }}
-                        {{ else }}
-                            {{ $link.website }}
-                        {{ end }}
-                    </footer>
-                </div>
-        
-                {{ with $link.image }}
-                    {{ $permalink := . }}
-                    {{ with ($.Resources.GetMatch (printf "%s" (. | safeURL))) }}
-                        {{ $permalink = .RelPermalink }}
+<!-- Enhanced Links Component -->
+<div class="links-enhanced-container">
+    <!-- Links Control Panel -->
+    <div class="links-controls">
+        <div class="links-search">
+            <input type="text" id="links-search-input" placeholder="搜索链接..." />
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+        </div>
+
+        <div class="links-filters">
+            <select id="category-filter">
+                <option value="">所有分类</option>
+                {{ $categories := slice }}
+                {{ range .Params.links }}
+                    {{ if .category }}
+                        {{ $categories = $categories | append .category }}
                     {{ end }}
-                    <div class="article-image">
-                        <img src="{{ $permalink }}" loading="lazy">
-                    </div>
                 {{ end }}
-            </a>
-        </article>
-    {{ end }}
+                {{ range ($categories | uniq) }}
+                    <option value="{{ . }}">{{ . }}</option>
+                {{ end }}
+            </select>
+
+            <select id="status-filter">
+                <option value="">所有状态</option>
+                <option value="active">活跃</option>
+                <option value="inactive">非活跃</option>
+            </select>
+
+            <button id="featured-toggle" class="filter-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon>
+                </svg>
+                精选
+            </button>
+        </div>
+
+        <div class="links-view-toggle">
+            <button class="view-btn active" data-view="grid">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+            </button>
+            <button class="view-btn" data-view="list">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <line x1="8" y1="6" x2="21" y2="6"></line>
+                    <line x1="8" y1="12" x2="21" y2="12"></line>
+                    <line x1="8" y1="18" x2="21" y2="18"></line>
+                    <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                    <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                    <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Links Statistics -->
+    <div class="links-stats">
+        <div class="stat-item">
+            <span class="stat-number" id="total-links">{{ len .Params.links }}</span>
+            <span class="stat-label">总链接</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="active-links">{{ len (where .Params.links "status" "active") }}</span>
+            <span class="stat-label">活跃</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="featured-links">{{ len (where .Params.links "featured" true) }}</span>
+            <span class="stat-label">精选</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="categories-count">{{ len (uniq (apply .Params.links "index" "category")) }}</span>
+            <span class="stat-label">分类</span>
+        </div>
+    </div>
+
+    <!-- Links Grid/List -->
+    <div class="links-container grid-view" id="links-container">
+        {{ range $i, $link := .Params.links }}
+            <article class="link-card"
+                     data-category="{{ $link.category | default "未分类" }}"
+                     data-status="{{ $link.status | default "active" }}"
+                     data-featured="{{ $link.featured | default false }}"
+                     data-tags="{{ delimit $link.tags "," }}">
+
+                <a href="{{ $link.website }}" target="_blank" rel="noopener" class="link-card-content">
+                    {{ if $link.image }}
+                        <div class="link-image">
+                            {{ $permalink := $link.image }}
+                            {{ with ($.Resources.GetMatch (printf "%s" ($link.image | safeURL))) }}
+                                {{ $permalink = .RelPermalink }}
+                            {{ end }}
+                            <img src="{{ $permalink }}" loading="lazy" alt="{{ $link.title }}">
+                        </div>
+                    {{ end }}
+
+                    <div class="link-content">
+                        <div class="link-header">
+                            <h3 class="link-title">{{ $link.title }}</h3>
+                            {{ if $link.featured }}
+                                <span class="featured-badge">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon>
+                                    </svg>
+                                </span>
+                            {{ end }}
+                        </div>
+
+                        <p class="link-description">{{ $link.description | default $link.website }}</p>
+
+                        <div class="link-meta">
+                            {{ if $link.category }}
+                                <span class="link-category">{{ $link.category }}</span>
+                            {{ end }}
+                            <span class="link-status status-{{ $link.status | default "active" }}"></span>
+                        </div>
+
+                        {{ if $link.tags }}
+                            <div class="link-tags">
+                                {{ range $link.tags }}
+                                    <span class="link-tag">{{ . }}</span>
+                                {{ end }}
+                            </div>
+                        {{ end }}
+                    </div>
+                </a>
+
+                <div class="link-actions">
+                    <button class="action-btn" title="检查链接状态" onclick="checkLinkStatus('{{ $link.website }}', this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 12l2 2 4-4"></path>
+                            <circle cx="12" cy="12" r="10"></circle>
+                        </svg>
+                    </button>
+                    <button class="action-btn" title="复制链接" onclick="copyLink('{{ $link.website }}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                    </button>
+                </div>
+            </article>
+        {{ end }}
+    </div>
+
+    <!-- No Results Message -->
+    <div class="no-results" id="no-results" style="display: none;">
+        <div class="no-results-icon">🔍</div>
+        <h3>没有找到匹配的链接</h3>
+        <p>尝试调整搜索条件或筛选器</p>
+    </div>
 </div>
