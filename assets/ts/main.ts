@@ -22,7 +22,49 @@ let Stack = {
         /**
          * Initialize authentication system
          */
-        globalAuth = new StackAuth();
+        try {
+            globalAuth = new StackAuth();
+            console.log('✅ globalAuth created successfully');
+        } catch (error) {
+            console.error('❌ Failed to create globalAuth:', error);
+            console.log('🔧 Attempting fallback auth creation...');
+
+            // Fallback: create a simple auth object
+            globalAuth = {
+                isAuthenticated: () => localStorage.getItem('adminAuth') === 'authenticated',
+                authenticate: (password: string) => {
+                    if (password === 'admit') {
+                        localStorage.setItem('adminAuth', 'authenticated');
+                        // Manually trigger UI update
+                        setTimeout(() => {
+                            const adminElements = document.querySelectorAll('[data-admin-only]');
+                            adminElements.forEach(el => {
+                                (el as HTMLElement).style.display = 'block';
+                            });
+                            const guestElements = document.querySelectorAll('[data-guest-only]');
+                            guestElements.forEach(el => {
+                                (el as HTMLElement).style.display = 'none';
+                            });
+                            console.log('✅ Fallback auth UI updated');
+                        }, 100);
+                        return true;
+                    }
+                    return false;
+                },
+                logout: () => {
+                    localStorage.removeItem('adminAuth');
+                    const adminElements = document.querySelectorAll('[data-admin-only]');
+                    adminElements.forEach(el => {
+                        (el as HTMLElement).style.display = 'none';
+                    });
+                    const guestElements = document.querySelectorAll('[data-guest-only]');
+                    guestElements.forEach(el => {
+                        (el as HTMLElement).style.display = 'block';
+                    });
+                }
+            };
+            console.log('✅ Fallback auth created');
+        }
         
         // Listen for auth status changes
         window.addEventListener('onAuthStatusChange', (e: CustomEvent) => {
