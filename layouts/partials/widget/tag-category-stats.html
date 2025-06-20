@@ -33,7 +33,8 @@
             </h3>
             <div class="tag-cloud-widget">
                 {{ $tags := .Site.Taxonomies.tags }}
-                {{ range first 15 $tags.ByCount }}
+                {{ $sortedTags := $tags.ByCount }}
+                {{ range $sortedTags | first 15 }}
                     {{ $tagName := .Page.Title }}
                     {{ $tagCount := len .Pages }}
                     {{ $fontSize := add 0.8 (mul 0.3 (div $tagCount 5.0)) }}
