@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="测试博客的Gitalk评论功能是否正常工作">
+<title>测试Gitalk评论系统</title>
+
+<link rel='canonical' href='http://localhost:1313/p/test-gitalk-comments/'>
+
+<link rel="stylesheet" href="/scss/style.min.1df683498b4e1f2b1c98141a05a4dce178fa8cafa71d2eb7f8e95425b8fa2dec.css"><meta property='og:title' content="测试Gitalk评论系统">
+<meta property='og:description' content="测试博客的Gitalk评论功能是否正常工作">
+<meta property='og:url' content='http://localhost:1313/p/test-gitalk-comments/'>
+<meta property='og:site_name' content='lanniny-blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='Gitalk' /><meta property='article:tag' content='评论系统' /><meta property='article:tag' content='GitHub' /><meta property='article:published_time' content='2025-01-20T21:30:00&#43;08:00'/><meta property='article:modified_time' content='2025-01-20T21:30:00&#43;08:00'/>
+<meta name="twitter:title" content="测试Gitalk评论系统">
+<meta name="twitter:description" content="测试博客的Gitalk评论功能是否正常工作">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f509edb42ecc0ebd.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+
+                
+                <div class="admin-status-indicator" data-admin-only>
+                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                        <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"></path>
+                        <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"></path>
+                    </svg>
+                </div>
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">lanniny-blog</a></h1>
+            <h2 class="site-description">演示文稿</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        
+        <li class="admin-menu-section" data-admin-only>
+            <a href="#" id="admin-panel-toggle" title="管理员面板" onclick="const panel = document.getElementById('admin-panel-modal'); if (panel) { panel.style.display = 'flex'; if (window.Stack && window.Stack.loadAdminSettings) window.Stack.loadAdminSettings(); } return false;">
+                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>管理面板</span>
+            </a>
+        </li>
+
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                
+                <li id="admin-auth-toggle">
+                    <a href="#" data-guest-only onclick="window.Stack && window.Stack.showLogin(); return false;" title="管理员登录">
+                        <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10,17 15,12 10,7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>管理员登录</span>
+                    </a>
+                    <a href="#" data-admin-only onclick="window.Stack && window.Stack.logout(); return false;" title="退出登录">
+                        <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16,17 21,12 16,7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        <span>退出登录</span>
+                    </a>
+                </li>
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="http://localhost:1313/en/" >English</option>
+                                
+                                    <option value="http://localhost:1313/" selected>中文</option>
+                                
+                                    <option value="http://localhost:1313/ar/" >عربي</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#功能测试">功能测试</a></li>
+    <li><a href="#配置信息">配置信息</a></li>
+    <li><a href="#测试步骤">测试步骤</a></li>
+    <li><a href="#预期结果">预期结果</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/%E6%B5%8B%E8%AF%95/" >
+                测试
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/test-gitalk-comments/">测试Gitalk评论系统</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            测试博客的Gitalk评论功能是否正常工作
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 20, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 1 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="gitalk评论系统测试">Gitalk评论系统测试
+</h1><p>这是一篇用于测试Gitalk评论系统的文章。</p>
+<h2 id="功能测试">功能测试
+</h2><p>本文用于验证以下功能：</p>
+<ol>
+<li>✅ <strong>评论系统启用</strong>: 检查评论区域是否正常显示</li>
+<li>✅ <strong>GitHub OAuth</strong>: 验证GitHub登录功能</li>
+<li>✅ <strong>评论发表</strong>: 测试评论发表和显示</li>
+<li>✅ <strong>Issues集成</strong>: 确认评论是否正确创建GitHub Issues</li>
+<li>✅ <strong>样式适配</strong>: 验证评论系统与博客主题的样式一致性</li>
+</ol>
+<h2 id="配置信息">配置信息
+</h2><p>当前Gitalk配置：</p>
+<ul>
+<li><strong>Owner</strong>: lanniny</li>
+<li><strong>Admin</strong>: lanniny</li>
+<li><strong>Repository</strong>: my_blog_source</li>
+<li><strong>Provider</strong>: gitalk</li>
+</ul>
+<h2 id="测试步骤">测试步骤
+</h2><ol>
+<li>滚动到页面底部查看评论区域</li>
+<li>如果显示&quot;配置中&quot;，说明需要完成GitHub OAuth应用配置</li>
+<li>如果显示登录按钮，说明配置正确，可以进行登录测试</li>
+<li>登录后尝试发表测试评论</li>
+<li>检查GitHub仓库是否自动创建了对应的Issue</li>
+</ol>
+<h2 id="预期结果">预期结果
+</h2><ul>
+<li>评论区域正常显示</li>
+<li>样式与博客主题一致</li>
+<li>支持深色/浅色主题切换</li>
+<li>移动端显示友好</li>
+<li>GitHub Issues正确创建</li>
+</ul>
+<hr>
+<p><strong>请在下方评论区测试评论功能！</strong> 👇</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/gitalk/">Gitalk</a>
+        
+            <a href="/tags/%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F/">评论系统</a>
+        
+            <a href="/tags/github/">GitHub</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&amp;h=400&amp;fit=crop" loading="lazy" data-key="" data-hash="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&amp;h=400&amp;fit=crop"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">博客界面美化测试文章</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/test-chinese/">
+        
+        
+            <div class="article-image">
+                <img src="/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.46f61e8ea6a2df8fc5bf1d24a17c44a6_hu_57b7cab9514860c.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Chinese Test"
+                        data-key="test-chinese" 
+                        data-hash="md5-RvYejqai34/Fvx0koXxEpg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Chinese Test</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+<div id="gitalk-container" class="gitalk-container"></div>
+
+
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.css"
+/>
+
+
+<style>
+.gitalk-container {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    border: 1px solid var(--card-separator-color);
+}
+
+.gt-container .gt-header-textarea {
+    background: var(--card-background);
+    color: var(--card-text-color-main);
+    border: 1px solid var(--card-separator-color);
+    border-radius: var(--card-border-radius);
+}
+
+.gt-container .gt-header-textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-color-lighter);
+}
+
+.gt-container .gt-btn-public {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.gt-container .gt-btn-public:hover {
+    background: var(--accent-color-darker);
+    border-color: var(--accent-color-darker);
+}
+
+.gt-container .gt-comment-content {
+    background: var(--card-background);
+    color: var(--card-text-color-main);
+}
+
+.gt-container .gt-comment-body {
+    color: var(--card-text-color-main) !important;
+}
+
+.gt-container .gt-comment-admin .gt-comment-content {
+    background: var(--accent-color-lighter);
+}
+
+ 
+[data-scheme="dark"] .gt-container .gt-svg svg {
+    fill: var(--card-text-color-secondary);
+}
+
+[data-scheme="dark"] .gt-container .gt-meta {
+    color: var(--card-text-color-secondary);
+}
+
+ 
+@media (max-width: 768px) {
+    .gitalk-container {
+        margin-top: 1rem;
+        padding: 1rem;
+    }
+
+    .gt-container .gt-header-textarea {
+        font-size: 14px;
+    }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) !== -1) {
+        document.getElementById("gitalk-container").innerHTML =
+            '<div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">' +
+            '<p>📝 Gitalk评论系统</p>' +
+            '<p>评论功能在本地预览时不可用，请在线上环境查看。</p>' +
+            '</div>';
+        return;
+    }
+
+    
+        
+        const pageId = md5(location.pathname).substring(0, 50);
+
+        const gitalk = new Gitalk({
+            clientID: "Ov23li9uepNcJIfMUmP1",
+            clientSecret: "65abca1c431ab760ddc6b52f81533569cc90e5e9",
+            repo: "my_blog_source",
+            owner: "lanniny",
+            admin: ["lanniny"],
+            id: pageId,
+            distractionFreeMode: false,
+            pagerDirection: 'last',
+            createIssueManually: false,proxy: "https:\/\/cors-anywhere.herokuapp.com\/https:\/\/github.com\/login\/oauth\/access_token",
+            language: 'zh-CN',
+            perPage: 10,
+            
+            enableHotKey: true,
+            
+            labels: ['gitalk', 'comment'],
+            
+            theme: document.documentElement.getAttribute('data-scheme') || 'light'
+        });
+
+        
+        gitalk.render('gitalk-container');
+
+        
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-scheme') {
+                    
+                    console.log('Theme changed, Gitalk will adapt automatically');
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-scheme']
+        });
+
+    } catch (error) {
+        console.error('Gitalk initialization error:', error);
+        document.getElementById("gitalk-container").innerHTML =
+            '<div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">' +
+            '<p>❌ 评论系统加载失败</p>' +
+            '<p>请检查网络连接或稍后重试。</p>' +
+            '</div>';
+    }});
+</script>
+
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+<div id="admin-panel-modal" class="admin-modal" style="display: none;">
+    <div class="admin-panel-content">
+        <div class="admin-panel-header">
+            <h2>
+                <div class="admin-icon-wrapper">
+                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </div>
+                <span class="admin-title-text">管理员面板</span>
+            </h2>
+            <button class="admin-modal-close" id="admin-panel-close" type="button" aria-label="关闭管理面板">
+                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="admin-panel-body">
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" data-tab="profile">个人资料</button>
+                <button class="admin-tab-btn" data-tab="content">内容管理</button>
+                <button class="admin-tab-btn" data-tab="settings">站点设置</button>
+            </div>
+            <div class="admin-tab-content">
+                <div id="admin-tab-profile" class="admin-tab-panel active">
+                    <div class="admin-section">
+                        <h3>头像设置</h3>
+                        <div class="admin-avatar-section">
+                            <div class="admin-avatar-preview">
+                                <img id="admin-avatar-img" src="/img/avatar_hu_f509edb42ecc0ebd.png" alt="当前头像">
+                                <div class="admin-avatar-overlay">
+                                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"></path>
+                                        <circle cx="12" cy="13" r="4"></circle>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="admin-avatar-controls">
+                                <input type="file" id="admin-avatar-upload" accept="image/*" style="display: none;">
+                                <button class="admin-btn admin-btn-primary" onclick="document.getElementById('admin-avatar-upload').click()">
+                                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                                        <polyline points="7,10 12,15 17,10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    上传头像
+                                </button>
+                                <button class="admin-btn admin-btn-secondary" id="admin-avatar-reset">
+                                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="1,4 1,10 7,10"></polyline>
+                                        <path d="M3.51 15a9 9 0 102.13-9.36L1 10"></path>
+                                    </svg>
+                                    重置默认
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-section">
+                        <h3>个人信息</h3>
+                        <div class="admin-form-group">
+                            <label for="admin-site-title">站点标题</label>
+                            <input type="text" id="admin-site-title" value="lanniny-blog" placeholder="输入站点标题">
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="admin-site-description">站点描述</label>
+                            <textarea id="admin-site-description" placeholder="输入站点描述" rows="3">演示文稿</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="admin-tab-content" class="admin-tab-panel">
+                    <div class="admin-section">
+                        <h3>快速操作</h3>
+                        <div class="admin-quick-actions">
+                            <button class="admin-action-btn" id="admin-new-post">
+                                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"></path>
+                                    <polyline points="14,2 14,8 20,8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10,9 9,9 8,9"></polyline>
+                                </svg>
+                                <span>新建文章</span>
+                            </button>
+                            <button class="admin-action-btn" id="admin-manage-posts">
+                                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
+                                    <polyline points="14,2 14,8 20,8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                </svg>
+                                <span>管理文章</span>
+                            </button>
+                            <button class="admin-action-btn" id="admin-site-stats">
+                                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3v18h18"></path>
+                                    <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
+                                </svg>
+                                <span>站点统计</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-section">
+                        <h3>最近文章</h3>
+                        <div class="admin-recent-posts">
+                            <div class="admin-post-item">
+                                <div class="admin-post-info">
+                                    <h4>Vision Transformer (VIT) 源码解读</h4>
+                                    <p>Deep Learning • 2025-01-19</p>
+                                </div>
+                                <div class="admin-post-actions">
+                                    <button class="admin-btn-small">编辑</button>
+                                    <button class="admin-btn-small admin-btn-danger">删除</button>
+                                </div>
+                            </div>
+                            <div class="admin-post-item">
+                                <div class="admin-post-info">
+                                    <h4>Transformer架构深度解析</h4>
+                                    <p>Deep Learning • 2025-01-19</p>
+                                </div>
+                                <div class="admin-post-actions">
+                                    <button class="admin-btn-small">编辑</button>
+                                    <button class="admin-btn-small admin-btn-danger">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="admin-tab-settings" class="admin-tab-panel">
+                    <div class="admin-section">
+                        <h3>主题设置</h3>
+                        <div class="admin-form-group">
+                            <label for="admin-theme-color">主题色彩</label>
+                            <div class="admin-color-picker">
+                                <input type="color" id="admin-theme-color" value="#34495e">
+                                <span class="admin-color-preview"></span>
+                            </div>
+                        </div>
+                        <div class="admin-form-group">
+                            <label>
+                                <input type="checkbox" id="admin-dark-mode-default"> 默认深色模式
+                            </label>
+                        </div>
+                    </div>
+                    <div class="admin-section">
+                        <h3>安全设置</h3>
+                        <div class="admin-form-group">
+                            <label for="admin-new-password">更改管理员密码</label>
+                            <input type="password" id="admin-new-password" placeholder="输入新密码">
+                        </div>
+                        <button class="admin-btn admin-btn-primary" id="admin-change-password">更新密码</button>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-panel-footer">
+                <button class="admin-btn admin-btn-primary" id="admin-save-settings">
+                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"></path>
+                        <polyline points="17,21 17,13 7,13 7,21"></polyline>
+                        <polyline points="7,3 7,8 15,8"></polyline>
+                    </svg>
+                    保存设置
+                </button>
+                <button class="admin-btn admin-btn-secondary" id="admin-panel-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.9f0237516821d724e757490163e326576a5f50077d5ea08cd46df3f417f38671.js" defer></script><script type="text/javascript" src="/ts/custom.59b1c0f78d34c2f55f31f430b225cc71902ea74514721ee14e3f11026618e809.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

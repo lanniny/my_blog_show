@@ -1,358 +1,1525 @@
-<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="深入解析Vision Transformer模型的源码实现，包括环境搭建、模型架构理解和实践应用"><title>Vision Transformer (VIT) 源码解读与实践指南</title>
-<link rel=canonical href=https://lanniny-blog.netlify.app/p/vit-source-analysis/><link rel=stylesheet href=/scss/style.min.1df683498b4e1f2b1c98141a05a4dce178fa8cafa71d2eb7f8e95425b8fa2dec.css><meta property='og:title' content="Vision Transformer (VIT) 源码解读与实践指南"><meta property='og:description' content="深入解析Vision Transformer模型的源码实现，包括环境搭建、模型架构理解和实践应用"><meta property='og:url' content='https://lanniny-blog.netlify.app/p/vit-source-analysis/'><meta property='og:site_name' content='lanniny-blog'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='vit'><meta property='article:tag' content='transformer'><meta property='article:tag' content='computer-vision'><meta property='article:tag' content='source-code'><meta property='article:tag' content='pytorch'><meta property='article:tag' content='deep-learning'><meta property='article:published_time' content='2025-01-19T10:00:00+08:00'><meta property='article:modified_time' content='2025-01-19T10:00:00+08:00'><meta name=twitter:title content="Vision Transformer (VIT) 源码解读与实践指南"><meta name=twitter:description content="深入解析Vision Transformer模型的源码实现，包括环境搭建、模型架构理解和实践应用"></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
-<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu_f509edb42ecc0ebd.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
-</a><span class=emoji>🍥</span><div class=admin-status-indicator data-admin-only><svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/><path d="M3 12c1 0 3-1 3-3S4 6 3 6 0 7 0 9s2 3 3 3"/><path d="M12 3c0 1-1 3-3 3S6 4 6 3s1-3 3-3 3 2 3 3"/><path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"/></svg></div></figure><div class=site-meta><h1 class=site-name><a href=/>lanniny-blog</a></h1><h2 class=site-description>演示文稿</h2></div></header><ol class=menu-social><li><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li><li><a href=https://twitter.com target=_blank title=Twitter rel=me><svg class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M22 4.01c-1 .49-1.98.689-3 .99-1.121-1.265-2.783-1.335-4.38-.737S11.977 6.323 12 8v1c-3.245.083-6.135-1.395-8-4 0 0-4.182 7.433 4 11-1.872 1.247-3.739 2.088-6 2 3.308 1.803 6.913 2.423 10.034 1.517 3.58-1.04 6.522-3.723 7.651-7.742a13.84 13.84.0 00.497-3.753C20.18 7.773 21.692 5.25 22 4.009z"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
-<span>主页</span></a></li><li><a href=/%E5%85%B3%E4%BA%8E/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
-<span>关于</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
-<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
-<span>Search</span></a></li><li><a href=/links/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
-<span>Links</span></a></li><li class=admin-menu-section data-admin-only><a href=# id=admin-panel-toggle title=管理员面板 onclick='const panel=document.getElementById("admin-panel-modal");return panel&&(panel.style.display="flex",window.Stack&&window.Stack.loadAdminSettings&&window.Stack.loadAdminSettings()),!1'><svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
-<span>管理面板</span></a></li><li class=menu-bottom-section><ol class=menu><li id=admin-auth-toggle><a href=# data-guest-only onclick="return window.Stack&&window.Stack.showLogin(),!1" title=管理员登录><svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10,17 15,12 10,7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-<span>管理员登录</span>
-</a><a href=# data-admin-only onclick="return window.Stack&&window.Stack.logout(),!1" title=退出登录><svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-<span>退出登录</span></a></li><li id=i18n-switch><svg class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg>
-<select name=language title=language onchange="window.location.href=this.selectedOptions[0].value"><option value=https://lanniny-blog.netlify.app/en/>English</option><option value=https://lanniny-blog.netlify.app/ selected>中文</option><option value=https://lanniny-blog.netlify.app/ar/>عربي</option></select></li><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
-<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
-<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#项目简介>项目简介</a></li><li><a href=#环境搭建>环境搭建</a><ol><li><a href=#1-环境检查与准备>1. 环境检查与准备</a></li><li><a href=#2-虚拟环境创建>2. 虚拟环境创建</a></li><li><a href=#3-pytorch安装>3. PyTorch安装</a></li><li><a href=#4-ide配置>4. IDE配置</a></li></ol></li><li><a href=#vit模型架构解析>VIT模型架构解析</a><ol><li><a href=#核心思想>核心思想</a></li><li><a href=#数学表示>数学表示</a></li><li><a href=#关键参数说明>关键参数说明</a></li></ol></li><li><a href=#源码实现细节>源码实现细节</a><ol><li><a href=#1-patch-embedding实现>1. Patch Embedding实现</a></li><li><a href=#2-multi-head-self-attention>2. Multi-Head Self-Attention</a></li><li><a href=#3-transformer-block>3. Transformer Block</a></li></ol></li><li><a href=#训练技巧与优化>训练技巧与优化</a><ol><li><a href=#1-数据增强策略>1. 数据增强策略</a></li><li><a href=#2-学习率调度>2. 学习率调度</a></li><li><a href=#3-混合精度训练>3. 混合精度训练</a></li></ol></li><li><a href=#性能优化与部署>性能优化与部署</a><ol><li><a href=#1-模型压缩>1. 模型压缩</a></li><li><a href=#2-推理优化>2. 推理优化</a></li></ol></li><li><a href=#实际应用案例>实际应用案例</a><ol><li><a href=#1-图像分类>1. 图像分类</a></li><li><a href=#2-特征提取>2. 特征提取</a></li></ol></li><li><a href=#常见问题与解决方案>常见问题与解决方案</a><ol><li><a href=#1-内存不足>1. 内存不足</a></li><li><a href=#2-收敛困难>2. 收敛困难</a></li><li><a href=#3-过拟合>3. 过拟合</a></li></ol></li><li><a href=#总结与展望>总结与展望</a><ol><li><a href=#未来发展方向>未来发展方向</a></li></ol></li><li><a href=#参考资料>参考资料</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/deep-learning/>Deep Learning
-</a><a href=/categories/ai/>AI</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/vit-source-analysis/>Vision Transformer (VIT) 源码解读与实践指南</a></h2><h3 class=article-subtitle>深入解析Vision Transformer模型的源码实现，包括环境搭建、模型架构理解和实践应用</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
-<time class=article-time--published>Jan 19, 2025</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<time class=article-time--reading>阅读时长: 4 分钟</time></div></footer></div></header><section class=article-content><h1 id=vision-transformer-vit-源码解读与实践指南>Vision Transformer (VIT) 源码解读与实践指南</h1><p>Vision Transformer (VIT) 是一个革命性的计算机视觉模型，它将Transformer架构成功应用到图像分类任务中，打破了卷积神经网络在视觉领域的垄断地位。本文将深入解读VIT的源码实现，帮助读者理解其核心原理和实践应用。</p><h2 id=项目简介>项目简介</h2><p>本文基于 <a class=link href=https://github.com/lucidrains/vit-pytorch target=_blank rel=noopener>lucidrains/vit-pytorch</a> 项目进行源码解读。这是一个简洁而高效的VIT实现，仅使用单个Transformer编码器就能在视觉分类任务中达到SOTA性能。</p><h2 id=环境搭建>环境搭建</h2><h3 id=1-环境检查与准备>1. 环境检查与准备</h3><p>在开始之前，需要检查运行环境并安装必要的依赖包：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 检查Python版本（推荐3.11）</span>
-</span></span><span class=line><span class=cl>python --version
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 检查是否有GPU支持</span>
-</span></span><span class=line><span class=cl>nvidia-smi
-</span></span></code></pre></td></tr></table></div></div><h3 id=2-虚拟环境创建>2. 虚拟环境创建</h3><p>为了避免包冲突，建议创建独立的虚拟环境：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># 创建虚拟环境</span>
-</span></span><span class=line><span class=cl>python -m venv .venv
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 激活虚拟环境 (Windows)</span>
-</span></span><span class=line><span class=cl>.venv<span class=se>\S</span>cripts<span class=se>\a</span>ctivate
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 激活虚拟环境 (Linux/Mac)</span>
-</span></span><span class=line><span class=cl><span class=nb>source</span> .venv/bin/activate
-</span></span></code></pre></td></tr></table></div></div><h3 id=3-pytorch安装>3. PyTorch安装</h3><p>根据CUDA版本安装对应的PyTorch：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># CUDA 11.8 + Python 3.11</span>
-</span></span><span class=line><span class=cl>pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># CPU版本</span>
-</span></span><span class=line><span class=cl>pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-</span></span></code></pre></td></tr></table></div></div><h3 id=4-ide配置>4. IDE配置</h3><p>如果使用PyCharm，确保解释器路径指向虚拟环境：</p><ul><li>路径：<code>.venv\Scripts\python.exe</code> (Windows)</li><li>路径：<code>.venv/bin/python</code> (Linux/Mac)</li></ul><h2 id=vit模型架构解析>VIT模型架构解析</h2><h3 id=核心思想>核心思想</h3><p>Vision Transformer的核心思想是将图像视为序列数据，通过以下步骤处理：</p><ol><li><strong>图像分块（Patch Embedding）</strong>：将输入图像分割成固定大小的patch</li><li><strong>位置编码（Position Embedding）</strong>：为每个patch添加位置信息</li><li><strong>Transformer编码器</strong>：使用自注意力机制处理patch序列</li><li><strong>分类头</strong>：通过全连接层输出分类结果</li></ol><h3 id=数学表示>数学表示</h3><p>VIT的核心数学公式如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 图像分块</span>
-</span></span><span class=line><span class=cl><span class=n>x_p</span> <span class=o>=</span> <span class=n>Reshape</span><span class=p>(</span><span class=n>x</span><span class=p>,</span> <span class=p>(</span><span class=n>N</span><span class=p>,</span> <span class=n>P²</span><span class=err>·</span><span class=n>C</span><span class=p>))</span>  <span class=c1># N个patch，每个patch大小P²·C</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 线性投影</span>
-</span></span><span class=line><span class=cl><span class=n>z_0</span> <span class=o>=</span> <span class=p>[</span><span class=n>x_class</span><span class=p>;</span> <span class=n>x_p¹E</span><span class=p>;</span> <span class=n>x_p²E</span><span class=p>;</span> <span class=o>...</span><span class=p>;</span> <span class=n>x_pᴺE</span><span class=p>]</span> <span class=o>+</span> <span class=n>E_pos</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># Transformer编码器</span>
-</span></span><span class=line><span class=cl><span class=n>z_l</span> <span class=o>=</span> <span class=n>MSA</span><span class=p>(</span><span class=n>LN</span><span class=p>(</span><span class=n>z_</span><span class=p>{</span><span class=n>l</span><span class=o>-</span><span class=mi>1</span><span class=p>}))</span> <span class=o>+</span> <span class=n>z_</span><span class=p>{</span><span class=n>l</span><span class=o>-</span><span class=mi>1</span><span class=p>}</span>  <span class=c1># Multi-Head Self-Attention</span>
-</span></span><span class=line><span class=cl><span class=n>z_l</span> <span class=o>=</span> <span class=n>MLP</span><span class=p>(</span><span class=n>LN</span><span class=p>(</span><span class=n>z_l</span><span class=p>))</span> <span class=o>+</span> <span class=n>z_l</span>          <span class=c1># Feed Forward Network</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 分类输出</span>
-</span></span><span class=line><span class=cl><span class=n>y</span> <span class=o>=</span> <span class=n>LN</span><span class=p>(</span><span class=n>z_L⁰</span><span class=p>)</span>  <span class=c1># 使用class token的最终表示</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=关键参数说明>关键参数说明</h3><ul><li><strong>patch_size</strong>: 图像分块大小（如16x16）</li><li><strong>embed_dim</strong>: 嵌入维度（如768）</li><li><strong>num_heads</strong>: 注意力头数（如12）</li><li><strong>num_layers</strong>: Transformer层数（如12）</li><li><strong>mlp_ratio</strong>: MLP隐藏层倍数（如4）</li></ul><h2 id=源码实现细节>源码实现细节</h2><h3 id=1-patch-embedding实现>1. Patch Embedding实现</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>PatchEmbedding</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>img_size</span><span class=o>=</span><span class=mi>224</span><span class=p>,</span> <span class=n>patch_size</span><span class=o>=</span><span class=mi>16</span><span class=p>,</span> <span class=n>in_chans</span><span class=o>=</span><span class=mi>3</span><span class=p>,</span> <span class=n>embed_dim</span><span class=o>=</span><span class=mi>768</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>img_size</span> <span class=o>=</span> <span class=n>img_size</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>patch_size</span> <span class=o>=</span> <span class=n>patch_size</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>num_patches</span> <span class=o>=</span> <span class=p>(</span><span class=n>img_size</span> <span class=o>//</span> <span class=n>patch_size</span><span class=p>)</span> <span class=o>**</span> <span class=mi>2</span>
-</span></span><span class=line><span class=cl>        
-</span></span><span class=line><span class=cl>        <span class=c1># 使用卷积实现patch embedding</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>proj</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Conv2d</span><span class=p>(</span><span class=n>in_chans</span><span class=p>,</span> <span class=n>embed_dim</span><span class=p>,</span> 
-</span></span><span class=line><span class=cl>                             <span class=n>kernel_size</span><span class=o>=</span><span class=n>patch_size</span><span class=p>,</span> <span class=n>stride</span><span class=o>=</span><span class=n>patch_size</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=n>B</span><span class=p>,</span> <span class=n>C</span><span class=p>,</span> <span class=n>H</span><span class=p>,</span> <span class=n>W</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>shape</span>
-</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>proj</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>  <span class=c1># (B, embed_dim, H//patch_size, W//patch_size)</span>
-</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>flatten</span><span class=p>(</span><span class=mi>2</span><span class=p>)</span><span class=o>.</span><span class=n>transpose</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span>  <span class=c1># (B, num_patches, embed_dim)</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=2-multi-head-self-attention>2. Multi-Head Self-Attention</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>MultiHeadAttention</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>embed_dim</span><span class=p>,</span> <span class=n>num_heads</span><span class=p>,</span> <span class=n>dropout</span><span class=o>=</span><span class=mf>0.1</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>embed_dim</span> <span class=o>=</span> <span class=n>embed_dim</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>num_heads</span> <span class=o>=</span> <span class=n>num_heads</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>head_dim</span> <span class=o>=</span> <span class=n>embed_dim</span> <span class=o>//</span> <span class=n>num_heads</span>
-</span></span><span class=line><span class=cl>        
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>qkv</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>embed_dim</span><span class=p>,</span> <span class=n>embed_dim</span> <span class=o>*</span> <span class=mi>3</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>proj</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>embed_dim</span><span class=p>,</span> <span class=n>embed_dim</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>dropout</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Dropout</span><span class=p>(</span><span class=n>dropout</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=n>B</span><span class=p>,</span> <span class=n>N</span><span class=p>,</span> <span class=n>C</span> <span class=o>=</span> <span class=n>x</span><span class=o>.</span><span class=n>shape</span>
-</span></span><span class=line><span class=cl>        <span class=n>qkv</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>qkv</span><span class=p>(</span><span class=n>x</span><span class=p>)</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=n>B</span><span class=p>,</span> <span class=n>N</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>num_heads</span><span class=p>,</span> <span class=bp>self</span><span class=o>.</span><span class=n>head_dim</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>qkv</span> <span class=o>=</span> <span class=n>qkv</span><span class=o>.</span><span class=n>permute</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=mi>4</span><span class=p>)</span>  <span class=c1># (3, B, num_heads, N, head_dim)</span>
-</span></span><span class=line><span class=cl>        <span class=n>q</span><span class=p>,</span> <span class=n>k</span><span class=p>,</span> <span class=n>v</span> <span class=o>=</span> <span class=n>qkv</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=n>qkv</span><span class=p>[</span><span class=mi>1</span><span class=p>],</span> <span class=n>qkv</span><span class=p>[</span><span class=mi>2</span><span class=p>]</span>
-</span></span><span class=line><span class=cl>        
-</span></span><span class=line><span class=cl>        <span class=c1># 计算注意力权重</span>
-</span></span><span class=line><span class=cl>        <span class=n>attn</span> <span class=o>=</span> <span class=p>(</span><span class=n>q</span> <span class=o>@</span> <span class=n>k</span><span class=o>.</span><span class=n>transpose</span><span class=p>(</span><span class=o>-</span><span class=mi>2</span><span class=p>,</span> <span class=o>-</span><span class=mi>1</span><span class=p>))</span> <span class=o>*</span> <span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>head_dim</span> <span class=o>**</span> <span class=o>-</span><span class=mf>0.5</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>attn</span> <span class=o>=</span> <span class=n>attn</span><span class=o>.</span><span class=n>softmax</span><span class=p>(</span><span class=n>dim</span><span class=o>=-</span><span class=mi>1</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>attn</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>dropout</span><span class=p>(</span><span class=n>attn</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        
-</span></span><span class=line><span class=cl>        <span class=c1># 应用注意力权重</span>
-</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=p>(</span><span class=n>attn</span> <span class=o>@</span> <span class=n>v</span><span class=p>)</span><span class=o>.</span><span class=n>transpose</span><span class=p>(</span><span class=mi>1</span><span class=p>,</span> <span class=mi>2</span><span class=p>)</span><span class=o>.</span><span class=n>reshape</span><span class=p>(</span><span class=n>B</span><span class=p>,</span> <span class=n>N</span><span class=p>,</span> <span class=n>C</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=bp>self</span><span class=o>.</span><span class=n>proj</span><span class=p>(</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=3-transformer-block>3. Transformer Block</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=k>class</span> <span class=nc>TransformerBlock</span><span class=p>(</span><span class=n>nn</span><span class=o>.</span><span class=n>Module</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=fm>__init__</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>embed_dim</span><span class=p>,</span> <span class=n>num_heads</span><span class=p>,</span> <span class=n>mlp_ratio</span><span class=o>=</span><span class=mi>4</span><span class=p>,</span> <span class=n>dropout</span><span class=o>=</span><span class=mf>0.1</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=nb>super</span><span class=p>()</span><span class=o>.</span><span class=fm>__init__</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>norm1</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>LayerNorm</span><span class=p>(</span><span class=n>embed_dim</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>attn</span> <span class=o>=</span> <span class=n>MultiHeadAttention</span><span class=p>(</span><span class=n>embed_dim</span><span class=p>,</span> <span class=n>num_heads</span><span class=p>,</span> <span class=n>dropout</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>norm2</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>LayerNorm</span><span class=p>(</span><span class=n>embed_dim</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        
-</span></span><span class=line><span class=cl>        <span class=n>mlp_hidden_dim</span> <span class=o>=</span> <span class=nb>int</span><span class=p>(</span><span class=n>embed_dim</span> <span class=o>*</span> <span class=n>mlp_ratio</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=bp>self</span><span class=o>.</span><span class=n>mlp</span> <span class=o>=</span> <span class=n>nn</span><span class=o>.</span><span class=n>Sequential</span><span class=p>(</span>
-</span></span><span class=line><span class=cl>            <span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>embed_dim</span><span class=p>,</span> <span class=n>mlp_hidden_dim</span><span class=p>),</span>
-</span></span><span class=line><span class=cl>            <span class=n>nn</span><span class=o>.</span><span class=n>GELU</span><span class=p>(),</span>
-</span></span><span class=line><span class=cl>            <span class=n>nn</span><span class=o>.</span><span class=n>Dropout</span><span class=p>(</span><span class=n>dropout</span><span class=p>),</span>
-</span></span><span class=line><span class=cl>            <span class=n>nn</span><span class=o>.</span><span class=n>Linear</span><span class=p>(</span><span class=n>mlp_hidden_dim</span><span class=p>,</span> <span class=n>embed_dim</span><span class=p>),</span>
-</span></span><span class=line><span class=cl>            <span class=n>nn</span><span class=o>.</span><span class=n>Dropout</span><span class=p>(</span><span class=n>dropout</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=p>)</span>
-</span></span><span class=line><span class=cl>    
-</span></span><span class=line><span class=cl>    <span class=k>def</span> <span class=nf>forward</span><span class=p>(</span><span class=bp>self</span><span class=p>,</span> <span class=n>x</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>        <span class=c1># 残差连接 + Layer Normalization</span>
-</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=n>x</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>attn</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>norm1</span><span class=p>(</span><span class=n>x</span><span class=p>))</span>
-</span></span><span class=line><span class=cl>        <span class=n>x</span> <span class=o>=</span> <span class=n>x</span> <span class=o>+</span> <span class=bp>self</span><span class=o>.</span><span class=n>mlp</span><span class=p>(</span><span class=bp>self</span><span class=o>.</span><span class=n>norm2</span><span class=p>(</span><span class=n>x</span><span class=p>))</span>
-</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>x</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=训练技巧与优化>训练技巧与优化</h2><h3 id=1-数据增强策略>1. 数据增强策略</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span><span class=lnt>9
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>transform</span> <span class=o>=</span> <span class=n>transforms</span><span class=o>.</span><span class=n>Compose</span><span class=p>([</span>
-</span></span><span class=line><span class=cl>    <span class=n>transforms</span><span class=o>.</span><span class=n>Resize</span><span class=p>((</span><span class=mi>224</span><span class=p>,</span> <span class=mi>224</span><span class=p>)),</span>
-</span></span><span class=line><span class=cl>    <span class=n>transforms</span><span class=o>.</span><span class=n>RandomHorizontalFlip</span><span class=p>(</span><span class=n>p</span><span class=o>=</span><span class=mf>0.5</span><span class=p>),</span>
-</span></span><span class=line><span class=cl>    <span class=n>transforms</span><span class=o>.</span><span class=n>RandomRotation</span><span class=p>(</span><span class=n>degrees</span><span class=o>=</span><span class=mi>15</span><span class=p>),</span>
-</span></span><span class=line><span class=cl>    <span class=n>transforms</span><span class=o>.</span><span class=n>ColorJitter</span><span class=p>(</span><span class=n>brightness</span><span class=o>=</span><span class=mf>0.2</span><span class=p>,</span> <span class=n>contrast</span><span class=o>=</span><span class=mf>0.2</span><span class=p>,</span> <span class=n>saturation</span><span class=o>=</span><span class=mf>0.2</span><span class=p>),</span>
-</span></span><span class=line><span class=cl>    <span class=n>transforms</span><span class=o>.</span><span class=n>ToTensor</span><span class=p>(),</span>
-</span></span><span class=line><span class=cl>    <span class=n>transforms</span><span class=o>.</span><span class=n>Normalize</span><span class=p>(</span><span class=n>mean</span><span class=o>=</span><span class=p>[</span><span class=mf>0.485</span><span class=p>,</span> <span class=mf>0.456</span><span class=p>,</span> <span class=mf>0.406</span><span class=p>],</span> 
-</span></span><span class=line><span class=cl>                        <span class=n>std</span><span class=o>=</span><span class=p>[</span><span class=mf>0.229</span><span class=p>,</span> <span class=mf>0.224</span><span class=p>,</span> <span class=mf>0.225</span><span class=p>])</span>
-</span></span><span class=line><span class=cl><span class=p>])</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=2-学习率调度>2. 学习率调度</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 预热 + 余弦退火</span>
-</span></span><span class=line><span class=cl><span class=n>scheduler</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>optim</span><span class=o>.</span><span class=n>lr_scheduler</span><span class=o>.</span><span class=n>CosineAnnealingWarmRestarts</span><span class=p>(</span>
-</span></span><span class=line><span class=cl>    <span class=n>optimizer</span><span class=p>,</span> <span class=n>T_0</span><span class=o>=</span><span class=mi>10</span><span class=p>,</span> <span class=n>T_mult</span><span class=o>=</span><span class=mi>2</span><span class=p>,</span> <span class=n>eta_min</span><span class=o>=</span><span class=mf>1e-6</span>
-</span></span><span class=line><span class=cl><span class=p>)</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=3-混合精度训练>3. 混合精度训练</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>from</span> <span class=nn>torch.cuda.amp</span> <span class=kn>import</span> <span class=n>autocast</span><span class=p>,</span> <span class=n>GradScaler</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=n>scaler</span> <span class=o>=</span> <span class=n>GradScaler</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=k>for</span> <span class=n>batch</span> <span class=ow>in</span> <span class=n>dataloader</span><span class=p>:</span>
-</span></span><span class=line><span class=cl>    <span class=n>optimizer</span><span class=o>.</span><span class=n>zero_grad</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>    
-</span></span><span class=line><span class=cl>    <span class=k>with</span> <span class=n>autocast</span><span class=p>():</span>
-</span></span><span class=line><span class=cl>        <span class=n>outputs</span> <span class=o>=</span> <span class=n>model</span><span class=p>(</span><span class=n>inputs</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>        <span class=n>loss</span> <span class=o>=</span> <span class=n>criterion</span><span class=p>(</span><span class=n>outputs</span><span class=p>,</span> <span class=n>targets</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    
-</span></span><span class=line><span class=cl>    <span class=n>scaler</span><span class=o>.</span><span class=n>scale</span><span class=p>(</span><span class=n>loss</span><span class=p>)</span><span class=o>.</span><span class=n>backward</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>    <span class=n>scaler</span><span class=o>.</span><span class=n>step</span><span class=p>(</span><span class=n>optimizer</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>scaler</span><span class=o>.</span><span class=n>update</span><span class=p>()</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=性能优化与部署>性能优化与部署</h2><h3 id=1-模型压缩>1. 模型压缩</h3><ul><li><strong>知识蒸馏</strong>：使用大模型指导小模型训练</li><li><strong>剪枝</strong>：移除不重要的连接和参数</li><li><strong>量化</strong>：将FP32权重转换为INT8</li></ul><h3 id=2-推理优化>2. 推理优化</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 模型转换为推理模式</span>
-</span></span><span class=line><span class=cl><span class=n>model</span><span class=o>.</span><span class=n>eval</span><span class=p>()</span>
-</span></span><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>jit</span><span class=o>.</span><span class=n>script</span><span class=p>(</span><span class=n>model</span><span class=p>)</span>  <span class=c1># TorchScript优化</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># ONNX导出</span>
-</span></span><span class=line><span class=cl><span class=n>torch</span><span class=o>.</span><span class=n>onnx</span><span class=o>.</span><span class=n>export</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>dummy_input</span><span class=p>,</span> <span class=s2>&#34;vit_model.onnx&#34;</span><span class=p>)</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=实际应用案例>实际应用案例</h2><h3 id=1-图像分类>1. 图像分类</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 加载预训练模型</span>
-</span></span><span class=line><span class=cl><span class=n>model</span> <span class=o>=</span> <span class=n>VisionTransformer</span><span class=p>(</span>
-</span></span><span class=line><span class=cl>    <span class=n>image_size</span><span class=o>=</span><span class=mi>224</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=n>patch_size</span><span class=o>=</span><span class=mi>16</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=n>num_classes</span><span class=o>=</span><span class=mi>1000</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=n>embed_dim</span><span class=o>=</span><span class=mi>768</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=n>depth</span><span class=o>=</span><span class=mi>12</span><span class=p>,</span>
-</span></span><span class=line><span class=cl>    <span class=n>num_heads</span><span class=o>=</span><span class=mi>12</span>
-</span></span><span class=line><span class=cl><span class=p>)</span>
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=c1># 推理</span>
-</span></span><span class=line><span class=cl><span class=k>with</span> <span class=n>torch</span><span class=o>.</span><span class=n>no_grad</span><span class=p>():</span>
-</span></span><span class=line><span class=cl>    <span class=n>outputs</span> <span class=o>=</span> <span class=n>model</span><span class=p>(</span><span class=n>images</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=n>predictions</span> <span class=o>=</span> <span class=n>torch</span><span class=o>.</span><span class=n>softmax</span><span class=p>(</span><span class=n>outputs</span><span class=p>,</span> <span class=n>dim</span><span class=o>=</span><span class=mi>1</span><span class=p>)</span>
-</span></span></code></pre></td></tr></table></div></div><h3 id=2-特征提取>2. 特征提取</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=c1># 提取中间层特征</span>
-</span></span><span class=line><span class=cl><span class=k>def</span> <span class=nf>extract_features</span><span class=p>(</span><span class=n>model</span><span class=p>,</span> <span class=n>x</span><span class=p>,</span> <span class=n>layer_idx</span><span class=o>=-</span><span class=mi>1</span><span class=p>):</span>
-</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>.</span><span class=n>eval</span><span class=p>()</span>
-</span></span><span class=line><span class=cl>    <span class=k>with</span> <span class=n>torch</span><span class=o>.</span><span class=n>no_grad</span><span class=p>():</span>
-</span></span><span class=line><span class=cl>        <span class=c1># 获取指定层的输出</span>
-</span></span><span class=line><span class=cl>        <span class=n>features</span> <span class=o>=</span> <span class=n>model</span><span class=o>.</span><span class=n>transformer</span><span class=o>.</span><span class=n>layers</span><span class=p>[</span><span class=n>layer_idx</span><span class=p>](</span><span class=n>x</span><span class=p>)</span>
-</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>features</span>
-</span></span></code></pre></td></tr></table></div></div><h2 id=常见问题与解决方案>常见问题与解决方案</h2><h3 id=1-内存不足>1. 内存不足</h3><p><strong>问题</strong>：训练时显存不足
-<strong>解决方案</strong>：</p><ul><li>减小batch size</li><li>使用梯度累积</li><li>启用混合精度训练</li></ul><h3 id=2-收敛困难>2. 收敛困难</h3><p><strong>问题</strong>：模型训练不收敛
-<strong>解决方案</strong>：</p><ul><li>调整学习率（通常需要较小的学习率）</li><li>增加预热步数</li><li>使用预训练权重</li></ul><h3 id=3-过拟合>3. 过拟合</h3><p><strong>问题</strong>：验证集性能下降
-<strong>解决方案</strong>：</p><ul><li>增加数据增强</li><li>使用Dropout和DropPath</li><li>早停策略</li></ul><h2 id=总结与展望>总结与展望</h2><p>Vision Transformer代表了计算机视觉领域的重要突破，其核心优势包括：</p><ol><li><strong>全局建模能力</strong>：自注意力机制能够捕捉长距离依赖</li><li><strong>可扩展性</strong>：模型性能随数据量和模型大小持续提升</li><li><strong>统一架构</strong>：为多模态学习提供了统一的框架</li></ol><h3 id=未来发展方向>未来发展方向</h3><ul><li><strong>效率优化</strong>：降低计算复杂度，适应移动端部署</li><li><strong>多模态融合</strong>：结合文本、音频等多种模态信息</li><li><strong>自监督学习</strong>：减少对标注数据的依赖</li></ul><p>通过深入理解VIT的源码实现，我们不仅掌握了这一重要模型的技术细节，也为后续的研究和应用奠定了坚实基础。</p><h2 id=参考资料>参考资料</h2><ol><li><a class=link href=https://arxiv.org/abs/2010.11929 target=_blank rel=noopener>An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale</a></li><li><a class=link href=https://github.com/lucidrains/vit-pytorch target=_blank rel=noopener>lucidrains/vit-pytorch GitHub Repository</a></li><li><a class=link href=https://arxiv.org/abs/1706.03762 target=_blank rel=noopener>Attention Is All You Need</a></li><li><a class=link href=https://pytorch.org/docs/stable/index.html target=_blank rel=noopener>PyTorch官方文档</a></li></ol></section><footer class=article-footer><section class=article-tags><a href=/tags/vit/>Vit</a>
-<a href=/tags/transformer/>Transformer</a>
-<a href=/tags/computer-vision/>Computer-Vision</a>
-<a href=/tags/source-code/>Source-Code</a>
-<a href=/tags/pytorch/>Pytorch</a>
-<a href=/tags/deep-learning/>Deep-Learning</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
-<span>本文采用知识共享署名 4.0 国际许可协议进行许可</span></section></footer><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css integrity=sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV crossorigin=anonymous><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js integrity=sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8 crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous defer></script><script>window.addEventListener("DOMContentLoaded",()=>{const e=document.querySelector(".main-article");renderMathInElement(e,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],ignoredClasses:["gist"]})})</script></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/transformer-architecture/><div class=article-details><h2 class=article-title>Transformer架构深度解析：从RNN到自注意力机制的革命</h2></div></a></article><article><a href=/p/cnn-fundamentals/><div class=article-details><h2 class=article-title>卷积神经网络(CNN)深度解析：从基础概念到实战应用</h2></div></a></article><article><a href=/p/mcp-tools-guide/><div class=article-details><h2 class=article-title>MCP工具使用指南</h2></div></a></article><article><a href=/p/ai-prompt-engineering-guide/><div class=article-details><h2 class=article-title>AI提示词工程指南</h2></div></a></article></div></div></aside><div class=disqus-container><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//hugo-theme-stack.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}()</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></div><style>.disqus-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding)}</style><script>window.addEventListener("onColorSchemeChange",e=>{typeof DISQUS=="object"&&DISQUS.reset({reload:!0})})</script><footer class=site-footer><section class=copyright>&copy;
-2020 -
-2025 Example Person</section><section class=powerby>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.30.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div id=admin-panel-modal class=admin-modal style=display:none><div class=admin-panel-content><div class=admin-panel-header><h2><div class=admin-icon-wrapper><svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"/><circle cx="12" cy="12" r="3"/></svg></div><span class=admin-title-text>管理员面板</span></h2><button class=admin-modal-close id=admin-panel-close type=button aria-label=关闭管理面板><svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class=admin-panel-body><div class=admin-tabs><button class="admin-tab-btn active" data-tab=profile>个人资料</button>
-<button class=admin-tab-btn data-tab=content>内容管理</button>
-<button class=admin-tab-btn data-tab=settings>站点设置</button></div><div class=admin-tab-content><div id=admin-tab-profile class="admin-tab-panel active"><div class=admin-section><h3>头像设置</h3><div class=admin-avatar-section><div class=admin-avatar-preview><img id=admin-avatar-img src=/img/avatar_hu_f509edb42ecc0ebd.png alt=当前头像><div class=admin-avatar-overlay><svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div></div><div class=admin-avatar-controls><input type=file id=admin-avatar-upload accept=image/* style=display:none>
-<button class="admin-btn admin-btn-primary" onclick='document.getElementById("admin-avatar-upload").click()'>
-<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-上传头像
-</button>
-<button class="admin-btn admin-btn-secondary" id=admin-avatar-reset>
-<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><polyline points="1,4 1,10 7,10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
-重置默认</button></div></div></div><div class=admin-section><h3>个人信息</h3><div class=admin-form-group><label for=admin-site-title>站点标题</label>
-<input type=text id=admin-site-title value=lanniny-blog placeholder=输入站点标题></div><div class=admin-form-group><label for=admin-site-description>站点描述</label>
-<textarea id=admin-site-description placeholder=输入站点描述 rows=3>演示文稿</textarea></div></div></div><div id=admin-tab-content class=admin-tab-panel><div class=admin-section><h3>快速操作</h3><div class=admin-quick-actions><button class=admin-action-btn id=admin-new-post>
-<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M14.5 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
-<span>新建文章</span>
-</button>
-<button class=admin-action-btn id=admin-manage-posts>
-<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M14 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-<span>管理文章</span>
-</button>
-<button class=admin-action-btn id=admin-site-stats>
-<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
-<span>站点统计</span></button></div></div><div class=admin-section><h3>最近文章</h3><div class=admin-recent-posts><div class=admin-post-item><div class=admin-post-info><h4>Vision Transformer (VIT) 源码解读</h4><p>Deep Learning • 2025-01-19</p></div><div class=admin-post-actions><button class=admin-btn-small>编辑</button>
-<button class="admin-btn-small admin-btn-danger">删除</button></div></div><div class=admin-post-item><div class=admin-post-info><h4>Transformer架构深度解析</h4><p>Deep Learning • 2025-01-19</p></div><div class=admin-post-actions><button class=admin-btn-small>编辑</button>
-<button class="admin-btn-small admin-btn-danger">删除</button></div></div></div></div></div><div id=admin-tab-settings class=admin-tab-panel><div class=admin-section><h3>主题设置</h3><div class=admin-form-group><label for=admin-theme-color>主题色彩</label><div class=admin-color-picker><input type=color id=admin-theme-color value=#34495e>
-<span class=admin-color-preview></span></div></div><div class=admin-form-group><label><input type=checkbox id=admin-dark-mode-default> 默认深色模式</label></div></div><div class=admin-section><h3>安全设置</h3><div class=admin-form-group><label for=admin-new-password>更改管理员密码</label>
-<input type=password id=admin-new-password placeholder=输入新密码></div><button class="admin-btn admin-btn-primary" id=admin-change-password>更新密码</button></div></div></div><div class=admin-panel-footer><button class="admin-btn admin-btn-primary" id=admin-save-settings>
-<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
-保存设置
-</button>
-<button class="admin-btn admin-btn-secondary" id=admin-panel-cancel>取消</button></div></div></div></div><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-<button class="pswp__button pswp__button--share" title=Share></button>
-<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-</button>
-<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.8471120622bfebebca57c42a8e508141c8162f4f834de2792a9cf05f7f2981dc.js defer></script><script type=text/javascript src=/ts/custom.0f32ed7c419e7207134dbae2823cf64857dae48e57aeb8ad195e65d0a300665a.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="深入解析Vision Transformer模型的源码实现，包括环境搭建、模型架构理解和实践应用">
+<title>Vision Transformer (VIT) 源码解读与实践指南</title>
+
+<link rel='canonical' href='http://localhost:1313/p/vit-source-analysis/'>
+
+<link rel="stylesheet" href="/scss/style.min.1df683498b4e1f2b1c98141a05a4dce178fa8cafa71d2eb7f8e95425b8fa2dec.css"><meta property='og:title' content="Vision Transformer (VIT) 源码解读与实践指南">
+<meta property='og:description' content="深入解析Vision Transformer模型的源码实现，包括环境搭建、模型架构理解和实践应用">
+<meta property='og:url' content='http://localhost:1313/p/vit-source-analysis/'>
+<meta property='og:site_name' content='lanniny-blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='vit' /><meta property='article:tag' content='transformer' /><meta property='article:tag' content='computer-vision' /><meta property='article:tag' content='source-code' /><meta property='article:tag' content='pytorch' /><meta property='article:tag' content='deep-learning' /><meta property='article:published_time' content='2025-01-19T10:00:00&#43;08:00'/><meta property='article:modified_time' content='2025-01-19T10:00:00&#43;08:00'/>
+<meta name="twitter:title" content="Vision Transformer (VIT) 源码解读与实践指南">
+<meta name="twitter:description" content="深入解析Vision Transformer模型的源码实现，包括环境搭建、模型架构理解和实践应用">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f509edb42ecc0ebd.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+
+                
+                <div class="admin-status-indicator" data-admin-only>
+                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 12l2 2 4-4"></path>
+                        <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                        <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                        <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"></path>
+                        <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"></path>
+                    </svg>
+                </div>
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">lanniny-blog</a></h1>
+            <h2 class="site-description">演示文稿</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/CaiJimmy/hugo-theme-stack'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        
+        <li class="admin-menu-section" data-admin-only>
+            <a href="#" id="admin-panel-toggle" title="管理员面板" onclick="const panel = document.getElementById('admin-panel-modal'); if (panel) { panel.style.display = 'flex'; if (window.Stack && window.Stack.loadAdminSettings) window.Stack.loadAdminSettings(); } return false;">
+                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>管理面板</span>
+            </a>
+        </li>
+
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                
+                <li id="admin-auth-toggle">
+                    <a href="#" data-guest-only onclick="window.Stack && window.Stack.showLogin(); return false;" title="管理员登录">
+                        <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10,17 15,12 10,7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>管理员登录</span>
+                    </a>
+                    <a href="#" data-admin-only onclick="window.Stack && window.Stack.logout(); return false;" title="退出登录">
+                        <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16,17 21,12 16,7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        <span>退出登录</span>
+                    </a>
+                </li>
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="http://localhost:1313/en/" >English</option>
+                                
+                                    <option value="http://localhost:1313/" selected>中文</option>
+                                
+                                    <option value="http://localhost:1313/ar/" >عربي</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#项目简介">项目简介</a></li>
+    <li><a href="#环境搭建">环境搭建</a>
+      <ol>
+        <li><a href="#1-环境检查与准备">1. 环境检查与准备</a></li>
+        <li><a href="#2-虚拟环境创建">2. 虚拟环境创建</a></li>
+        <li><a href="#3-pytorch安装">3. PyTorch安装</a></li>
+        <li><a href="#4-ide配置">4. IDE配置</a></li>
+      </ol>
+    </li>
+    <li><a href="#vit模型架构解析">VIT模型架构解析</a>
+      <ol>
+        <li><a href="#核心思想">核心思想</a></li>
+        <li><a href="#数学表示">数学表示</a></li>
+        <li><a href="#关键参数说明">关键参数说明</a></li>
+      </ol>
+    </li>
+    <li><a href="#源码实现细节">源码实现细节</a>
+      <ol>
+        <li><a href="#1-patch-embedding实现">1. Patch Embedding实现</a></li>
+        <li><a href="#2-multi-head-self-attention">2. Multi-Head Self-Attention</a></li>
+        <li><a href="#3-transformer-block">3. Transformer Block</a></li>
+      </ol>
+    </li>
+    <li><a href="#训练技巧与优化">训练技巧与优化</a>
+      <ol>
+        <li><a href="#1-数据增强策略">1. 数据增强策略</a></li>
+        <li><a href="#2-学习率调度">2. 学习率调度</a></li>
+        <li><a href="#3-混合精度训练">3. 混合精度训练</a></li>
+      </ol>
+    </li>
+    <li><a href="#性能优化与部署">性能优化与部署</a>
+      <ol>
+        <li><a href="#1-模型压缩">1. 模型压缩</a></li>
+        <li><a href="#2-推理优化">2. 推理优化</a></li>
+      </ol>
+    </li>
+    <li><a href="#实际应用案例">实际应用案例</a>
+      <ol>
+        <li><a href="#1-图像分类">1. 图像分类</a></li>
+        <li><a href="#2-特征提取">2. 特征提取</a></li>
+      </ol>
+    </li>
+    <li><a href="#常见问题与解决方案">常见问题与解决方案</a>
+      <ol>
+        <li><a href="#1-内存不足">1. 内存不足</a></li>
+        <li><a href="#2-收敛困难">2. 收敛困难</a></li>
+        <li><a href="#3-过拟合">3. 过拟合</a></li>
+      </ol>
+    </li>
+    <li><a href="#总结与展望">总结与展望</a>
+      <ol>
+        <li><a href="#未来发展方向">未来发展方向</a></li>
+      </ol>
+    </li>
+    <li><a href="#参考资料">参考资料</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/deep-learning/" >
+                Deep Learning
+            </a>
+        
+            <a href="/categories/ai/" >
+                AI
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/vit-source-analysis/">Vision Transformer (VIT) 源码解读与实践指南</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            深入解析Vision Transformer模型的源码实现，包括环境搭建、模型架构理解和实践应用
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 19, 2025</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="vision-transformer-vit-源码解读与实践指南">Vision Transformer (VIT) 源码解读与实践指南
+</h1><p>Vision Transformer (VIT) 是一个革命性的计算机视觉模型，它将Transformer架构成功应用到图像分类任务中，打破了卷积神经网络在视觉领域的垄断地位。本文将深入解读VIT的源码实现，帮助读者理解其核心原理和实践应用。</p>
+<h2 id="项目简介">项目简介
+</h2><p>本文基于 <a class="link" href="https://github.com/lucidrains/vit-pytorch"  target="_blank" rel="noopener"
+    >lucidrains/vit-pytorch</a> 项目进行源码解读。这是一个简洁而高效的VIT实现，仅使用单个Transformer编码器就能在视觉分类任务中达到SOTA性能。</p>
+<h2 id="环境搭建">环境搭建
+</h2><h3 id="1-环境检查与准备">1. 环境检查与准备
+</h3><p>在开始之前，需要检查运行环境并安装必要的依赖包：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 检查Python版本（推荐3.11）</span>
+</span></span><span class="line"><span class="cl">python --version
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 检查是否有GPU支持</span>
+</span></span><span class="line"><span class="cl">nvidia-smi
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-虚拟环境创建">2. 虚拟环境创建
+</h3><p>为了避免包冲突，建议创建独立的虚拟环境：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 创建虚拟环境</span>
+</span></span><span class="line"><span class="cl">python -m venv .venv
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 激活虚拟环境 (Windows)</span>
+</span></span><span class="line"><span class="cl">.venv<span class="se">\S</span>cripts<span class="se">\a</span>ctivate
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 激活虚拟环境 (Linux/Mac)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">source</span> .venv/bin/activate
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-pytorch安装">3. PyTorch安装
+</h3><p>根据CUDA版本安装对应的PyTorch：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># CUDA 11.8 + Python 3.11</span>
+</span></span><span class="line"><span class="cl">pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># CPU版本</span>
+</span></span><span class="line"><span class="cl">pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="4-ide配置">4. IDE配置
+</h3><p>如果使用PyCharm，确保解释器路径指向虚拟环境：</p>
+<ul>
+<li>路径：<code>.venv\Scripts\python.exe</code> (Windows)</li>
+<li>路径：<code>.venv/bin/python</code> (Linux/Mac)</li>
+</ul>
+<h2 id="vit模型架构解析">VIT模型架构解析
+</h2><h3 id="核心思想">核心思想
+</h3><p>Vision Transformer的核心思想是将图像视为序列数据，通过以下步骤处理：</p>
+<ol>
+<li><strong>图像分块（Patch Embedding）</strong>：将输入图像分割成固定大小的patch</li>
+<li><strong>位置编码（Position Embedding）</strong>：为每个patch添加位置信息</li>
+<li><strong>Transformer编码器</strong>：使用自注意力机制处理patch序列</li>
+<li><strong>分类头</strong>：通过全连接层输出分类结果</li>
+</ol>
+<h3 id="数学表示">数学表示
+</h3><p>VIT的核心数学公式如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 图像分块</span>
+</span></span><span class="line"><span class="cl"><span class="n">x_p</span> <span class="o">=</span> <span class="n">Reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">P²</span><span class="err">·</span><span class="n">C</span><span class="p">))</span>  <span class="c1"># N个patch，每个patch大小P²·C</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 线性投影</span>
+</span></span><span class="line"><span class="cl"><span class="n">z_0</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_class</span><span class="p">;</span> <span class="n">x_p¹E</span><span class="p">;</span> <span class="n">x_p²E</span><span class="p">;</span> <span class="o">...</span><span class="p">;</span> <span class="n">x_pᴺE</span><span class="p">]</span> <span class="o">+</span> <span class="n">E_pos</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Transformer编码器</span>
+</span></span><span class="line"><span class="cl"><span class="n">z_l</span> <span class="o">=</span> <span class="n">MSA</span><span class="p">(</span><span class="n">LN</span><span class="p">(</span><span class="n">z_</span><span class="p">{</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">}))</span> <span class="o">+</span> <span class="n">z_</span><span class="p">{</span><span class="n">l</span><span class="o">-</span><span class="mi">1</span><span class="p">}</span>  <span class="c1"># Multi-Head Self-Attention</span>
+</span></span><span class="line"><span class="cl"><span class="n">z_l</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">(</span><span class="n">LN</span><span class="p">(</span><span class="n">z_l</span><span class="p">))</span> <span class="o">+</span> <span class="n">z_l</span>          <span class="c1"># Feed Forward Network</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 分类输出</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">LN</span><span class="p">(</span><span class="n">z_L⁰</span><span class="p">)</span>  <span class="c1"># 使用class token的最终表示</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="关键参数说明">关键参数说明
+</h3><ul>
+<li><strong>patch_size</strong>: 图像分块大小（如16x16）</li>
+<li><strong>embed_dim</strong>: 嵌入维度（如768）</li>
+<li><strong>num_heads</strong>: 注意力头数（如12）</li>
+<li><strong>num_layers</strong>: Transformer层数（如12）</li>
+<li><strong>mlp_ratio</strong>: MLP隐藏层倍数（如4）</li>
+</ul>
+<h2 id="源码实现细节">源码实现细节
+</h2><h3 id="1-patch-embedding实现">1. Patch Embedding实现
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">PatchEmbedding</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span> <span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">in_chans</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">embed_dim</span><span class="o">=</span><span class="mi">768</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">img_size</span> <span class="o">=</span> <span class="n">img_size</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="n">patch_size</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">num_patches</span> <span class="o">=</span> <span class="p">(</span><span class="n">img_size</span> <span class="o">//</span> <span class="n">patch_size</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 使用卷积实现patch embedding</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_chans</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                             <span class="n">kernel_size</span><span class="o">=</span><span class="n">patch_size</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">patch_size</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># (B, embed_dim, H//patch_size, W//patch_size)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># (B, num_patches, embed_dim)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-multi-head-self-attention">2. Multi-Head Self-Attention
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">MultiHeadAttention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">embed_dim</span> <span class="o">=</span> <span class="n">embed_dim</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">num_heads</span> <span class="o">=</span> <span class="n">num_heads</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">head_dim</span> <span class="o">=</span> <span class="n">embed_dim</span> <span class="o">//</span> <span class="n">num_heads</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">qkv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">,</span> <span class="n">embed_dim</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+</span></span><span class="line"><span class="cl">        <span class="n">qkv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">qkv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_heads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">head_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">qkv</span> <span class="o">=</span> <span class="n">qkv</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># (3, B, num_heads, N, head_dim)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">qkv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qkv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qkv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算注意力权重</span>
+</span></span><span class="line"><span class="cl">        <span class="n">attn</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span> <span class="o">@</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">head_dim</span> <span class="o">**</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">attn</span> <span class="o">=</span> <span class="n">attn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">attn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">attn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 应用注意力权重</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">attn</span> <span class="o">@</span> <span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-transformer-block">3. Transformer Block
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TransformerBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">mlp_ratio</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">attn</span> <span class="o">=</span> <span class="n">MultiHeadAttention</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">mlp_hidden_dim</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">embed_dim</span> <span class="o">*</span> <span class="n">mlp_ratio</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">embed_dim</span><span class="p">,</span> <span class="n">mlp_hidden_dim</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">GELU</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">mlp_hidden_dim</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 残差连接 + Layer Normalization</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">x</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="训练技巧与优化">训练技巧与优化
+</h2><h3 id="1-数据增强策略">1. 数据增强策略
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">((</span><span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">)),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transforms</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transforms</span><span class="o">.</span><span class="n">RandomRotation</span><span class="p">(</span><span class="n">degrees</span><span class="o">=</span><span class="mi">15</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transforms</span><span class="o">.</span><span class="n">ColorJitter</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">contrast</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">saturation</span><span class="o">=</span><span class="mf">0.2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> 
+</span></span><span class="line"><span class="cl">                        <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="p">])</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-学习率调度">2. 学习率调度
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 预热 + 余弦退火</span>
+</span></span><span class="line"><span class="cl"><span class="n">scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">CosineAnnealingWarmRestarts</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">optimizer</span><span class="p">,</span> <span class="n">T_0</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">T_mult</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">eta_min</span><span class="o">=</span><span class="mf">1e-6</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-混合精度训练">3. 混合精度训练
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">torch.cuda.amp</span> <span class="kn">import</span> <span class="n">autocast</span><span class="p">,</span> <span class="n">GradScaler</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">scaler</span> <span class="o">=</span> <span class="n">GradScaler</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">autocast</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">scaler</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scaler</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scaler</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="性能优化与部署">性能优化与部署
+</h2><h3 id="1-模型压缩">1. 模型压缩
+</h3><ul>
+<li><strong>知识蒸馏</strong>：使用大模型指导小模型训练</li>
+<li><strong>剪枝</strong>：移除不重要的连接和参数</li>
+<li><strong>量化</strong>：将FP32权重转换为INT8</li>
+</ul>
+<h3 id="2-推理优化">2. 推理优化
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 模型转换为推理模式</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">script</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>  <span class="c1"># TorchScript优化</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ONNX导出</span>
+</span></span><span class="line"><span class="cl"><span class="n">torch</span><span class="o">.</span><span class="n">onnx</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dummy_input</span><span class="p">,</span> <span class="s2">&#34;vit_model.onnx&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实际应用案例">实际应用案例
+</h2><h3 id="1-图像分类">1. 图像分类
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 加载预训练模型</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">VisionTransformer</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">image_size</span><span class="o">=</span><span class="mi">224</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">patch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num_classes</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">embed_dim</span><span class="o">=</span><span class="mi">768</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">depth</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num_heads</span><span class="o">=</span><span class="mi">12</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># 推理</span>
+</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">predictions</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="2-特征提取">2. 特征提取
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 提取中间层特征</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">extract_features</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">layer_idx</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 获取指定层的输出</span>
+</span></span><span class="line"><span class="cl">        <span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transformer</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="n">layer_idx</span><span class="p">](</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">features</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="常见问题与解决方案">常见问题与解决方案
+</h2><h3 id="1-内存不足">1. 内存不足
+</h3><p><strong>问题</strong>：训练时显存不足
+<strong>解决方案</strong>：</p>
+<ul>
+<li>减小batch size</li>
+<li>使用梯度累积</li>
+<li>启用混合精度训练</li>
+</ul>
+<h3 id="2-收敛困难">2. 收敛困难
+</h3><p><strong>问题</strong>：模型训练不收敛
+<strong>解决方案</strong>：</p>
+<ul>
+<li>调整学习率（通常需要较小的学习率）</li>
+<li>增加预热步数</li>
+<li>使用预训练权重</li>
+</ul>
+<h3 id="3-过拟合">3. 过拟合
+</h3><p><strong>问题</strong>：验证集性能下降
+<strong>解决方案</strong>：</p>
+<ul>
+<li>增加数据增强</li>
+<li>使用Dropout和DropPath</li>
+<li>早停策略</li>
+</ul>
+<h2 id="总结与展望">总结与展望
+</h2><p>Vision Transformer代表了计算机视觉领域的重要突破，其核心优势包括：</p>
+<ol>
+<li><strong>全局建模能力</strong>：自注意力机制能够捕捉长距离依赖</li>
+<li><strong>可扩展性</strong>：模型性能随数据量和模型大小持续提升</li>
+<li><strong>统一架构</strong>：为多模态学习提供了统一的框架</li>
+</ol>
+<h3 id="未来发展方向">未来发展方向
+</h3><ul>
+<li><strong>效率优化</strong>：降低计算复杂度，适应移动端部署</li>
+<li><strong>多模态融合</strong>：结合文本、音频等多种模态信息</li>
+<li><strong>自监督学习</strong>：减少对标注数据的依赖</li>
+</ul>
+<p>通过深入理解VIT的源码实现，我们不仅掌握了这一重要模型的技术细节，也为后续的研究和应用奠定了坚实基础。</p>
+<h2 id="参考资料">参考资料
+</h2><ol>
+<li><a class="link" href="https://arxiv.org/abs/2010.11929"  target="_blank" rel="noopener"
+    >An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale</a></li>
+<li><a class="link" href="https://github.com/lucidrains/vit-pytorch"  target="_blank" rel="noopener"
+    >lucidrains/vit-pytorch GitHub Repository</a></li>
+<li><a class="link" href="https://arxiv.org/abs/1706.03762"  target="_blank" rel="noopener"
+    >Attention Is All You Need</a></li>
+<li><a class="link" href="https://pytorch.org/docs/stable/index.html"  target="_blank" rel="noopener"
+    >PyTorch官方文档</a></li>
+</ol>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/vit/">Vit</a>
+        
+            <a href="/tags/transformer/">Transformer</a>
+        
+            <a href="/tags/computer-vision/">Computer-Vision</a>
+        
+            <a href="/tags/source-code/">Source-Code</a>
+        
+            <a href="/tags/pytorch/">Pytorch</a>
+        
+            <a href="/tags/deep-learning/">Deep-Learning</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>本文采用知识共享署名 4.0 国际许可协议进行许可</span>
+    </section>
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+	const mainArticleElement = document.querySelector(".main-article");
+        renderMathInElement(mainArticleElement, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            ignoredClasses: ["gist"]
+        });})
+</script>
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="">
+    <a href="/p/transformer-architecture/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Transformer架构深度解析：从RNN到自注意力机制的革命</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/cnn-fundamentals/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">卷积神经网络(CNN)深度解析：从基础概念到实战应用</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/mcp-tools-guide/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">MCP工具使用指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="">
+    <a href="/p/ai-prompt-engineering-guide/">
+        
+        
+
+        <div class="article-details">
+            <h2 class="article-title">AI提示词工程指南</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+<div id="gitalk-container" class="gitalk-container"></div>
+
+
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.css"
+/>
+
+
+<style>
+.gitalk-container {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    border: 1px solid var(--card-separator-color);
+}
+
+.gt-container .gt-header-textarea {
+    background: var(--card-background);
+    color: var(--card-text-color-main);
+    border: 1px solid var(--card-separator-color);
+    border-radius: var(--card-border-radius);
+}
+
+.gt-container .gt-header-textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-color-lighter);
+}
+
+.gt-container .gt-btn-public {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.gt-container .gt-btn-public:hover {
+    background: var(--accent-color-darker);
+    border-color: var(--accent-color-darker);
+}
+
+.gt-container .gt-comment-content {
+    background: var(--card-background);
+    color: var(--card-text-color-main);
+}
+
+.gt-container .gt-comment-body {
+    color: var(--card-text-color-main) !important;
+}
+
+.gt-container .gt-comment-admin .gt-comment-content {
+    background: var(--accent-color-lighter);
+}
+
+ 
+[data-scheme="dark"] .gt-container .gt-svg svg {
+    fill: var(--card-text-color-secondary);
+}
+
+[data-scheme="dark"] .gt-container .gt-meta {
+    color: var(--card-text-color-secondary);
+}
+
+ 
+@media (max-width: 768px) {
+    .gitalk-container {
+        margin-top: 1rem;
+        padding: 1rem;
+    }
+
+    .gt-container .gt-header-textarea {
+        font-size: 14px;
+    }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) !== -1) {
+        document.getElementById("gitalk-container").innerHTML =
+            '<div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">' +
+            '<p>📝 Gitalk评论系统</p>' +
+            '<p>评论功能在本地预览时不可用，请在线上环境查看。</p>' +
+            '</div>';
+        return;
+    }
+
+    
+        
+        const pageId = md5(location.pathname).substring(0, 50);
+
+        const gitalk = new Gitalk({
+            clientID: "Ov23li9uepNcJIfMUmP1",
+            clientSecret: "65abca1c431ab760ddc6b52f81533569cc90e5e9",
+            repo: "my_blog_source",
+            owner: "lanniny",
+            admin: ["lanniny"],
+            id: pageId,
+            distractionFreeMode: false,
+            pagerDirection: 'last',
+            createIssueManually: false,proxy: "https:\/\/cors-anywhere.herokuapp.com\/https:\/\/github.com\/login\/oauth\/access_token",
+            language: 'zh-CN',
+            perPage: 10,
+            
+            enableHotKey: true,
+            
+            labels: ['gitalk', 'comment'],
+            
+            theme: document.documentElement.getAttribute('data-scheme') || 'light'
+        });
+
+        
+        gitalk.render('gitalk-container');
+
+        
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-scheme') {
+                    
+                    console.log('Theme changed, Gitalk will adapt automatically');
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-scheme']
+        });
+
+    } catch (error) {
+        console.error('Gitalk initialization error:', error);
+        document.getElementById("gitalk-container").innerHTML =
+            '<div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">' +
+            '<p>❌ 评论系统加载失败</p>' +
+            '<p>请检查网络连接或稍后重试。</p>' +
+            '</div>';
+    }});
+</script>
+
+
+
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2025 Example Person
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+<div id="admin-panel-modal" class="admin-modal" style="display: none;">
+    <div class="admin-panel-content">
+        <div class="admin-panel-header">
+            <h2>
+                <div class="admin-icon-wrapper">
+                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12.22 2h-.44a2 2 0 00-2 2v.18a2 2 0 01-1 1.73l-.43.25a2 2 0 01-2 0l-.15-.08a2 2 0 00-2.73.73l-.22.38a2 2 0 00.73 2.73l.15.1a2 2 0 011 1.72v.51a2 2 0 01-1 1.74l-.15.09a2 2 0 00-.73 2.73l.22.38a2 2 0 002.73.73l.15-.08a2 2 0 012 0l.43.25a2 2 0 011 1.73V20a2 2 0 002 2h.44a2 2 0 002-2v-.18a2 2 0 011-1.73l.43-.25a2 2 0 012 0l.15.08a2 2 0 002.73-.73l.22-.39a2 2 0 00-.73-2.73l-.15-.08a2 2 0 01-1-1.74v-.5a2 2 0 011-1.74l.15-.09a2 2 0 00.73-2.73l-.22-.38a2 2 0 00-2.73-.73l-.15.08a2 2 0 01-2 0l-.43-.25a2 2 0 01-1-1.73V4a2 2 0 00-2-2z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </div>
+                <span class="admin-title-text">管理员面板</span>
+            </h2>
+            <button class="admin-modal-close" id="admin-panel-close" type="button" aria-label="关闭管理面板">
+                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="admin-panel-body">
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" data-tab="profile">个人资料</button>
+                <button class="admin-tab-btn" data-tab="content">内容管理</button>
+                <button class="admin-tab-btn" data-tab="settings">站点设置</button>
+            </div>
+            <div class="admin-tab-content">
+                <div id="admin-tab-profile" class="admin-tab-panel active">
+                    <div class="admin-section">
+                        <h3>头像设置</h3>
+                        <div class="admin-avatar-section">
+                            <div class="admin-avatar-preview">
+                                <img id="admin-avatar-img" src="/img/avatar_hu_f509edb42ecc0ebd.png" alt="当前头像">
+                                <div class="admin-avatar-overlay">
+                                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"></path>
+                                        <circle cx="12" cy="13" r="4"></circle>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="admin-avatar-controls">
+                                <input type="file" id="admin-avatar-upload" accept="image/*" style="display: none;">
+                                <button class="admin-btn admin-btn-primary" onclick="document.getElementById('admin-avatar-upload').click()">
+                                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path>
+                                        <polyline points="7,10 12,15 17,10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    上传头像
+                                </button>
+                                <button class="admin-btn admin-btn-secondary" id="admin-avatar-reset">
+                                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="1,4 1,10 7,10"></polyline>
+                                        <path d="M3.51 15a9 9 0 102.13-9.36L1 10"></path>
+                                    </svg>
+                                    重置默认
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-section">
+                        <h3>个人信息</h3>
+                        <div class="admin-form-group">
+                            <label for="admin-site-title">站点标题</label>
+                            <input type="text" id="admin-site-title" value="lanniny-blog" placeholder="输入站点标题">
+                        </div>
+                        <div class="admin-form-group">
+                            <label for="admin-site-description">站点描述</label>
+                            <textarea id="admin-site-description" placeholder="输入站点描述" rows="3">演示文稿</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="admin-tab-content" class="admin-tab-panel">
+                    <div class="admin-section">
+                        <h3>快速操作</h3>
+                        <div class="admin-quick-actions">
+                            <button class="admin-action-btn" id="admin-new-post">
+                                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"></path>
+                                    <polyline points="14,2 14,8 20,8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10,9 9,9 8,9"></polyline>
+                                </svg>
+                                <span>新建文章</span>
+                            </button>
+                            <button class="admin-action-btn" id="admin-manage-posts">
+                                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
+                                    <polyline points="14,2 14,8 20,8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                </svg>
+                                <span>管理文章</span>
+                            </button>
+                            <button class="admin-action-btn" id="admin-site-stats">
+                                <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 3v18h18"></path>
+                                    <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
+                                </svg>
+                                <span>站点统计</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-section">
+                        <h3>最近文章</h3>
+                        <div class="admin-recent-posts">
+                            <div class="admin-post-item">
+                                <div class="admin-post-info">
+                                    <h4>Vision Transformer (VIT) 源码解读</h4>
+                                    <p>Deep Learning • 2025-01-19</p>
+                                </div>
+                                <div class="admin-post-actions">
+                                    <button class="admin-btn-small">编辑</button>
+                                    <button class="admin-btn-small admin-btn-danger">删除</button>
+                                </div>
+                            </div>
+                            <div class="admin-post-item">
+                                <div class="admin-post-info">
+                                    <h4>Transformer架构深度解析</h4>
+                                    <p>Deep Learning • 2025-01-19</p>
+                                </div>
+                                <div class="admin-post-actions">
+                                    <button class="admin-btn-small">编辑</button>
+                                    <button class="admin-btn-small admin-btn-danger">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="admin-tab-settings" class="admin-tab-panel">
+                    <div class="admin-section">
+                        <h3>主题设置</h3>
+                        <div class="admin-form-group">
+                            <label for="admin-theme-color">主题色彩</label>
+                            <div class="admin-color-picker">
+                                <input type="color" id="admin-theme-color" value="#34495e">
+                                <span class="admin-color-preview"></span>
+                            </div>
+                        </div>
+                        <div class="admin-form-group">
+                            <label>
+                                <input type="checkbox" id="admin-dark-mode-default"> 默认深色模式
+                            </label>
+                        </div>
+                    </div>
+                    <div class="admin-section">
+                        <h3>安全设置</h3>
+                        <div class="admin-form-group">
+                            <label for="admin-new-password">更改管理员密码</label>
+                            <input type="password" id="admin-new-password" placeholder="输入新密码">
+                        </div>
+                        <button class="admin-btn admin-btn-primary" id="admin-change-password">更新密码</button>
+                    </div>
+                </div>
+            </div>
+            <div class="admin-panel-footer">
+                <button class="admin-btn admin-btn-primary" id="admin-save-settings">
+                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"></path>
+                        <polyline points="17,21 17,13 7,13 7,21"></polyline>
+                        <polyline points="7,3 7,8 15,8"></polyline>
+                    </svg>
+                    保存设置
+                </button>
+                <button class="admin-btn admin-btn-secondary" id="admin-panel-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.9f0237516821d724e757490163e326576a5f50077d5ea08cd46df3f417f38671.js" defer></script><script type="text/javascript" src="/ts/custom.59b1c0f78d34c2f55f31f430b225cc71902ea74514721ee14e3f11026618e809.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

@@ -1,31 +1,162 @@
 {{- with .Site.Params.comments.gitalk -}}
-<div id="gitalk-container"></div>
+<!-- Gitalk评论系统 -->
+<div id="gitalk-container" class="gitalk-container"></div>
+
+<!-- Gitalk CSS -->
 <link
     rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css"
+    href="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.css"
 />
-<script src="https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.18.0/js/md5.min.js"></script>
+
+<!-- 自定义Gitalk样式 -->
+<style>
+.gitalk-container {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    border: 1px solid var(--card-separator-color);
+}
+
+.gt-container .gt-header-textarea {
+    background: var(--card-background);
+    color: var(--card-text-color-main);
+    border: 1px solid var(--card-separator-color);
+    border-radius: var(--card-border-radius);
+}
+
+.gt-container .gt-header-textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-color-lighter);
+}
+
+.gt-container .gt-btn-public {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: white;
+}
+
+.gt-container .gt-btn-public:hover {
+    background: var(--accent-color-darker);
+    border-color: var(--accent-color-darker);
+}
+
+.gt-container .gt-comment-content {
+    background: var(--card-background);
+    color: var(--card-text-color-main);
+}
+
+.gt-container .gt-comment-body {
+    color: var(--card-text-color-main) !important;
+}
+
+.gt-container .gt-comment-admin .gt-comment-content {
+    background: var(--accent-color-lighter);
+}
+
+/* 深色模式适配 */
+[data-scheme="dark"] .gt-container .gt-svg svg {
+    fill: var(--card-text-color-secondary);
+}
+
+[data-scheme="dark"] .gt-container .gt-meta {
+    color: var(--card-text-color-secondary);
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .gitalk-container {
+        margin-top: 1rem;
+        padding: 1rem;
+    }
+
+    .gt-container .gt-header-textarea {
+        font-size: 14px;
+    }
+}
+</style>
+
+<!-- Gitalk JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.8.0/dist/gitalk.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.19.0/js/md5.min.js"></script>
+
 <script>
-    const gitalk = new Gitalk({
-        clientID: "{{- .clientID -}}",
-        clientSecret: "{{- .clientSecret -}}",
-        repo: "{{- .repo -}}",
-        owner: "{{- .owner -}}",
-        admin: ["{{- .admin -}}"],
-        distractionFreeMode: false, // Facebook-like distraction free mode
-        id: md5(location.pathname), // Max Location.pathname Legth:75  https://github.com/gitalk/gitalk/issues/102
-        proxy: {{- .proxy -}},
-    });
-    (function () {
-        if (
-            ["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1
-        ) {
-            document.getElementById("gitalk-container").innerHTML =
-                "Gitalk comments not available by default when the website is previewed locally.";
-            return;
-        }
-        gitalk.render("gitalk-container");
-    })();
+document.addEventListener('DOMContentLoaded', function() {
+    // 检查是否在本地环境
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) !== -1) {
+        document.getElementById("gitalk-container").innerHTML =
+            '<div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">' +
+            '<p>📝 Gitalk评论系统</p>' +
+            '<p>评论功能在本地预览时不可用，请在线上环境查看。</p>' +
+            '</div>';
+        return;
+    }
+
+    // 检查必要的配置
+    {{- if and .clientID .clientSecret .owner .repo -}}
+    try {
+        // 生成唯一ID（限制在50字符以内）
+        const pageId = md5(location.pathname).substring(0, 50);
+
+        const gitalk = new Gitalk({
+            clientID: "{{- .clientID -}}",
+            clientSecret: "{{- .clientSecret -}}",
+            repo: "{{- .repo -}}",
+            owner: "{{- .owner -}}",
+            admin: ["{{- .admin -}}"],
+            id: pageId,
+            distractionFreeMode: false,
+            pagerDirection: 'last',
+            createIssueManually: false,
+            {{- if .proxy -}}
+            proxy: "{{- .proxy -}}",
+            {{- end -}}
+            // 本地化设置
+            language: 'zh-CN',
+            perPage: 10,
+            // 启用表情符号
+            enableHotKey: true,
+            // 标签设置
+            labels: ['gitalk', 'comment'],
+            // 主题适配
+            theme: document.documentElement.getAttribute('data-scheme') || 'light'
+        });
+
+        // 渲染评论
+        gitalk.render('gitalk-container');
+
+        // 监听主题变化
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-scheme') {
+                    // 主题变化时重新渲染（可选）
+                    console.log('Theme changed, Gitalk will adapt automatically');
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['data-scheme']
+        });
+
+    } catch (error) {
+        console.error('Gitalk initialization error:', error);
+        document.getElementById("gitalk-container").innerHTML =
+            '<div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">' +
+            '<p>❌ 评论系统加载失败</p>' +
+            '<p>请检查网络连接或稍后重试。</p>' +
+            '</div>';
+    }
+    {{- else -}}
+    // 配置不完整的提示
+    document.getElementById("gitalk-container").innerHTML =
+        '<div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">' +
+        '<p>⚙️ 评论系统配置中</p>' +
+        '<p>管理员正在配置GitHub OAuth应用，评论功能即将开放。</p>' +
+        '</div>';
+    {{- end -}}
+});
 </script>
 {{ end }}

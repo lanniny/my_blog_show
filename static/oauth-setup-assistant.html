@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub OAuth应用配置助手</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #24292e 0%, #2f363d 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .step {
+            margin-bottom: 30px;
+            padding: 25px;
+            border: 2px solid #e1e4e8;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            border-color: #0366d6;
+            box-shadow: 0 4px 12px rgba(3,102,214,0.1);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .step-number {
+            background: #0366d6;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #24292e;
+        }
+        
+        .step-content {
+            margin-left: 45px;
+        }
+        
+        .config-form {
+            background: #f6f8fa;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #24292e;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5da;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #0366d6;
+            box-shadow: 0 0 0 3px rgba(3,102,214,0.1);
+        }
+        
+        .btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #218838;
+        }
+        
+        .btn-primary {
+            background: #0366d6;
+        }
+        
+        .btn-primary:hover {
+            background: #0256cc;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .code-block {
+            background: #f6f8fa;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .progress {
+            background: #e1e4e8;
+            border-radius: 10px;
+            height: 8px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #28a745, #20c997);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .link-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 16px;
+            background: #f6f8fa;
+            border: 1px solid #d1d5da;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #24292e;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .link-btn:hover {
+            background: #e1e4e8;
+            text-decoration: none;
+        }
+        
+        .status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-complete {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 GitHub OAuth应用配置助手</h1>
+            <p>为Lanniny博客配置Gitalk评论系统</p>
+        </div>
+        
+        <div class="content">
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">访问GitHub开发者设置</div>
+                    <div class="status status-pending" id="status1">待完成</div>
+                </div>
+                <div class="step-content">
+                    <p>首先需要访问GitHub的开发者设置页面来创建OAuth应用。</p>
+                    <div class="links">
+                        <a href="https://github.com/settings/developers" target="_blank" class="link-btn">
+                            🔗 打开GitHub开发者设置
+                        </a>
+                        <button class="btn btn-primary" onclick="markStepComplete(1)">已完成此步骤</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">创建新的OAuth应用</div>
+                    <div class="status status-pending" id="status2">待完成</div>
+                </div>
+                <div class="step-content">
+                    <p>在开发者设置页面，点击"OAuth Apps"，然后点击"New OAuth App"按钮。</p>
+                    <div class="alert alert-warning">
+                        <strong>注意：</strong> 如果这是您第一次创建应用，按钮可能显示为"Register a new application"。
+                    </div>
+                    <button class="btn btn-primary" onclick="markStepComplete(2)">已完成此步骤</button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">填写应用信息</div>
+                    <div class="status status-pending" id="status3">待完成</div>
+                </div>
+                <div class="step-content">
+                    <p>请按照以下信息准确填写OAuth应用的配置：</p>
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label>Application name</label>
+                            <input type="text" value="Lanniny Blog Comments" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Homepage URL</label>
+                            <input type="text" value="https://lanniny-blog.netlify.app" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Application description</label>
+                            <input type="text" value="Gitalk评论系统 - 基于GitHub Issues的博客评论功能" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Authorization callback URL</label>
+                            <input type="text" value="https://lanniny-blog.netlify.app" readonly>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning">
+                        <strong>重要：</strong> 请确保URL信息完全正确，否则OAuth认证将失败。
+                    </div>
+                    <button class="btn btn-primary" onclick="markStepComplete(3)">已完成此步骤</button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">获取认证信息</div>
+                    <div class="status status-pending" id="status4">待完成</div>
+                </div>
+                <div class="step-content">
+                    <p>创建应用后，您将获得Client ID和Client Secret：</p>
+                    <div class="config-form">
+                        <div class="form-group">
+                            <label>Client ID</label>
+                            <input type="text" id="clientId" placeholder="复制您的Client ID到这里">
+                        </div>
+                        <div class="form-group">
+                            <label>Client Secret</label>
+                            <input type="text" id="clientSecret" placeholder="复制您的Client Secret到这里">
+                        </div>
+                    </div>
+                    <div class="alert alert-warning">
+                        <strong>重要：</strong> Client Secret只会显示一次，请立即复制并保存！
+                    </div>
+                    <button class="btn btn-primary" onclick="markStepComplete(4)">已获取认证信息</button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">更新博客配置</div>
+                    <div class="status status-pending" id="status5">待完成</div>
+                </div>
+                <div class="step-content">
+                    <p>将获得的认证信息更新到博客配置中：</p>
+                    <div class="code-block" id="configCode">
+# 在 blog/hugo.yaml 文件中更新以下配置：
+gitalk:
+    owner: lanniny
+    admin: lanniny
+    repo: my_blog_source
+    clientID: "您的Client ID"
+    clientSecret: "您的Client Secret"
+    proxy: "https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token"
+                    </div>
+                    <button class="btn" onclick="generateConfig()">生成配置代码</button>
+                    <button class="btn btn-primary" onclick="markStepComplete(5)">已更新配置</button>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">部署和测试</div>
+                    <div class="status status-pending" id="status6">待完成</div>
+                </div>
+                <div class="step-content">
+                    <p>提交更改并部署到Netlify，然后测试评论功能：</p>
+                    <div class="code-block">
+git add .
+git commit -m "feat: 配置Gitalk OAuth应用"
+git push origin main
+                    </div>
+                    <div class="links">
+                        <a href="https://lanniny-blog.netlify.app/post/test-gitalk-comments/" target="_blank" class="link-btn">
+                            🧪 测试评论功能
+                        </a>
+                        <button class="btn btn-primary" onclick="markStepComplete(6)">测试完成</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-success" id="successMessage" style="display: none;">
+                <strong>🎉 恭喜！</strong> GitHub OAuth应用配置完成，评论系统已成功启用！
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let completedSteps = 0;
+        const totalSteps = 6;
+        
+        function markStepComplete(stepNumber) {
+            const status = document.getElementById(`status${stepNumber}`);
+            if (status.textContent === '待完成') {
+                status.textContent = '已完成';
+                status.className = 'status status-complete';
+                completedSteps++;
+                updateProgress();
+                
+                if (completedSteps === totalSteps) {
+                    document.getElementById('successMessage').style.display = 'block';
+                }
+            }
+        }
+        
+        function updateProgress() {
+            const progress = (completedSteps / totalSteps) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function generateConfig() {
+            const clientId = document.getElementById('clientId').value;
+            const clientSecret = document.getElementById('clientSecret').value;
+            
+            if (clientId && clientSecret) {
+                const config = `# 在 blog/hugo.yaml 文件中更新以下配置：
+gitalk:
+    owner: lanniny
+    admin: lanniny
+    repo: my_blog_source
+    clientID: "${clientId}"
+    clientSecret: "${clientSecret}"
+    proxy: "https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token"`;
+                
+                document.getElementById('configCode').textContent = config;
+                
+                // 复制到剪贴板
+                navigator.clipboard.writeText(config).then(() => {
+                    alert('配置代码已复制到剪贴板！');
+                });
+            } else {
+                alert('请先填写Client ID和Client Secret！');
+            }
+        }
+        
+        // 自动检查GitHub页面状态
+        function checkGitHubStatus() {
+            // 这里可以添加更多的自动检查逻辑
+            console.log('GitHub OAuth配置助手已加载');
+        }
+        
+        window.onload = checkGitHubStatus;
+    </script>
+</body>
+</html>
