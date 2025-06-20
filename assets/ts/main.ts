@@ -525,10 +525,31 @@ let Stack = {
      * Update site avatar
      */
     updateSiteAvatar: (avatarUrl: string) => {
-        const siteAvatar = document.querySelector('.site-avatar img') as HTMLImageElement;
-        if (siteAvatar) {
-            siteAvatar.src = avatarUrl;
-        }
+        // 扩展选择器覆盖范围，确保所有头像位置都更新
+        const avatarSelectors = [
+            '.site-avatar img',      // 通用头像选择器
+            '.site-logo',            // sidebar中的头像类
+            '.site-avatar .site-logo', // 组合选择器
+            '[data-avatar]'          // 自定义头像属性
+        ];
+
+        avatarSelectors.forEach(selector => {
+            const avatar = document.querySelector(selector) as HTMLImageElement;
+            if (avatar) {
+                avatar.src = avatarUrl;
+                console.log(`✅ Updated avatar for selector: ${selector}`);
+            }
+        });
+
+        // 额外检查：确保所有可能的头像元素都被更新
+        const allAvatars = document.querySelectorAll('img[alt*="Avatar"], img[alt*="avatar"]');
+        allAvatars.forEach((img: HTMLImageElement) => {
+            // 只更新非管理面板的头像
+            if (!img.id || !img.id.includes('admin')) {
+                img.src = avatarUrl;
+                console.log(`✅ Updated additional avatar: ${img.className || img.id || 'unnamed'}`);
+            }
+        });
     },
 
     /**
