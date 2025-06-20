@@ -1007,3 +1007,194 @@ kbd {
         transform: translateY(0);
     }
 }
+
+/* ========================================
+   搜索框UI修复 - 解决文本重叠问题
+   ======================================== */
+
+/* 修复搜索框label和input文本重叠问题 */
+.search-form {
+    /* 确保搜索框容器有足够的相对定位空间 */
+    position: relative;
+
+    /* 主搜索框样式优化 */
+    label {
+        position: absolute;
+        top: 12px !important; /* 调整label位置，避免与input文本重叠 */
+        inset-inline-start: 20px;
+        font-size: 1.3rem !important; /* 稍微减小字体避免视觉冲突 */
+        color: var(--card-text-color-tertiary);
+        z-index: 2; /* 确保label在input之上 */
+        pointer-events: none; /* 防止label阻挡input点击 */
+        transition: all 0.3s ease; /* 平滑过渡效果 */
+        transform-origin: left top;
+    }
+
+    input {
+        padding: 45px 20px 18px 20px !important; /* 增加top padding为label留出空间 */
+        border-radius: var(--card-border-radius);
+        background-color: var(--card-background);
+        box-shadow: var(--shadow-l1);
+        color: var(--card-text-color-main);
+        width: 100%;
+        border: 0;
+        font-size: 1.6rem !important; /* 稍微减小字体大小 */
+        line-height: 1.4;
+        transition: all 0.3s ease;
+
+        /* 确保placeholder不与label重叠 */
+        &::placeholder {
+            color: transparent; /* 隐藏placeholder，使用label代替 */
+        }
+
+        /* focus状态优化 */
+        &:focus {
+            outline: 0;
+            box-shadow: var(--shadow-l2);
+
+            /* focus时label动画效果 */
+            + label,
+            ~ label {
+                transform: translateY(-8px) scale(0.85);
+                color: var(--accent-color);
+                font-weight: 500;
+            }
+        }
+
+        /* 有内容时label保持缩小状态 */
+        &:not(:placeholder-shown) {
+            + label,
+            ~ label {
+                transform: translateY(-8px) scale(0.85);
+                color: var(--card-text-color-secondary);
+            }
+        }
+    }
+
+    /* Widget版本的搜索框特殊处理 */
+    &.widget {
+        label {
+            font-size: 1.2rem !important;
+            top: 8px !important; /* Widget版本的label位置调整 */
+        }
+
+        input {
+            font-size: 1.4rem !important;
+            padding: 35px 20px 12px 20px !important; /* Widget版本的padding调整 */
+        }
+    }
+
+    /* 搜索按钮确保不被遮挡 */
+    button {
+        position: absolute;
+        inset-inline-end: 0;
+        top: 0;
+        height: 100%;
+        width: var(--button-size);
+        cursor: pointer;
+        background-color: transparent;
+        border: 0;
+        z-index: 3; /* 确保按钮在最上层 */
+
+        svg {
+            color: var(--card-text-color-secondary);
+            stroke-width: 1.33;
+            transition: all 0.3s ease;
+            width: 20px;
+            height: 20px;
+        }
+
+        &:hover svg {
+            color: var(--accent-color);
+            stroke-width: 2;
+        }
+
+        &:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+    }
+}
+
+/* 响应式设计优化 */
+@media (max-width: 768px) {
+    .search-form {
+        label {
+            font-size: 1.1rem !important;
+            top: 10px !important;
+        }
+
+        input {
+            font-size: 1.4rem !important;
+            padding: 40px 15px 15px 15px !important;
+        }
+
+        &.widget {
+            label {
+                font-size: 1rem !important;
+                top: 6px !important;
+            }
+
+            input {
+                font-size: 1.2rem !important;
+                padding: 32px 15px 10px 15px !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .search-form {
+        label {
+            font-size: 1rem !important;
+            top: 8px !important;
+        }
+
+        input {
+            font-size: 1.3rem !important;
+            padding: 38px 12px 12px 12px !important;
+        }
+    }
+}
+
+/* 深色模式优化 */
+[data-scheme="dark"] {
+    .search-form {
+        label {
+            color: var(--card-text-color-tertiary);
+        }
+
+        input:focus ~ label {
+            color: var(--accent-color);
+        }
+    }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+    .search-form {
+        label {
+            font-weight: 600;
+        }
+
+        input {
+            border: 2px solid var(--card-separator-color);
+        }
+
+        input:focus {
+            border-color: var(--accent-color);
+        }
+    }
+}
+
+/* 减少动画的用户偏好支持 */
+@media (prefers-reduced-motion: reduce) {
+    .search-form {
+        label,
+        input,
+        button svg {
+            transition: none;
+        }
+    }
+}
