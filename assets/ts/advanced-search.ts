@@ -48,11 +48,11 @@ class AdvancedSearch {
     constructor(originalSearchInstance: any) {
         this.originalSearch = originalSearchInstance;
         this.form = document.querySelector('.search-form') as HTMLFormElement;
-        this.filtersPanel = document.getElementById('advanced-filters-panel');
+        this.filtersPanel = document.getElementById('search-filters');
         this.toggleButton = document.querySelector('.advanced-toggle-btn');
-        this.closeButton = document.querySelector('.filters-close');
-        this.tagFilterInput = document.querySelector('.tag-filter-input') as HTMLInputElement;
-        this.tagFilterDropdown = document.querySelector('.tag-filter-dropdown');
+        this.closeButton = null; // 简化版本没有关闭按钮
+        this.tagFilterInput = null; // 简化版本使用select
+        this.tagFilterDropdown = null;
 
         this.init();
     }
@@ -82,25 +82,18 @@ class AdvancedSearch {
             });
         }
 
-        // 关闭筛选面板
-        if (this.closeButton) {
-            this.closeButton.addEventListener('click', () => {
-                this.hideFiltersPanel();
-            });
-        }
-
-        // 清除筛选按钮
-        const clearBtn = document.querySelector('.btn-clear');
-        if (clearBtn) {
-            clearBtn.addEventListener('click', () => {
+        // 重置筛选按钮
+        const resetBtn = document.querySelector('.btn-reset');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
                 this.clearFilters();
             });
         }
 
-        // 应用筛选按钮
-        const applyBtn = document.querySelector('.btn-apply');
-        if (applyBtn) {
-            applyBtn.addEventListener('click', (e) => {
+        // 搜索按钮
+        const searchBtn = document.querySelector('.btn-search');
+        if (searchBtn) {
+            searchBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.performAdvancedSearch();
             });
@@ -111,13 +104,6 @@ class AdvancedSearch {
             e.preventDefault();
             this.performAdvancedSearch();
         });
-
-        // 标签筛选输入
-        if (this.tagFilterInput) {
-            this.tagFilterInput.addEventListener('input', () => {
-                this.filterTagOptions();
-            });
-        }
     }
 
     /**
@@ -127,82 +113,20 @@ class AdvancedSearch {
         this.isFiltersVisible = !this.isFiltersVisible;
 
         if (this.isFiltersVisible) {
-            this.showFiltersPanel();
+            this.filtersPanel.classList.add('show');
+            this.toggleButton.classList.add('active');
         } else {
-            this.hideFiltersPanel();
+            this.filtersPanel.classList.remove('show');
+            this.toggleButton.classList.remove('active');
         }
     }
 
     /**
-     * 显示筛选面板
-     */
-    showFiltersPanel(): void {
-        this.isFiltersVisible = true;
-        this.filtersPanel.classList.add('show');
-        this.toggleButton.classList.add('active');
-    }
-
-    /**
-     * 隐藏筛选面板
-     */
-    hideFiltersPanel(): void {
-        this.isFiltersVisible = false;
-        this.filtersPanel.classList.remove('show');
-        this.toggleButton.classList.remove('active');
-    }
-
-    /**
-     * 初始化标签筛选功能
+     * 初始化标签筛选功能 - 简化版本
      */
     initTagFilter(): void {
-        if (!this.tagFilterDropdown) return;
-
-        // 点击外部关闭下拉菜单
-        document.addEventListener('click', (e) => {
-            if (!this.tagFilterInput.contains(e.target as Node) && 
-                !this.tagFilterDropdown.contains(e.target as Node)) {
-                this.tagFilterDropdown.classList.remove('show');
-            }
-        });
-
-        // 点击输入框显示下拉菜单
-        this.tagFilterInput.addEventListener('focus', () => {
-            this.tagFilterDropdown.classList.add('show');
-        });
-
-        // 标签选项点击事件
-        const tagOptions = this.tagFilterDropdown.querySelectorAll('input[type="checkbox"]');
-        tagOptions.forEach(option => {
-            option.addEventListener('change', () => {
-                this.updateTagFilterInput();
-            });
-        });
-    }
-
-    /**
-     * 筛选标签选项
-     */
-    filterTagOptions(): void {
-        const query = this.tagFilterInput.value.toLowerCase();
-        const options = this.tagFilterDropdown.querySelectorAll('.tag-option');
-
-        options.forEach(option => {
-            const tagName = option.querySelector('.tag-text').textContent.toLowerCase();
-            const isVisible = tagName.includes(query);
-            (option as HTMLElement).style.display = isVisible ? 'flex' : 'none';
-        });
-    }
-
-    /**
-     * 更新标签筛选输入框显示
-     */
-    updateTagFilterInput(): void {
-        const selectedTags = Array.from(
-            this.tagFilterDropdown.querySelectorAll('input[type="checkbox"]:checked')
-        ).map(input => (input as HTMLInputElement).value);
-
-        this.tagFilterInput.value = selectedTags.join(', ');
-        this.tagFilterInput.placeholder = selectedTags.length > 0 ? '' : '搜索标签...';
+        // 简化版本使用select，无需复杂的下拉菜单逻辑
+        console.log('使用简化的标签筛选');
     }
 
     /**
@@ -210,16 +134,17 @@ class AdvancedSearch {
      */
     getCurrentFilters(): SearchFilters {
         const categorySelect = this.form.querySelector('select[name="category"]') as HTMLSelectElement;
-        const tagCheckboxes = this.form.querySelectorAll('input[name="tags"]:checked');
-        const dateFromInput = this.form.querySelector('input[name="date-from"]') as HTMLInputElement;
-        const dateToInput = this.form.querySelector('input[name="date-to"]') as HTMLInputElement;
+        const tagsSelect = this.form.querySelector('select[name="tags"]') as HTMLSelectElement;
         const sortSelect = this.form.querySelector('select[name="sort"]') as HTMLSelectElement;
+
+        // 获取多选标签
+        const selectedTags = tagsSelect ? Array.from(tagsSelect.selectedOptions).map(option => option.value) : [];
 
         return {
             category: categorySelect?.value || '',
-            tags: Array.from(tagCheckboxes).map(cb => (cb as HTMLInputElement).value),
-            dateFrom: dateFromInput?.value || '',
-            dateTo: dateToInput?.value || '',
+            tags: selectedTags,
+            dateFrom: '', // 简化版本暂时移除日期筛选
+            dateTo: '',
             sort: sortSelect?.value || 'relevance'
         };
     }
@@ -394,18 +319,12 @@ class AdvancedSearch {
     clearFilters(): void {
         // 重置表单
         const categorySelect = this.form.querySelector('select[name="category"]') as HTMLSelectElement;
-        const tagCheckboxes = this.form.querySelectorAll('input[name="tags"]');
-        const dateInputs = this.form.querySelectorAll('input[type="date"]');
+        const tagsSelect = this.form.querySelector('select[name="tags"]') as HTMLSelectElement;
         const sortSelect = this.form.querySelector('select[name="sort"]') as HTMLSelectElement;
 
         if (categorySelect) categorySelect.value = '';
-        tagCheckboxes.forEach(cb => (cb as HTMLInputElement).checked = false);
-        dateInputs.forEach(input => (input as HTMLInputElement).value = '');
+        if (tagsSelect) tagsSelect.selectedIndex = -1; // 清除多选
         if (sortSelect) sortSelect.value = 'relevance';
-        if (this.tagFilterInput) {
-            this.tagFilterInput.value = '';
-            this.tagFilterInput.placeholder = '搜索标签...';
-        }
 
         // 重新执行搜索
         this.performAdvancedSearch();

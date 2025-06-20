@@ -24,72 +24,41 @@
         </div>
     </div>
 
-    <!-- 高级搜索面板 -->
-    <div class="advanced-filters-panel" id="advanced-filters-panel">
-        <div class="filters-header">
-            <h4 class="filters-title">🔍 高级搜索选项</h4>
-            <button type="button" class="filters-close" title="关闭高级搜索">×</button>
-        </div>
-
-        <div class="filters-content">
-            <!-- 分类和排序 - 两列布局 -->
-            <div class="filter-two-columns">
-                <div class="filter-item">
-                    <label class="filter-label">📁 分类筛选</label>
-                    <select name="category" class="filter-select">
-                        <option value="">所有分类</option>
-                        {{ range .Site.Taxonomies.categories }}
-                            <option value="{{ .Page.Title }}">{{ .Page.Title }} ({{ len .Pages }})</option>
-                        {{ end }}
-                    </select>
-                </div>
-
-                <div class="filter-item">
-                    <label class="filter-label">📊 排序方式</label>
-                    <select name="sort" class="filter-select">
-                        <option value="relevance">相关性</option>
-                        <option value="date-desc">最新发布</option>
-                        <option value="date-asc">最早发布</option>
-                        <option value="title">标题排序</option>
-                    </select>
-                </div>
+    <!-- 简化的高级搜索面板 -->
+    <div class="search-filters" id="search-filters">
+        <div class="filters-container">
+            <div class="filter-row">
+                <label>分类：</label>
+                <select name="category">
+                    <option value="">全部</option>
+                    {{ range .Site.Taxonomies.categories }}
+                        <option value="{{ .Page.Title }}">{{ .Page.Title }}</option>
+                    {{ end }}
+                </select>
             </div>
 
-            <!-- 标签筛选 - 独立一行 -->
-            <div class="filter-section">
-                <div class="filter-item">
-                    <label class="filter-label">🏷️ 标签筛选</label>
-                    <div class="tag-filter-wrapper">
-                        <input type="text" class="tag-filter-input" placeholder="搜索标签..." />
-                        <div class="tag-filter-dropdown">
-                            {{ range .Site.Taxonomies.tags }}
-                                <label class="tag-option">
-                                    <input type="checkbox" name="tags" value="{{ .Page.Title }}" />
-                                    <span class="tag-text">{{ .Page.Title }}</span>
-                                    <span class="tag-count">({{ len .Pages }})</span>
-                                </label>
-                            {{ end }}
-                        </div>
-                    </div>
-                </div>
+            <div class="filter-row">
+                <label>排序：</label>
+                <select name="sort">
+                    <option value="relevance">相关性</option>
+                    <option value="date-desc">最新</option>
+                    <option value="date-asc">最早</option>
+                </select>
             </div>
 
-            <!-- 时间范围 - 独立一行 -->
-            <div class="filter-section">
-                <div class="filter-item">
-                    <label class="filter-label">📅 时间范围</label>
-                    <div class="date-range-wrapper">
-                        <input type="date" name="date-from" class="date-input" />
-                        <span class="date-separator">至</span>
-                        <input type="date" name="date-to" class="date-input" />
-                    </div>
-                </div>
+            <div class="filter-row">
+                <label>标签：</label>
+                <select name="tags" multiple>
+                    {{ range .Site.Taxonomies.tags }}
+                        <option value="{{ .Page.Title }}">{{ .Page.Title }}</option>
+                    {{ end }}
+                </select>
             </div>
-        </div>
 
-        <div class="filters-actions">
-            <button type="button" class="btn-clear">清除筛选</button>
-            <button type="submit" class="btn-apply">应用筛选</button>
+            <div class="filter-actions">
+                <button type="button" class="btn-reset">重置</button>
+                <button type="submit" class="btn-search">搜索</button>
+            </div>
         </div>
     </div>
 </form>
