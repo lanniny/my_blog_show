@@ -22,16 +22,36 @@
         // 检查Hugo配置中的评论提供商
         checkProvider() {
             // 通过页面中的脚本标签推断当前使用的评论系统
-            const scripts = Array.from(document.querySelectorAll('script')).map(s => s.src);
-            
-            if (scripts.some(src => src.includes('gitalk'))) {
+            var scripts = document.querySelectorAll('script');
+            var scriptSrcs = [];
+
+            for (var i = 0; i < scripts.length; i++) {
+                if (scripts[i].src) {
+                    scriptSrcs.push(scripts[i].src);
+                }
+            }
+
+            var hasGitalk = false;
+            var hasDisqus = false;
+            var hasUtterances = false;
+            var hasGiscus = false;
+
+            for (var j = 0; j < scriptSrcs.length; j++) {
+                var src = scriptSrcs[j];
+                if (src.indexOf('gitalk') !== -1) hasGitalk = true;
+                if (src.indexOf('disqus') !== -1) hasDisqus = true;
+                if (src.indexOf('utterances') !== -1) hasUtterances = true;
+                if (src.indexOf('giscus') !== -1) hasGiscus = true;
+            }
+
+            if (hasGitalk) {
                 this.results.provider = 'gitalk';
                 this.results.scriptsLoaded = true;
-            } else if (scripts.some(src => src.includes('disqus'))) {
+            } else if (hasDisqus) {
                 this.results.provider = 'disqus';
-            } else if (scripts.some(src => src.includes('utterances'))) {
+            } else if (hasUtterances) {
                 this.results.provider = 'utterances';
-            } else if (scripts.some(src => src.includes('giscus'))) {
+            } else if (hasGiscus) {
                 this.results.provider = 'giscus';
             } else {
                 this.results.provider = 'unknown';
@@ -68,10 +88,17 @@
 
         // 检查CSS样式加载
         checkStyles() {
-            const gitalkCSS = Array.from(document.querySelectorAll('link')).some(link => 
-                link.href && link.href.includes('gitalk.css')
-            );
-            
+            var links = document.querySelectorAll('link');
+            var gitalkCSS = false;
+
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i];
+                if (link.href && link.href.indexOf('gitalk.css') !== -1) {
+                    gitalkCSS = true;
+                    break;
+                }
+            }
+
             if (gitalkCSS) {
                 this.results.stylesLoaded = true;
             } else {
@@ -81,20 +108,22 @@
         }
 
         // 执行完整检查
-        async runCheck() {
+        runCheck() {
+            var self = this;
             console.log('🔍 开始评论系统状态检查...');
-            
+
             this.checkProvider();
             this.checkGitalkConfig();
             this.checkStyles();
 
             // 等待一下，让异步加载的内容有时间渲染
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // 再次检查容器状态
-            this.checkGitalkConfig();
-
-            return this.results;
+            return new Promise(function(resolve) {
+                setTimeout(function() {
+                    // 再次检查容器状态
+                    self.checkGitalkConfig();
+                    resolve(self.results);
+                }, 1000);
+            });
         }
 
         // 生成检查报告
@@ -158,31 +187,31 @@
             const report = this.generateReport();
             
             console.log('\n📊 评论系统检查报告');
-            console.log('='.repeat(50));
-            console.log(`🕐 检查时间: ${report.timestamp}`);
-            console.log(`📈 整体状态: ${this.getStatusEmoji(report.status)} ${report.status.toUpperCase()}`);
-            
+            console.log('==================================================');
+            console.log('🕐 检查时间: ' + report.timestamp);
+            console.log('📈 整体状态: ' + this.getStatusEmoji(report.status) + ' ' + report.status.toUpperCase());
+
             console.log('\n📋 详细信息:');
-            console.log(`  评论提供商: ${report.details.provider || '未知'}`);
-            console.log(`  Gitalk容器: ${report.details.containerFound ? '✅ 找到' : '❌ 未找到'}`);
-            console.log(`  脚本加载: ${report.details.scriptsLoaded ? '✅ 已加载' : '❌ 未加载'}`);
-            console.log(`  配置状态: ${report.details.gitalkConfig || '未知'}`);
+            console.log('  评论提供商: ' + (report.details.provider || '未知'));
+            console.log('  Gitalk容器: ' + (report.details.containerFound ? '✅ 找到' : '❌ 未找到'));
+            console.log('  脚本加载: ' + (report.details.scriptsLoaded ? '✅ 已加载' : '❌ 未加载'));
+            console.log('  配置状态: ' + (report.details.gitalkConfig || '未知'));
             
             if (report.details.errors.length > 0) {
                 console.log('\n❌ 发现的问题:');
-                report.details.errors.forEach((error, index) => {
-                    console.log(`  ${index + 1}. ${error}`);
-                });
+                for (var i = 0; i < report.details.errors.length; i++) {
+                    console.log('  ' + (i + 1) + '. ' + report.details.errors[i]);
+                }
             }
-            
+
             if (report.recommendations.length > 0) {
                 console.log('\n💡 建议操作:');
-                report.recommendations.forEach((rec, index) => {
-                    console.log(`  ${index + 1}. ${rec}`);
-                });
+                for (var j = 0; j < report.recommendations.length; j++) {
+                    console.log('  ' + (j + 1) + '. ' + report.recommendations[j]);
+                }
             }
             
-            console.log('='.repeat(50));
+            console.log('==================================================');
             
             return report;
         }
@@ -201,20 +230,20 @@
     }
 
     // 自动运行检查（仅在文章页面）
-    if (document.body.classList.contains('article-page') || 
+    if (document.body.classList.contains('article-page') ||
         document.querySelector('article.post') ||
-        window.location.pathname.includes('/post/')) {
-        
-        document.addEventListener('DOMContentLoaded', async function() {
+        window.location.pathname.indexOf('/post/') !== -1) {
+
+        document.addEventListener('DOMContentLoaded', function() {
             // 等待页面完全加载
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            
-            const checker = new CommentSystemChecker();
-            await checker.runCheck();
-            const report = checker.logReport();
-            
-            // 将报告存储到全局变量，方便调试
-            window.commentSystemReport = report;
+            setTimeout(function() {
+                var checker = new CommentSystemChecker();
+                checker.runCheck().then(function() {
+                    var report = checker.logReport();
+                    // 将报告存储到全局变量，方便调试
+                    window.commentSystemReport = report;
+                });
+            }, 2000);
         });
     }
 
@@ -222,10 +251,11 @@
     window.CommentSystemChecker = CommentSystemChecker;
 
     // 提供手动检查函数
-    window.checkCommentSystem = async function() {
-        const checker = new CommentSystemChecker();
-        await checker.runCheck();
-        return checker.logReport();
+    window.checkCommentSystem = function() {
+        var checker = new CommentSystemChecker();
+        return checker.runCheck().then(function() {
+            return checker.logReport();
+        });
     };
 
 })();

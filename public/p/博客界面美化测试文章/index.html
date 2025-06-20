@@ -823,9 +823,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
         
-        const pageId = md5(location.pathname).substring(0, 50);
+        var pageId = md5(location.pathname).substring(0, 50);
 
-        const gitalk = new Gitalk({
+        var gitalk = new Gitalk({
             clientID: "Ov23li9uepNcJIfMUmP1",
             clientSecret: "65abca1c431ab760ddc6b52f81533569cc90e5e9",
             repo: "my_blog_source",
@@ -849,13 +849,14 @@ document.addEventListener('DOMContentLoaded', function() {
         gitalk.render('gitalk-container');
 
         
-        const observer = new MutationObserver(function(mutations) {
-            mutations.forEach(function(mutation) {
+        var observer = new MutationObserver(function(mutations) {
+            for (var i = 0; i < mutations.length; i++) {
+                var mutation = mutations[i];
                 if (mutation.type === 'attributes' && mutation.attributeName === 'data-scheme') {
                     
                     console.log('Theme changed, Gitalk will adapt automatically');
                 }
-            });
+            }
         });
 
         observer.observe(document.documentElement, {
