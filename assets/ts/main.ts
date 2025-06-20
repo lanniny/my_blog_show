@@ -37,6 +37,16 @@ let Stack = {
                 case 'authenticated':
                     AuthUtils.hideLoginModal();
                     console.log('Admin authenticated successfully');
+
+                    // Force show admin elements after successful authentication
+                    setTimeout(() => {
+                        console.log('🔧 Force showing admin elements after authentication');
+                        const adminElements = document.querySelectorAll('[data-admin-only]');
+                        adminElements.forEach(el => {
+                            (el as HTMLElement).style.display = 'block';
+                        });
+                        console.log('✅ Admin elements forced to show');
+                    }, 100);
                     break;
                 case 'failed':
                     AuthUtils.showLoginError('密码错误');
