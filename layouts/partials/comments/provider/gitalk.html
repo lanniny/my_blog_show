@@ -260,5 +260,16 @@ document.addEventListener('DOMContentLoaded', function() {
     {{- end -}}
     console.log('ℹ️ 已显示Gitalk配置指南');
     {{- end -}}
+    {{- else -}}
+    // Gitalk未启用或配置不完整
+    document.getElementById("gitalk-container").innerHTML = `
+        <div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">
+            <p>💬 评论系统未启用</p>
+            <p>管理员正在配置评论功能，请稍后再试。</p>
+        </div>
+    `;
+    console.log('ℹ️ Gitalk未启用或配置不完整');
+    {{- end -}}
+});
 </script>
 {{ end }}
