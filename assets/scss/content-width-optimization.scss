@@ -1,0 +1,341 @@
+/* Content Width Optimization - Expand Blog Content Display Area */
+
+/* ===== 内容宽度优化变量 ===== */
+:root {
+    /* 扩展内容宽度 - 更适合现代博客 */
+    --content-width-optimal: 85ch;     /* 从65ch扩展到85ch */
+    --content-width-wide: 100ch;       /* 从80ch扩展到100ch */
+    --content-width-narrow: 60ch;      /* 从45ch扩展到60ch */
+    --content-width-full: none;        /* 全宽选项 */
+    
+    /* 文章内容专用宽度 */
+    --article-content-width: 90ch;     /* 文章内容最佳宽度 */
+    --article-content-max: 95%;        /* 最大宽度百分比 */
+}
+
+/* ===== 主要内容区域扩展 ===== */
+
+/* 文章内容区域 - 大幅扩展 */
+.article-content,
+.post-content {
+    max-width: var(--article-content-width) !important; /* 从55ch扩展到90ch */
+    margin: 0 auto !important;
+    width: var(--article-content-max) !important;
+    font-size: var(--font-size-base) !important;
+    line-height: var(--line-height-relaxed) !important;
+    color: var(--color-text-primary) !important;
+}
+
+/* 段落宽度扩展 */
+.article-content p,
+.post-content p {
+    max-width: none !important; /* 移除段落宽度限制 */
+    font-size: var(--font-size-base) !important;
+    line-height: var(--line-height-relaxed) !important;
+    color: var(--color-text-primary) !important;
+    margin-bottom: var(--spacing-md) !important;
+}
+
+/* 列表宽度扩展 */
+.article-content ul,
+.article-content ol,
+.post-content ul,
+.post-content ol {
+    max-width: none !important; /* 移除列表宽度限制 */
+    margin-bottom: var(--spacing-md) !important;
+    padding-left: var(--spacing-lg) !important;
+}
+
+/* 引用块宽度扩展 */
+.article-content blockquote,
+.post-content blockquote {
+    max-width: none !important; /* 移除引用块宽度限制 */
+    background: var(--color-background-secondary) !important;
+    border-left: 4px solid var(--color-primary) !important;
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0 !important;
+    padding: var(--spacing-lg) !important;
+    margin: var(--spacing-lg) 0 !important;
+    font-style: italic !important;
+    color: var(--color-text-secondary) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* 代码块宽度扩展 */
+.article-content pre,
+.post-content pre {
+    max-width: none !important; /* 移除代码块宽度限制 */
+    background: var(--color-background-secondary) !important;
+    border: 1px solid var(--color-border) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: var(--spacing-lg) !important;
+    overflow-x: auto !important;
+    margin: var(--spacing-lg) 0 !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+/* 表格宽度扩展 */
+.article-content table,
+.post-content table {
+    max-width: none !important; /* 移除表格宽度限制 */
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: var(--spacing-lg) 0 !important;
+    background: var(--color-background) !important;
+    border-radius: var(--radius-lg) !important;
+    overflow: hidden !important;
+    box-shadow: var(--shadow-sm) !important;
+    border: 1px solid var(--color-border) !important;
+}
+
+/* 图片宽度扩展 */
+.article-content img,
+.post-content img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: var(--radius-lg) !important;
+    margin: var(--spacing-lg) 0 !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* ===== 文章页面布局优化 ===== */
+
+/* 文章页面主容器 */
+.article-page .main,
+.post-page .main {
+    grid-template-columns: 1fr 280px !important; /* 调整侧边栏宽度 */
+    gap: var(--spacing-2xl) !important;
+    max-width: 1400px !important; /* 扩展整体宽度 */
+    margin: 0 auto !important;
+    padding: 0 var(--spacing-md) !important;
+}
+
+/* 文章主内容区域 */
+.article-page .article-content,
+.post-page .post-content {
+    max-width: none !important; /* 完全移除宽度限制 */
+    width: 100% !important;
+}
+
+/* ===== 首页和列表页面优化 ===== */
+
+/* 主容器扩展 */
+.main-container,
+.container {
+    max-width: 1300px !important; /* 从1200px扩展到1300px */
+    margin: 0 auto !important;
+    padding: 0 var(--spacing-md) !important;
+}
+
+/* 主要布局网格 */
+.main {
+    grid-template-columns: 1fr 300px !important;
+    gap: var(--spacing-2xl) !important;
+    max-width: none !important;
+}
+
+/* 文章列表内容扩展 */
+.article-list {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* 文章卡片内容扩展 */
+.article-list article,
+.article-card {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* 文章摘要扩展 */
+.article-subtitle,
+.article-excerpt {
+    max-width: none !important; /* 移除摘要宽度限制 */
+    width: 100% !important;
+}
+
+/* ===== 侧边栏优化 ===== */
+
+/* 侧边栏宽度调整 */
+.left-sidebar,
+.right-sidebar {
+    width: 280px !important; /* 稍微减小侧边栏宽度 */
+    flex-shrink: 0 !important;
+}
+
+/* Widget内容扩展 */
+.widget {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.widget-content {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* ===== 特殊内容类型优化 ===== */
+
+/* 代码高亮扩展 */
+.highlight,
+.chroma {
+    max-width: none !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+}
+
+/* 数学公式扩展 */
+.math,
+.katex-display {
+    max-width: none !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+}
+
+/* 图表和图形扩展 */
+.mermaid,
+.chart,
+.diagram {
+    max-width: none !important;
+    width: 100% !important;
+}
+
+/* ===== 响应式宽度优化 ===== */
+
+/* 大屏幕优化 */
+@media (min-width: 1400px) {
+    .main-container,
+    .container {
+        max-width: 1500px !important; /* 大屏幕进一步扩展 */
+    }
+    
+    .article-page .main,
+    .post-page .main {
+        max-width: 1600px !important;
+    }
+    
+    .article-content,
+    .post-content {
+        max-width: 100ch !important; /* 大屏幕更宽的内容 */
+    }
+}
+
+/* 中等屏幕优化 */
+@media (max-width: 1200px) and (min-width: 1024px) {
+    .main-container,
+    .container {
+        max-width: 1100px !important;
+    }
+    
+    .article-content,
+    .post-content {
+        max-width: 85ch !important;
+    }
+}
+
+/* 平板优化 */
+@media (max-width: 1024px) {
+    .main {
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-xl) !important;
+    }
+    
+    .left-sidebar,
+    .right-sidebar {
+        order: -1 !important;
+        width: 100% !important;
+        max-width: none !important;
+    }
+    
+    .article-content,
+    .post-content {
+        max-width: none !important;
+        width: 100% !important;
+    }
+    
+    .main-container,
+    .container {
+        max-width: none !important;
+        padding: 0 var(--spacing-md) !important;
+    }
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .main-container,
+    .container {
+        padding: 0 var(--spacing-sm) !important;
+    }
+    
+    .article-content,
+    .post-content {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+    }
+    
+    .article-page .main,
+    .post-page .main {
+        max-width: none !important;
+        padding: 0 var(--spacing-sm) !important;
+    }
+}
+
+/* 小屏幕优化 */
+@media (max-width: 480px) {
+    .main-container,
+    .container {
+        padding: 0 var(--spacing-xs) !important;
+    }
+    
+    .article-content,
+    .post-content {
+        font-size: var(--font-size-sm) !important;
+    }
+}
+
+/* ===== 内容类型特殊处理 ===== */
+
+/* 长文章优化 */
+.long-article .article-content,
+.long-post .post-content {
+    max-width: 95ch !important; /* 长文章稍微更宽 */
+}
+
+/* 技术文档优化 */
+.tech-doc .article-content,
+.documentation .post-content {
+    max-width: none !important; /* 技术文档全宽 */
+    width: 100% !important;
+}
+
+/* 教程类文章优化 */
+.tutorial .article-content,
+.guide .post-content {
+    max-width: 90ch !important; /* 教程适中宽度 */
+}
+
+/* ===== 打印样式优化 ===== */
+@media print {
+    .article-content,
+    .post-content {
+        max-width: none !important;
+        width: 100% !important;
+        font-size: 12pt !important;
+        line-height: 1.4 !important;
+    }
+    
+    .main-container,
+    .container {
+        max-width: none !important;
+        padding: 0 !important;
+    }
+    
+    .main {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .left-sidebar,
+    .right-sidebar {
+        display: none !important;
+    }
+}

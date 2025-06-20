@@ -9,6 +9,9 @@
 /* Import fine-tune optimization for icons, fonts, and containers */
 @import "fine-tune-optimization";
 
+/* Import content width optimization - expand blog content display area */
+@import "content-width-optimization";
+
 /* Keep only essential admin functionality */
 @import "form-validation";
 @import "admin-panel-enhance";
