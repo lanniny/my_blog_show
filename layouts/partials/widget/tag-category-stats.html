@@ -1,15 +1,14 @@
 {{/* 标签分类统计组件 */}}
 <section class="widget tag-category-stats">
-    <div class="widget-icon">
-        {{ partial "helper/icon" "tag" }}
-    </div>
-    <h2 class="widget-title section-title">标签分类统计</h2>
+    <h2 class="widget-title section-title">
+        🏷️ 标签分类统计
+    </h2>
     
     <div class="stats-container">
         {{/* 分类统计 */}}
         <div class="stats-section">
             <h3 class="stats-title">
-                {{ partial "helper/icon" "folder" }}
+                📁
                 分类统计
             </h3>
             <div class="stats-grid">
@@ -29,12 +28,12 @@
         {{/* 热门标签 */}}
         <div class="stats-section">
             <h3 class="stats-title">
-                {{ partial "helper/icon" "hash" }}
+                🏷️
                 热门标签
             </h3>
             <div class="tag-cloud-widget">
                 {{ $tags := .Site.Taxonomies.tags }}
-                {{ range $tags.ByCount | first 15 }}
+                {{ range first 15 $tags.ByCount }}
                     {{ $tagName := .Page.Title }}
                     {{ $tagCount := len .Pages }}
                     {{ $fontSize := add 0.8 (mul 0.3 (div $tagCount 5.0)) }}
@@ -52,7 +51,7 @@
         {{/* 统计概览 */}}
         <div class="stats-section">
             <h3 class="stats-title">
-                {{ partial "helper/icon" "bar-chart" }}
+                📊
                 统计概览
             </h3>
             <div class="overview-stats">
@@ -93,9 +92,7 @@
     font-weight: 600;
 }
 
-.tag-category-stats .widget-icon {
-    color: var(--accent-color);
-}
+
 
 .stats-container {
     display: flex;
@@ -123,11 +120,7 @@
     font-weight: 600;
 }
 
-.stats-title .icon {
-    width: 16px;
-    height: 16px;
-    color: var(--accent-color);
-}
+
 
 /* 分类统计样式 */
 .stats-grid {
