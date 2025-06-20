@@ -6,78 +6,91 @@
 {{ end }}
 {{ define "main" }}
 <form action="{{ .RelPermalink }}" class="search-form"{{ with .OutputFormats.Get "json" -}} data-json="{{ .RelPermalink }}"{{- end }}>
-    <div class="search-input-container">
-        <div class="search-main">
-            <label>{{ T "search.title" }}</label>
-            <input name="keyword" placeholder="{{ T `search.placeholder` }}" />
-            <button type="submit" title="{{ T `search.title` }}">
-                {{ partial "helper/icon" "search" }}
-            </button>
+    <!-- 主搜索区域 -->
+    <div class="search-main-container">
+        <div class="search-input-wrapper">
+            <label class="search-label">{{ T "search.title" }}</label>
+            <div class="search-input-group">
+                <input name="keyword" class="search-input" placeholder="{{ T `search.placeholder` }}" />
+                <button type="submit" class="search-button" title="{{ T `search.title` }}">
+                    {{ partial "helper/icon" "search" }}
+                </button>
+                <button type="button" class="advanced-toggle-btn" title="高级搜索选项">
+                    <svg class="filter-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
+                    </svg>
+                </button>
+            </div>
         </div>
-
-        <button type="button" class="advanced-search-toggle" title="高级搜索选项">
-            <span class="toggle-text">高级搜索</span>
-            <svg class="toggle-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7 10l5 5 5-5z"/>
-            </svg>
-        </button>
     </div>
 
-    <div class="advanced-search-panel" id="advanced-search-panel">
-        <div class="advanced-search-grid">
-            <!-- 分类筛选 -->
-            <div class="filter-group">
-                <label class="filter-label">分类筛选</label>
-                <select name="category" class="filter-select">
-                    <option value="">所有分类</option>
-                    {{ range .Site.Taxonomies.categories }}
-                        <option value="{{ .Page.Title }}">{{ .Page.Title }} ({{ len .Pages }})</option>
-                    {{ end }}
-                </select>
+    <!-- 高级搜索面板 -->
+    <div class="advanced-filters-panel" id="advanced-filters-panel">
+        <div class="filters-header">
+            <h4 class="filters-title">🔍 高级搜索选项</h4>
+            <button type="button" class="filters-close" title="关闭高级搜索">×</button>
+        </div>
+
+        <div class="filters-content">
+            <div class="filters-row">
+                <!-- 分类筛选 -->
+                <div class="filter-item">
+                    <label class="filter-label">📁 分类</label>
+                    <select name="category" class="filter-select">
+                        <option value="">所有分类</option>
+                        {{ range .Site.Taxonomies.categories }}
+                            <option value="{{ .Page.Title }}">{{ .Page.Title }} ({{ len .Pages }})</option>
+                        {{ end }}
+                    </select>
+                </div>
+
+                <!-- 排序选项 -->
+                <div class="filter-item">
+                    <label class="filter-label">📊 排序</label>
+                    <select name="sort" class="filter-select">
+                        <option value="relevance">相关性</option>
+                        <option value="date-desc">最新发布</option>
+                        <option value="date-asc">最早发布</option>
+                        <option value="title">标题排序</option>
+                    </select>
+                </div>
             </div>
 
-            <!-- 标签筛选 -->
-            <div class="filter-group">
-                <label class="filter-label">标签筛选</label>
-                <div class="tag-filter-container">
-                    <input type="text" class="tag-filter-input" placeholder="输入标签名称..." />
-                    <div class="tag-filter-dropdown">
-                        {{ range .Site.Taxonomies.tags }}
-                            <label class="tag-filter-option">
-                                <input type="checkbox" name="tags" value="{{ .Page.Title }}" />
-                                <span class="tag-name">{{ .Page.Title }}</span>
-                                <span class="tag-count">({{ len .Pages }})</span>
-                            </label>
-                        {{ end }}
+            <div class="filters-row">
+                <!-- 标签筛选 -->
+                <div class="filter-item filter-item-wide">
+                    <label class="filter-label">🏷️ 标签筛选</label>
+                    <div class="tag-filter-wrapper">
+                        <input type="text" class="tag-filter-input" placeholder="搜索标签..." />
+                        <div class="tag-filter-dropdown">
+                            {{ range .Site.Taxonomies.tags }}
+                                <label class="tag-option">
+                                    <input type="checkbox" name="tags" value="{{ .Page.Title }}" />
+                                    <span class="tag-text">{{ .Page.Title }}</span>
+                                    <span class="tag-count">({{ len .Pages }})</span>
+                                </label>
+                            {{ end }}
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 时间范围筛选 -->
-            <div class="filter-group">
-                <label class="filter-label">时间范围</label>
-                <div class="date-range-container">
-                    <input type="date" name="date-from" class="date-input" />
-                    <span class="date-separator">至</span>
-                    <input type="date" name="date-to" class="date-input" />
+            <div class="filters-row">
+                <!-- 时间范围筛选 -->
+                <div class="filter-item filter-item-wide">
+                    <label class="filter-label">📅 时间范围</label>
+                    <div class="date-range-wrapper">
+                        <input type="date" name="date-from" class="date-input" />
+                        <span class="date-separator">至</span>
+                        <input type="date" name="date-to" class="date-input" />
+                    </div>
                 </div>
-            </div>
-
-            <!-- 排序选项 -->
-            <div class="filter-group">
-                <label class="filter-label">排序方式</label>
-                <select name="sort" class="filter-select">
-                    <option value="relevance">相关性</option>
-                    <option value="date-desc">最新发布</option>
-                    <option value="date-asc">最早发布</option>
-                    <option value="title">标题排序</option>
-                </select>
             </div>
         </div>
 
-        <div class="advanced-search-actions">
-            <button type="button" class="btn-reset">重置筛选</button>
-            <button type="submit" class="btn-search">应用筛选</button>
+        <div class="filters-actions">
+            <button type="button" class="btn-clear">清除筛选</button>
+            <button type="submit" class="btn-apply">应用筛选</button>
         </div>
     </div>
 </form>
