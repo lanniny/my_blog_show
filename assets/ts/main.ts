@@ -144,8 +144,12 @@ let Stack = {
             console.error('❌ globalAuth not initialized!');
         }
 
-        // Load admin settings on page load
-        Stack.loadAdminSettings();
+        // Load admin settings with proper timing
+        // 使用setTimeout确保DOM完全准备好
+        setTimeout(() => {
+            console.log('⏰ DOM ready, loading admin settings...');
+            Stack.loadAdminSettings();
+        }, 100);
 
         console.log('✅ Stack initialization complete');
 
@@ -562,84 +566,373 @@ let Stack = {
     },
 
     /**
-     * Load admin settings
+     * Load admin settings with enhanced error handling and default values
      */
     loadAdminSettings: () => {
-        // Load avatar
-        const savedAvatar = localStorage.getItem('adminAvatar');
-        if (savedAvatar) {
-            const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
-            if (avatarImg) avatarImg.src = savedAvatar;
-            Stack.updateSiteAvatar(savedAvatar);
-        }
+        console.log('🔄 Loading admin settings...');
 
-        // Load site title
-        const savedTitle = localStorage.getItem('adminSiteTitle');
-        if (savedTitle) {
-            const titleInput = document.getElementById('admin-site-title') as HTMLInputElement;
-            if (titleInput) titleInput.value = savedTitle;
-            // Update site title immediately
-            const siteNameEl = document.querySelector('.site-name a');
-            if (siteNameEl) siteNameEl.textContent = savedTitle;
-        }
+        try {
+            // 定义默认值
+            const defaults = {
+                avatar: '/img/avatar_hu_f509edb42ecc0ebd.png',
+                title: 'lanniny-blog',
+                description: '演示文稿',
+                themeColor: '#34495e',
+                password: 'admit'
+            };
 
-        // Load site description
-        const savedDesc = localStorage.getItem('adminSiteDescription');
-        if (savedDesc) {
-            const descInput = document.getElementById('admin-site-description') as HTMLTextAreaElement;
-            if (descInput) descInput.value = savedDesc;
-            // Update site description immediately
-            const siteDescEl = document.querySelector('.site-description');
-            if (siteDescEl) siteDescEl.textContent = savedDesc;
-        }
+            // Load avatar with error handling
+            try {
+                const savedAvatar = localStorage.getItem('adminAvatar') || defaults.avatar;
+                const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
+                if (avatarImg) {
+                    avatarImg.src = savedAvatar;
+                    console.log('✅ Avatar loaded:', savedAvatar !== defaults.avatar ? 'custom' : 'default');
+                }
 
-        // Load theme color
-        const savedColor = localStorage.getItem('adminThemeColor');
-        if (savedColor) {
-            const colorInput = document.getElementById('admin-theme-color') as HTMLInputElement;
-            if (colorInput) colorInput.value = savedColor;
-            Stack.updateThemeColor(savedColor);
-        }
+                // 只有非默认头像才更新到网站
+                if (savedAvatar !== defaults.avatar) {
+                    Stack.updateSiteAvatar(savedAvatar);
+                }
+            } catch (error) {
+                console.warn('⚠️ Avatar loading failed:', error);
+                // 使用默认头像
+                const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
+                if (avatarImg) avatarImg.src = defaults.avatar;
+            }
 
-        // Load admin password (for persistence)
-        const savedPassword = localStorage.getItem('adminPassword');
-        if (savedPassword && globalAuth && globalAuth.config) {
-            globalAuth.config.adminPassword = savedPassword;
-            console.log('✅ Loaded saved admin password from localStorage');
+            // Load site title with error handling
+            try {
+                const savedTitle = localStorage.getItem('adminSiteTitle') || defaults.title;
+                const titleInput = document.getElementById('admin-site-title') as HTMLInputElement;
+                if (titleInput) {
+                    titleInput.value = savedTitle;
+                    console.log('✅ Site title loaded:', savedTitle);
+                }
+
+                // 只有非默认标题才更新到网站
+                if (savedTitle !== defaults.title) {
+                    const siteNameEl = document.querySelector('.site-name a');
+                    if (siteNameEl) {
+                        siteNameEl.textContent = savedTitle;
+                        console.log('✅ Site title updated in header');
+                    }
+                }
+            } catch (error) {
+                console.warn('⚠️ Site title loading failed:', error);
+                // 使用默认标题
+                const titleInput = document.getElementById('admin-site-title') as HTMLInputElement;
+                if (titleInput) titleInput.value = defaults.title;
+            }
+
+            // Load site description with error handling
+            try {
+                const savedDesc = localStorage.getItem('adminSiteDescription') || defaults.description;
+                const descInput = document.getElementById('admin-site-description') as HTMLTextAreaElement;
+                if (descInput) {
+                    descInput.value = savedDesc;
+                    console.log('✅ Site description loaded:', savedDesc);
+                }
+
+                // 只有非默认描述才更新到网站
+                if (savedDesc !== defaults.description) {
+                    const siteDescEl = document.querySelector('.site-description');
+                    if (siteDescEl) {
+                        siteDescEl.textContent = savedDesc;
+                        console.log('✅ Site description updated in header');
+                    }
+                }
+            } catch (error) {
+                console.warn('⚠️ Site description loading failed:', error);
+                // 使用默认描述
+                const descInput = document.getElementById('admin-site-description') as HTMLTextAreaElement;
+                if (descInput) descInput.value = defaults.description;
+            }
+
+            // Load theme color with error handling
+            try {
+                const savedColor = localStorage.getItem('adminThemeColor') || defaults.themeColor;
+                const colorInput = document.getElementById('admin-theme-color') as HTMLInputElement;
+                if (colorInput) {
+                    colorInput.value = savedColor;
+                    console.log('✅ Theme color loaded:', savedColor);
+                }
+
+                // 只有非默认颜色才应用主题
+                if (savedColor !== defaults.themeColor) {
+                    Stack.updateThemeColor(savedColor);
+                    console.log('✅ Theme color applied');
+                }
+            } catch (error) {
+                console.warn('⚠️ Theme color loading failed:', error);
+                // 使用默认颜色
+                const colorInput = document.getElementById('admin-theme-color') as HTMLInputElement;
+                if (colorInput) colorInput.value = defaults.themeColor;
+            }
+
+            // Load admin password with enhanced error handling
+            try {
+                const savedPassword = localStorage.getItem('adminPassword');
+                if (savedPassword && globalAuth) {
+                    if (globalAuth.config) {
+                        globalAuth.config.adminPassword = savedPassword;
+                        console.log('✅ Admin password loaded from localStorage');
+                    } else {
+                        console.warn('⚠️ globalAuth.config not available, password not loaded');
+                    }
+                } else {
+                    console.log('ℹ️ No saved password found, using default');
+                }
+            } catch (error) {
+                console.warn('⚠️ Admin password loading failed:', error);
+            }
+
+            console.log('✅ Admin settings loading completed');
+
+        } catch (error) {
+            console.error('❌ Critical error in loadAdminSettings:', error);
+            // 即使出错也要确保基本功能可用
+            console.log('🔧 Attempting to recover with default values...');
         }
     },
 
     /**
-     * Save admin settings
+     * Save admin settings with loading state feedback
      */
     saveAdminSettings: () => {
-        // Save site title
-        const titleInput = document.getElementById('admin-site-title') as HTMLInputElement;
-        if (titleInput) {
-            localStorage.setItem('adminSiteTitle', titleInput.value);
-            // Update site title in header
-            const siteNameEl = document.querySelector('.site-name a');
-            if (siteNameEl) siteNameEl.textContent = titleInput.value;
+        console.log('💾 Saving admin settings...');
+
+        // 显示保存状态
+        const saveButton = document.getElementById('admin-save-settings') as HTMLButtonElement;
+        const originalText = saveButton?.textContent || '保存设置';
+
+        try {
+            // 设置loading状态
+            if (saveButton) {
+                saveButton.disabled = true;
+                saveButton.innerHTML = `
+                    <svg class="admin-icon admin-loading" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12a9 9 0 11-6.219-8.56"></path>
+                    </svg>
+                    保存中...
+                `;
+                console.log('🔄 Save button set to loading state');
+            }
+
+            let savedCount = 0;
+            let totalSettings = 0;
+
+            // Save site title with validation
+            const titleInput = document.getElementById('admin-site-title') as HTMLInputElement;
+            if (titleInput) {
+                totalSettings++;
+                const titleValue = titleInput.value.trim();
+                if (titleValue) {
+                    localStorage.setItem('adminSiteTitle', titleValue);
+                    // Update site title in header
+                    const siteNameEl = document.querySelector('.site-name a');
+                    if (siteNameEl) {
+                        siteNameEl.textContent = titleValue;
+                        console.log('✅ Site title saved and updated:', titleValue);
+                    }
+                    savedCount++;
+                } else {
+                    console.warn('⚠️ Site title is empty, not saved');
+                }
+            }
+
+            // Save site description with validation
+            const descInput = document.getElementById('admin-site-description') as HTMLTextAreaElement;
+            if (descInput) {
+                totalSettings++;
+                const descValue = descInput.value.trim();
+                if (descValue) {
+                    localStorage.setItem('adminSiteDescription', descValue);
+                    // Update site description in header
+                    const siteDescEl = document.querySelector('.site-description');
+                    if (siteDescEl) {
+                        siteDescEl.textContent = descValue;
+                        console.log('✅ Site description saved and updated:', descValue);
+                    }
+                    savedCount++;
+                } else {
+                    console.warn('⚠️ Site description is empty, not saved');
+                }
+            }
+
+            // Save theme color with validation
+            const colorInput = document.getElementById('admin-theme-color') as HTMLInputElement;
+            if (colorInput) {
+                totalSettings++;
+                const colorValue = colorInput.value;
+                if (colorValue && /^#[0-9A-F]{6}$/i.test(colorValue)) {
+                    localStorage.setItem('adminThemeColor', colorValue);
+                    // Apply theme color immediately
+                    Stack.updateThemeColor(colorValue);
+                    console.log('✅ Theme color saved and applied:', colorValue);
+                    savedCount++;
+                } else {
+                    console.warn('⚠️ Invalid theme color format, not saved:', colorValue);
+                }
+            }
+
+            // 延迟显示结果，让用户看到loading状态
+            setTimeout(() => {
+                // 恢复按钮状态
+                if (saveButton) {
+                    saveButton.disabled = false;
+                    saveButton.innerHTML = `
+                        <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"></path>
+                            <polyline points="17,21 17,13 7,13 7,21"></polyline>
+                            <polyline points="7,3 7,8 15,8"></polyline>
+                        </svg>
+                        ${originalText}
+                    `;
+                }
+
+                // 显示保存结果
+                if (savedCount === totalSettings && totalSettings > 0) {
+                    Stack.showSuccessMessage(`设置已保存！(${savedCount}/${totalSettings}项)`);
+                    console.log(`✅ All settings saved successfully (${savedCount}/${totalSettings})`);
+                    Stack.hideAdminPanel();
+                } else if (savedCount > 0) {
+                    Stack.showSuccessMessage(`部分设置已保存 (${savedCount}/${totalSettings}项)`);
+                    console.log(`⚠️ Partial save completed (${savedCount}/${totalSettings})`);
+                } else {
+                    Stack.showErrorMessage('没有有效的设置需要保存');
+                    console.log('❌ No valid settings to save');
+                }
+            }, 800); // 800ms延迟，让用户看到loading效果
+
+        } catch (error) {
+            console.error('❌ Error saving admin settings:', error);
+
+            // 恢复按钮状态
+            if (saveButton) {
+                saveButton.disabled = false;
+                saveButton.innerHTML = `
+                    <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"></path>
+                        <polyline points="17,21 17,13 7,13 7,21"></polyline>
+                        <polyline points="7,3 7,8 15,8"></polyline>
+                    </svg>
+                    ${originalText}
+                `;
+            }
+
+            Stack.showErrorMessage('设置保存失败，请重试');
+        }
+    },
+
+    /**
+     * Check data persistence status and integrity
+     */
+    checkDataPersistence: () => {
+        console.log('🔍 Checking data persistence status...');
+
+        const persistenceStatus = {
+            localStorage: {
+                available: false,
+                quota: 0,
+                used: 0
+            },
+            settings: {
+                avatar: false,
+                title: false,
+                description: false,
+                themeColor: false,
+                password: false
+            },
+            integrity: true
+        };
+
+        try {
+            // Check localStorage availability
+            if (typeof Storage !== 'undefined' && localStorage) {
+                persistenceStatus.localStorage.available = true;
+
+                // Estimate localStorage usage
+                let totalSize = 0;
+                for (let key in localStorage) {
+                    if (localStorage.hasOwnProperty(key)) {
+                        totalSize += localStorage[key].length + key.length;
+                    }
+                }
+                persistenceStatus.localStorage.used = totalSize;
+
+                console.log('✅ localStorage available, used:', totalSize, 'characters');
+            } else {
+                console.warn('⚠️ localStorage not available');
+            }
+
+            // Check individual settings
+            persistenceStatus.settings.avatar = !!localStorage.getItem('adminAvatar');
+            persistenceStatus.settings.title = !!localStorage.getItem('adminSiteTitle');
+            persistenceStatus.settings.description = !!localStorage.getItem('adminSiteDescription');
+            persistenceStatus.settings.themeColor = !!localStorage.getItem('adminThemeColor');
+            persistenceStatus.settings.password = !!localStorage.getItem('adminPassword');
+
+            const savedCount = Object.values(persistenceStatus.settings).filter(Boolean).length;
+            console.log(`📊 Persistence status: ${savedCount}/5 settings saved`);
+
+            // Check data integrity
+            try {
+                const testKey = 'test_persistence_' + Date.now();
+                localStorage.setItem(testKey, 'test');
+                const testValue = localStorage.getItem(testKey);
+                localStorage.removeItem(testKey);
+
+                if (testValue !== 'test') {
+                    persistenceStatus.integrity = false;
+                    console.warn('⚠️ localStorage integrity check failed');
+                } else {
+                    console.log('✅ localStorage integrity check passed');
+                }
+            } catch (error) {
+                persistenceStatus.integrity = false;
+                console.warn('⚠️ localStorage integrity test failed:', error);
+            }
+
+        } catch (error) {
+            console.error('❌ Error checking data persistence:', error);
+            persistenceStatus.integrity = false;
         }
 
-        // Save site description
-        const descInput = document.getElementById('admin-site-description') as HTMLTextAreaElement;
-        if (descInput) {
-            localStorage.setItem('adminSiteDescription', descInput.value);
-            // Update site description in header
-            const siteDescEl = document.querySelector('.site-description');
-            if (siteDescEl) siteDescEl.textContent = descInput.value;
-        }
+        return persistenceStatus;
+    },
 
-        // Save theme color
-        const colorInput = document.getElementById('admin-theme-color') as HTMLInputElement;
-        if (colorInput) {
-            localStorage.setItem('adminThemeColor', colorInput.value);
-        }
+    /**
+     * Reset all admin settings to defaults
+     */
+    resetAdminSettings: () => {
+        console.log('🔄 Resetting all admin settings to defaults...');
 
-        // Show success message
-        Stack.showSuccessMessage('设置已保存！');
-        Stack.hideAdminPanel();
+        try {
+            // Remove all admin-related localStorage items
+            const adminKeys = [
+                'adminAvatar',
+                'adminSiteTitle',
+                'adminSiteDescription',
+                'adminThemeColor',
+                'adminPassword'
+            ];
+
+            adminKeys.forEach(key => {
+                localStorage.removeItem(key);
+                console.log(`🗑️ Removed ${key}`);
+            });
+
+            // Reload settings to apply defaults
+            Stack.loadAdminSettings();
+
+            Stack.showSuccessMessage('所有设置已重置为默认值');
+            console.log('✅ All admin settings reset to defaults');
+
+        } catch (error) {
+            console.error('❌ Error resetting admin settings:', error);
+            Stack.showErrorMessage('重置设置失败，请重试');
+        }
     },
 
     /**
@@ -1021,37 +1314,7 @@ let Stack = {
 
 
 
-    /**
-     * Save admin settings
-     */
-    saveAdminSettings: () => {
-        // Save site title
-        const titleInput = document.getElementById('admin-site-title') as HTMLInputElement;
-        if (titleInput) {
-            localStorage.setItem('adminSiteTitle', titleInput.value);
-            // Update site title in header
-            const siteNameEl = document.querySelector('.site-name a');
-            if (siteNameEl) siteNameEl.textContent = titleInput.value;
-        }
 
-        // Save site description
-        const descInput = document.getElementById('admin-site-description') as HTMLTextAreaElement;
-        if (descInput) {
-            localStorage.setItem('adminSiteDescription', descInput.value);
-            // Update site description in header
-            const siteDescEl = document.querySelector('.site-description');
-            if (siteDescEl) siteDescEl.textContent = descInput.value;
-        }
-
-        // Save theme color
-        const colorInput = document.getElementById('admin-theme-color') as HTMLInputElement;
-        if (colorInput) {
-            localStorage.setItem('adminThemeColor', colorInput.value);
-        }
-
-        alert('设置已保存！');
-        Stack.hideAdminPanel();
-    },
 
     /**
      * Update theme color
