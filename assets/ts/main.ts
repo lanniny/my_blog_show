@@ -53,36 +53,19 @@ let Stack = {
             }
         });
 
-        // Create and inject login modal and admin panel immediately
+        // Create and inject login modal
         console.log('Creating login modal...');
         const modalHTML = AuthUtils.createLoginModal();
         document.body.insertAdjacentHTML('beforeend', modalHTML);
         console.log('Login modal created');
 
-        // Always create admin panel HTML immediately on page load
-        console.log('Creating admin panel HTML...');
-        const panelHTML = Stack.createAdminPanelHTML();
-        document.body.insertAdjacentHTML('beforeend', panelHTML);
-        console.log('Admin panel HTML inserted');
-
-        // Verify panel was created
+        // Admin panel is now in HTML template, just verify it exists
+        console.log('Checking for admin panel in HTML...');
         const panel = document.getElementById('admin-panel-modal');
         if (panel) {
-            console.log('✅ Admin panel verified - exists in DOM');
+            console.log('✅ Admin panel found in HTML template');
         } else {
-            console.error('❌ Admin panel creation failed!');
-            // Try again with a delay
-            setTimeout(() => {
-                console.log('Retrying admin panel creation...');
-                const retryPanelHTML = Stack.createAdminPanelHTML();
-                document.body.insertAdjacentHTML('beforeend', retryPanelHTML);
-                const retryPanel = document.getElementById('admin-panel-modal');
-                if (retryPanel) {
-                    console.log('✅ Admin panel created on retry');
-                } else {
-                    console.error('❌ Admin panel creation failed even on retry');
-                }
-            }, 500);
+            console.error('❌ Admin panel not found in HTML template!');
         }
 
         // Bind events immediately
@@ -175,25 +158,6 @@ let Stack = {
         });
 
         new StackColorScheme(document.getElementById('dark-mode-toggle'));
-
-        // Additional backup initialization for admin panel
-        setTimeout(() => {
-            const panel = document.getElementById('admin-panel-modal');
-            if (!panel) {
-                console.log('🔄 Admin panel not found after initialization, creating backup...');
-                const backupPanelHTML = Stack.createAdminPanelHTML();
-                document.body.insertAdjacentHTML('beforeend', backupPanelHTML);
-                const backupPanel = document.getElementById('admin-panel-modal');
-                if (backupPanel) {
-                    console.log('✅ Backup admin panel created successfully');
-                    Stack.bindAdminPanelEvents();
-                } else {
-                    console.error('❌ Backup admin panel creation also failed');
-                }
-            } else {
-                console.log('✅ Admin panel already exists, no backup needed');
-            }
-        }, 1000);
     },
 
     /**
@@ -410,25 +374,16 @@ let Stack = {
      * Show admin panel
      */
     showAdminPanel: () => {
-        console.log('showAdminPanel called');
+        console.log('🎯 showAdminPanel called');
         const panel = document.getElementById('admin-panel-modal');
 
         if (panel) {
-            console.log('Panel found, showing it');
+            console.log('✅ Panel found in HTML, showing it');
             panel.style.display = 'flex';
             // Load current settings
             Stack.loadAdminSettings();
         } else {
-            console.error('Admin panel not found! This should not happen.');
-            // Emergency fallback - create panel if it doesn't exist
-            const panelHTML = Stack.createAdminPanelHTML();
-            document.body.insertAdjacentHTML('beforeend', panelHTML);
-            const newPanel = document.getElementById('admin-panel-modal');
-            if (newPanel) {
-                newPanel.style.display = 'flex';
-                Stack.bindAdminPanelEvents();
-                Stack.loadAdminSettings();
-            }
+            console.error('❌ Admin panel not found in HTML! This should not happen since it is in the template.');
         }
     },
 
