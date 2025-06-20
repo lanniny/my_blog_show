@@ -1634,3 +1634,6 @@ import './navigation-enhance';
 
 // Import admin panel enhancement module
 import './admin-panel-enhance';
+
+// Import article detail enhancement module
+import './article-detail-enhance';
