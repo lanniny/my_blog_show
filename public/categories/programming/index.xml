@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Programming on lanniny-blog</title><link>https://example.com/categories/programming/</link><description>Recent content in Programming on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Sun, 19 Jan 2025 12:00:00 +0800</lastBuildDate><atom:link href="https://example.com/categories/programming/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenCV计算机视觉入门</title><link>https://example.com/p/opencv-computer-vision-basics/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>https://example.com/p/opencv-computer-vision-basics/</guid><description>&lt;h1 id="opencv计算机视觉入门">OpenCV计算机视觉入门
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Programming on lanniny-blog</title><link>https://lanniny-blog.netlify.app/categories/programming/</link><description>Recent content in Programming on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Sun, 19 Jan 2025 12:00:00 +0800</lastBuildDate><atom:link href="https://lanniny-blog.netlify.app/categories/programming/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenCV计算机视觉入门</title><link>https://lanniny-blog.netlify.app/p/opencv-computer-vision-basics/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/opencv-computer-vision-basics/</guid><description>&lt;h1 id="opencv计算机视觉入门">OpenCV计算机视觉入门
 &lt;/h1>&lt;h2 id="什么是opencv">什么是OpenCV
 &lt;/h2>&lt;p>OpenCV（Open Source Computer Vision Library）是一个开源的计算机视觉和机器学习库。它包含了超过2500个优化的算法，可以用于检测和识别人脸、识别物体、分类人类行为、跟踪摄像头运动等。&lt;/p>
 &lt;h3 id="opencv的特点">OpenCV的特点
@@ -1376,7 +1376,7 @@
 >计算机视觉基础&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>C语言文件操作详解</title><link>https://example.com/p/c-language-file-operations/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>https://example.com/p/c-language-file-operations/</guid><description>&lt;h1 id="c语言文件操作详解">C语言文件操作详解
+&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>C语言文件操作详解</title><link>https://lanniny-blog.netlify.app/p/c-language-file-operations/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/c-language-file-operations/</guid><description>&lt;h1 id="c语言文件操作详解">C语言文件操作详解
 &lt;/h1>&lt;h2 id="概述">概述
 &lt;/h2>&lt;p>文件操作是C语言编程中的重要组成部分，它允许程序与外部文件进行数据交换。本文将详细介绍C语言中的文件操作方法，包括文件的打开、读取、写入和关闭等操作。&lt;/p>
 &lt;h2 id="文件操作基础">文件操作基础

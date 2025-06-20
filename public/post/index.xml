@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on lanniny-blog</title><link>https://example.com/post/</link><description>Recent content in Posts on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Mon, 17 Mar 2025 18:55:16 +0800</lastBuildDate><atom:link href="https://example.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Maix2Dock视觉模块开发学习记录</title><link>https://example.com/p/maix2dock-development/</link><pubDate>Sun, 19 Jan 2025 13:00:00 +0800</pubDate><guid>https://example.com/p/maix2dock-development/</guid><description>&lt;h1 id="maix2dock视觉模块开发学习记录">Maix2Dock视觉模块开发学习记录
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on lanniny-blog</title><link>https://lanniny-blog.netlify.app/post/</link><description>Recent content in Posts on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Mon, 17 Mar 2025 18:55:16 +0800</lastBuildDate><atom:link href="https://lanniny-blog.netlify.app/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Maix2Dock视觉模块开发学习记录</title><link>https://lanniny-blog.netlify.app/p/maix2dock-development/</link><pubDate>Sun, 19 Jan 2025 13:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/maix2dock-development/</guid><description>&lt;h1 id="maix2dock视觉模块开发学习记录">Maix2Dock视觉模块开发学习记录
 &lt;/h1>&lt;p>Maix2Dock是一块基于全志V831芯片的精致小巧AI开发板，集成了强大的AI硬件加速特性，支持常规Linux开发的同时，提供了丰富的AI图像识别、语音识别、人脸识别等开箱即用的功能。本文详细记录了Maix2Dock视觉模块的开发学习过程。&lt;/p>
 &lt;h2 id="基础入门">基础入门
 &lt;/h2>&lt;h3 id="认识maix2dock-v831">认识Maix2Dock V831
@@ -1192,7 +1192,7 @@ alt="Maix2Dock开发板"
 >全志V831技术手册&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://developer.nvidia.com/embedded-computing" target="_blank" rel="noopener"
 >边缘AI开发最佳实践&lt;/a>&lt;/li>
-&lt;/ol></description></item><item><title>卷积神经网络(CNN)深度解析：从基础概念到实战应用</title><link>https://example.com/p/cnn-fundamentals/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>https://example.com/p/cnn-fundamentals/</guid><description>&lt;h1 id="卷积神经网络cnn深度解析从基础概念到实战应用">卷积神经网络(CNN)深度解析：从基础概念到实战应用
+&lt;/ol></description></item><item><title>卷积神经网络(CNN)深度解析：从基础概念到实战应用</title><link>https://lanniny-blog.netlify.app/p/cnn-fundamentals/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/cnn-fundamentals/</guid><description>&lt;h1 id="卷积神经网络cnn深度解析从基础概念到实战应用">卷积神经网络(CNN)深度解析：从基础概念到实战应用
 &lt;/h1>&lt;p>卷积神经网络（Convolutional Neural Network, CNN）是深度学习在计算机视觉领域最重要的突破之一。通过&lt;strong>局部感知、参数共享、层次化特征提取&lt;/strong>，CNN成为了图像处理的基石。本文将深入解析CNN的核心概念、经典架构和实战技巧。&lt;/p>
 &lt;h2 id="一核心概念与专业术语详解">一、核心概念与专业术语详解
 &lt;/h2>&lt;h3 id="1-卷积convolution">1. 卷积（Convolution）
@@ -2136,7 +2136,7 @@ $$f(x_i) = \frac{e^{x_i}}{\sum_{j} e^{x_j}}$$&lt;ul>
 >Batch Normalization: Accelerating Deep Network Training&lt;/a> - BatchNorm论文&lt;/li>
 &lt;li>&lt;a class="link" href="https://pytorch.org/tutorials/" target="_blank" rel="noopener"
 >PyTorch官方教程&lt;/a> - 实战代码参考&lt;/li>
-&lt;/ol></description></item><item><title>Transformer架构深度解析：从RNN到自注意力机制的革命</title><link>https://example.com/p/transformer-architecture/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>https://example.com/p/transformer-architecture/</guid><description>&lt;h1 id="transformer架构深度解析从rnn到自注意力机制的革命">Transformer架构深度解析：从RNN到自注意力机制的革命
+&lt;/ol></description></item><item><title>Transformer架构深度解析：从RNN到自注意力机制的革命</title><link>https://lanniny-blog.netlify.app/p/transformer-architecture/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/transformer-architecture/</guid><description>&lt;h1 id="transformer架构深度解析从rnn到自注意力机制的革命">Transformer架构深度解析：从RNN到自注意力机制的革命
 &lt;/h1>&lt;p>Transformer架构的出现标志着深度学习领域的一个重要转折点。它不仅解决了RNN和CNN在处理序列数据时的根本性问题，更为后续的BERT、GPT、ViT等模型奠定了基础。本文将深入解析Transformer的核心原理和技术细节。&lt;/p>
 &lt;h2 id="一历史背景与技术革命">一、历史背景与技术革命
 &lt;/h2>&lt;h3 id="1-传统序列模型的困境">1. 传统序列模型的困境
@@ -2804,7 +2804,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >An Image is Worth 16x16 Words&lt;/a> - ViT论文&lt;/li>
 &lt;li>&lt;a class="link" href="http://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener"
 >The Illustrated Transformer&lt;/a> - 可视化教程&lt;/li>
-&lt;/ol></description></item><item><title>Vision Transformer (VIT) 源码解读与实践指南</title><link>https://example.com/p/vit-source-analysis/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>https://example.com/p/vit-source-analysis/</guid><description>&lt;h1 id="vision-transformer-vit-源码解读与实践指南">Vision Transformer (VIT) 源码解读与实践指南
+&lt;/ol></description></item><item><title>Vision Transformer (VIT) 源码解读与实践指南</title><link>https://lanniny-blog.netlify.app/p/vit-source-analysis/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/vit-source-analysis/</guid><description>&lt;h1 id="vision-transformer-vit-源码解读与实践指南">Vision Transformer (VIT) 源码解读与实践指南
 &lt;/h1>&lt;p>Vision Transformer (VIT) 是一个革命性的计算机视觉模型，它将Transformer架构成功应用到图像分类任务中，打破了卷积神经网络在视觉领域的垄断地位。本文将深入解读VIT的源码实现，帮助读者理解其核心原理和实践应用。&lt;/p>
 &lt;h2 id="项目简介">项目简介
 &lt;/h2>&lt;p>本文基于 &lt;a class="link" href="https://github.com/lucidrains/vit-pytorch" target="_blank" rel="noopener"
@@ -3281,7 +3281,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >Attention Is All You Need&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://pytorch.org/docs/stable/index.html" target="_blank" rel="noopener"
 >PyTorch官方文档&lt;/a>&lt;/li>
-&lt;/ol></description></item><item><title>OpenCV计算机视觉入门</title><link>https://example.com/p/opencv-computer-vision-basics/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>https://example.com/p/opencv-computer-vision-basics/</guid><description>&lt;h1 id="opencv计算机视觉入门">OpenCV计算机视觉入门
+&lt;/ol></description></item><item><title>OpenCV计算机视觉入门</title><link>https://lanniny-blog.netlify.app/p/opencv-computer-vision-basics/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/opencv-computer-vision-basics/</guid><description>&lt;h1 id="opencv计算机视觉入门">OpenCV计算机视觉入门
 &lt;/h1>&lt;h2 id="什么是opencv">什么是OpenCV
 &lt;/h2>&lt;p>OpenCV（Open Source Computer Vision Library）是一个开源的计算机视觉和机器学习库。它包含了超过2500个优化的算法，可以用于检测和识别人脸、识别物体、分类人类行为、跟踪摄像头运动等。&lt;/p>
 &lt;h3 id="opencv的特点">OpenCV的特点
@@ -4659,7 +4659,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >计算机视觉基础&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>单片机基础入门指南</title><link>https://example.com/p/mcu-basics-guide/</link><pubDate>Sun, 19 Jan 2025 11:30:00 +0800</pubDate><guid>https://example.com/p/mcu-basics-guide/</guid><description>&lt;h1 id="单片机基础入门指南">单片机基础入门指南
+&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>单片机基础入门指南</title><link>https://lanniny-blog.netlify.app/p/mcu-basics-guide/</link><pubDate>Sun, 19 Jan 2025 11:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/mcu-basics-guide/</guid><description>&lt;h1 id="单片机基础入门指南">单片机基础入门指南
 &lt;/h1>&lt;h2 id="什么是单片机">什么是单片机
 &lt;/h2>&lt;p>单片机（Microcontroller Unit，MCU）是一种集成了处理器、存储器、输入输出接口等功能的微型计算机系统。它将计算机的主要功能集成在一个芯片上，具有体积小、功耗低、成本低的特点。&lt;/p>
 &lt;h3 id="单片机的组成">单片机的组成
@@ -5489,7 +5489,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 &lt;/ol>
 &lt;p>记住，学习单片机最重要的是多动手实践，从简单的LED闪烁开始，逐步挑战更复杂的项目。&lt;/p>
 &lt;hr>
-&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>C语言文件操作详解</title><link>https://example.com/p/c-language-file-operations/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>https://example.com/p/c-language-file-operations/</guid><description>&lt;h1 id="c语言文件操作详解">C语言文件操作详解
+&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>C语言文件操作详解</title><link>https://lanniny-blog.netlify.app/p/c-language-file-operations/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/c-language-file-operations/</guid><description>&lt;h1 id="c语言文件操作详解">C语言文件操作详解
 &lt;/h1>&lt;h2 id="概述">概述
 &lt;/h2>&lt;p>文件操作是C语言编程中的重要组成部分，它允许程序与外部文件进行数据交换。本文将详细介绍C语言中的文件操作方法，包括文件的打开、读取、写入和关闭等操作。&lt;/p>
 &lt;h2 id="文件操作基础">文件操作基础
@@ -6789,7 +6789,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >C文件操作参考&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本文档持续更新中，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>MCP工具使用指南</title><link>https://example.com/p/mcp-tools-guide/</link><pubDate>Sun, 19 Jan 2025 10:30:00 +0800</pubDate><guid>https://example.com/p/mcp-tools-guide/</guid><description>&lt;h1 id="mcp工具使用指南">MCP工具使用指南
+&lt;p>&lt;em>本文档持续更新中，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>MCP工具使用指南</title><link>https://lanniny-blog.netlify.app/p/mcp-tools-guide/</link><pubDate>Sun, 19 Jan 2025 10:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/mcp-tools-guide/</guid><description>&lt;h1 id="mcp工具使用指南">MCP工具使用指南
 &lt;/h1>&lt;h2 id="什么是mcp">什么是MCP
 &lt;/h2>&lt;p>Model Context Protocol (MCP) 是一个开放标准，用于连接AI助手与各种数据源和工具。通过MCP，AI可以安全地访问本地文件、数据库、API等资源，大大扩展了AI的能力边界。&lt;/p>
 &lt;h2 id="核心概念">核心概念
@@ -7516,7 +7516,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >MCP服务器列表&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本指南将根据MCP协议的更新持续完善。&lt;/em>&lt;/p></description></item><item><title>AI提示词工程指南</title><link>https://example.com/p/ai-prompt-engineering-guide/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>https://example.com/p/ai-prompt-engineering-guide/</guid><description>&lt;h1 id="ai提示词工程指南">AI提示词工程指南
+&lt;p>&lt;em>本指南将根据MCP协议的更新持续完善。&lt;/em>&lt;/p></description></item><item><title>AI提示词工程指南</title><link>https://lanniny-blog.netlify.app/p/ai-prompt-engineering-guide/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/ai-prompt-engineering-guide/</guid><description>&lt;h1 id="ai提示词工程指南">AI提示词工程指南
 &lt;/h1>&lt;h2 id="概述">概述
 &lt;/h2>&lt;p>AI提示词工程是与人工智能模型有效交互的关键技能。通过精心设计的提示词，我们可以显著提升AI的响应质量和准确性。&lt;/p>
 &lt;h2 id="基本原则">基本原则
@@ -7761,7 +7761,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >AI提示词最佳实践&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本文档将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>Test</title><link>https://example.com/p/test/</link><pubDate>Mon, 17 Mar 2025 18:55:16 +0800</pubDate><guid>https://example.com/p/test/</guid><description>&lt;p>这是一个测试&lt;/p></description></item><item><title>Chinese Test</title><link>https://example.com/p/test-chinese/</link><pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate><guid>https://example.com/p/test-chinese/</guid><description>&lt;img src="https://example.com/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" />&lt;h2 id="正文测试">正文测试
+&lt;p>&lt;em>本文档将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>Test</title><link>https://lanniny-blog.netlify.app/p/test/</link><pubDate>Mon, 17 Mar 2025 18:55:16 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/test/</guid><description>&lt;p>这是一个测试&lt;/p></description></item><item><title>Chinese Test</title><link>https://lanniny-blog.netlify.app/p/test-chinese/</link><pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/p/test-chinese/</guid><description>&lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" />&lt;h2 id="正文测试">正文测试
 &lt;/h2>&lt;p>而这些并不是完全重要，更加重要的问题是， 带着这些问题，我们来审视一下学生会退会。 既然如何， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 我们不得不面对一个非常尴尬的事实，那就是， 可是，即使是这样，学生会退会的出现仍然代表了一定的意义。 学生会退会，发生了会如何，不发生又会如何。 经过上述讨论， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 学生会退会，到底应该如何实现。 这样看来， 在这种困难的抉择下，本人思来想去，寝食难安。 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 就我个人来说，学生会退会对我的意义，不能不说非常重大。 莎士比亚曾经提到过，人的一生是短的，但如果卑劣地过这一生，就太长了。这似乎解答了我的疑惑。 莫扎特说过一句富有哲理的话，谁和我一样用功，谁就会和我一样成功。这启发了我， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 学生会退会，到底应该如何实现。 一般来说， 从这个角度来看， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 在这种困难的抉择下，本人思来想去，寝食难安。 了解清楚学生会退会到底是一种怎么样的存在，是解决一切问题的关键。 一般来说， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 问题的关键究竟为何？ 而这些并不是完全重要，更加重要的问题是。&lt;/p>
 &lt;p>奥斯特洛夫斯基曾经说过，共同的事业，共同的斗争，可以使人们产生忍受一切的力量。　带着这句话，我们还要更加慎重的审视这个问题： 一般来讲，我们都必须务必慎重的考虑考虑。 既然如此， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 带着这些问题，我们来审视一下学生会退会。 我认为， 我认为， 在这种困难的抉择下，本人思来想去，寝食难安。 问题的关键究竟为何？ 每个人都不得不面对这些问题。 在面对这种问题时， 要想清楚，学生会退会，到底是一种怎么样的存在。 我认为， 既然如此， 每个人都不得不面对这些问题。 在面对这种问题时， 那么， 我认为， 学生会退会因何而发生。&lt;/p>
 &lt;h2 id="引用">引用
@@ -7773,38 +7773,38 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 &lt;p>&lt;em>&lt;a class="link" href="https://www.youtube.com/watch?v=3aypp_YlBzI" target="_blank" rel="noopener"
 >最暖的憂傷 - 田馥甄&lt;/a>&lt;/em>&lt;/p>&lt;/blockquote>
 &lt;h2 id="图片">图片
-&lt;/h2>&lt;p>&lt;img src="https://example.com/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg"
+&lt;/h2>&lt;p>&lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg"
 width="667"
 height="1000"
-srcset="https://example.com/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, https://example.com/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w"
 loading="lazy"
 alt="Photo by Florian Klauer on Unsplash"
 class="gallery-image"
 data-flex-grow="66"
 data-flex-basis="160px"
-> &lt;img src="https://example.com/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg"
+> &lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg"
 width="1000"
 height="667"
-srcset="https://example.com/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, https://example.com/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w"
 loading="lazy"
 alt="Photo by Luca Bravo on Unsplash"
 class="gallery-image"
 data-flex-grow="149"
 data-flex-basis="359px"
 >&lt;/p>
-&lt;p>&lt;img src="https://example.com/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg"
+&lt;p>&lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg"
 width="1000"
 height="750"
-srcset="https://example.com/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, https://example.com/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w"
 loading="lazy"
 alt="Photo by Helena Hertz on Unsplash"
 class="gallery-image"
 data-flex-grow="133"
 data-flex-basis="320px"
-> &lt;img src="https://example.com/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg"
+> &lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg"
 width="667"
 height="1000"
-srcset="https://example.com/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, https://example.com/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w"
 loading="lazy"
 alt="Photo by Hudai Gayiran on Unsplash"
 class="gallery-image"
