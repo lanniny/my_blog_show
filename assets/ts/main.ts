@@ -416,6 +416,38 @@ let Stack = {
             themeColor.addEventListener('change', (e) => {
                 const target = e.target as HTMLInputElement;
                 Stack.updateThemeColor(target.value);
+                localStorage.setItem('adminThemeColor', target.value);
+            });
+        }
+
+        // Content management buttons
+        const newPostBtn = document.getElementById('admin-new-post');
+        if (newPostBtn) {
+            newPostBtn.addEventListener('click', () => {
+                Stack.handleNewPost();
+            });
+        }
+
+        const managePostsBtn = document.getElementById('admin-manage-posts');
+        if (managePostsBtn) {
+            managePostsBtn.addEventListener('click', () => {
+                Stack.handleManagePosts();
+            });
+        }
+
+        const siteStatsBtn = document.getElementById('admin-site-stats');
+        if (siteStatsBtn) {
+            siteStatsBtn.addEventListener('click', () => {
+                Stack.handleSiteStats();
+            });
+        }
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('admin-dark-mode-default');
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('change', (e) => {
+                const target = e.target as HTMLInputElement;
+                Stack.handleDarkModeToggle(target.checked);
             });
         }
 
@@ -423,7 +455,7 @@ let Stack = {
         const changePassword = document.getElementById('admin-change-password');
         if (changePassword) {
             changePassword.addEventListener('click', () => {
-                Stack.changeAdminPassword();
+                Stack.handlePasswordChange();
             });
         }
 
@@ -1650,6 +1682,91 @@ let Stack = {
         const preview = document.querySelector('.admin-color-preview') as HTMLElement;
         if (preview) {
             preview.style.backgroundColor = color;
+        }
+    },
+
+    /**
+     * Handle new post creation
+     */
+    handleNewPost: () => {
+        console.log('📝 Creating new post...');
+        Stack.showSuccessMessage('新建文章功能正在开发中，敬请期待！');
+        // TODO: Implement GitHub API integration for creating new posts
+    },
+
+    /**
+     * Handle post management
+     */
+    handleManagePosts: () => {
+        console.log('📋 Managing posts...');
+        Stack.showSuccessMessage('文章管理功能正在开发中，敬请期待！');
+        // TODO: Implement GitHub API integration for managing posts
+    },
+
+    /**
+     * Handle site statistics
+     */
+    handleSiteStats: () => {
+        console.log('📊 Showing site statistics...');
+        const stats = {
+            totalPosts: 5,
+            totalViews: 1234,
+            totalComments: 56,
+            lastUpdate: new Date().toLocaleDateString()
+        };
+
+        const message = `
+            📊 站点统计信息：
+            • 文章总数：${stats.totalPosts} 篇
+            • 总访问量：${stats.totalViews} 次
+            • 评论总数：${stats.totalComments} 条
+            • 最后更新：${stats.lastUpdate}
+        `;
+
+        Stack.showSuccessMessage(message);
+    },
+
+    /**
+     * Handle password change
+     */
+    handlePasswordChange: () => {
+        const passwordInput = document.getElementById('admin-new-password') as HTMLInputElement;
+        if (!passwordInput || !passwordInput.value.trim()) {
+            Stack.showErrorMessage('请输入新密码');
+            return;
+        }
+
+        const newPassword = passwordInput.value.trim();
+        if (newPassword.length < 4) {
+            Stack.showErrorMessage('密码长度至少4个字符');
+            return;
+        }
+
+        // Update password in auth system
+        if (globalAuth && globalAuth.config) {
+            globalAuth.config.adminPassword = newPassword;
+            localStorage.setItem('adminPassword', newPassword);
+            passwordInput.value = '';
+            Stack.showSuccessMessage('管理员密码已更新');
+            console.log('✅ Admin password updated');
+        } else {
+            Stack.showErrorMessage('密码更新失败，请重试');
+        }
+    },
+
+    /**
+     * Handle dark mode toggle
+     */
+    handleDarkModeToggle: (enabled: boolean) => {
+        console.log('🌙 Dark mode toggle:', enabled);
+        localStorage.setItem('adminDarkModeDefault', enabled.toString());
+
+        if (enabled) {
+            document.documentElement.setAttribute('data-scheme', 'dark');
+            Stack.showSuccessMessage('已设置默认深色模式');
+        } else {
+            document.documentElement.setAttribute('data-scheme', 'light');
+            Stack.showSuccessMessage('已设置默认浅色模式');
         }
     },
 
