@@ -591,6 +591,13 @@ let Stack = {
             if (colorInput) colorInput.value = savedColor;
             Stack.updateThemeColor(savedColor);
         }
+
+        // Load admin password (for persistence)
+        const savedPassword = localStorage.getItem('adminPassword');
+        if (savedPassword && globalAuth && globalAuth.config) {
+            globalAuth.config.adminPassword = savedPassword;
+            console.log('✅ Loaded saved admin password from localStorage');
+        }
     },
 
     /**
@@ -642,13 +649,52 @@ let Stack = {
      */
     changeAdminPassword: () => {
         const newPasswordInput = document.getElementById('admin-new-password') as HTMLInputElement;
-        if (newPasswordInput && newPasswordInput.value) {
-            // This would typically be handled server-side
-            // For demo purposes, we'll just show a message
-            Stack.showSuccessMessage('密码更改功能需要后端支持，当前为演示模式');
-            newPasswordInput.value = '';
-        } else {
+        if (!newPasswordInput || !newPasswordInput.value.trim()) {
             Stack.showErrorMessage('请输入新密码');
+            return;
+        }
+
+        const newPassword = newPasswordInput.value.trim();
+
+        // 密码强度验证
+        if (newPassword.length < 4) {
+            Stack.showErrorMessage('密码长度至少4个字符');
+            return;
+        }
+
+        if (newPassword.length > 50) {
+            Stack.showErrorMessage('密码长度不能超过50个字符');
+            return;
+        }
+
+        // 检查密码是否包含基本字符
+        if (!/^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/.test(newPassword)) {
+            Stack.showErrorMessage('密码只能包含字母、数字和常用符号');
+            return;
+        }
+
+        try {
+            // 更新globalAuth配置中的密码
+            if (globalAuth && globalAuth.config) {
+                globalAuth.config.adminPassword = newPassword;
+                console.log('✅ Updated globalAuth.config.adminPassword');
+            }
+
+            // 保存新密码到localStorage (用于持久化)
+            localStorage.setItem('adminPassword', newPassword);
+            console.log('✅ Saved new password to localStorage');
+
+            // 清空输入框
+            newPasswordInput.value = '';
+
+            // 显示成功消息
+            Stack.showSuccessMessage('密码已成功更新！新密码立即生效');
+
+            console.log('🔐 Password change completed successfully');
+
+        } catch (error) {
+            console.error('❌ Password change failed:', error);
+            Stack.showErrorMessage('密码更新失败，请重试');
         }
     },
 
@@ -1001,20 +1047,7 @@ let Stack = {
         }
     },
 
-    /**
-     * Change admin password
-     */
-    changeAdminPassword: () => {
-        const newPasswordInput = document.getElementById('admin-new-password') as HTMLInputElement;
-        if (newPasswordInput && newPasswordInput.value) {
-            // This would typically be handled server-side
-            // For demo purposes, we'll just show a message
-            alert('密码更改功能需要后端支持，当前为演示模式');
-            newPasswordInput.value = '';
-        } else {
-            alert('请输入新密码');
-        }
-    }
+
 }
 
 window.addEventListener('load', () => {
