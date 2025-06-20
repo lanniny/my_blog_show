@@ -55,10 +55,11 @@ let Stack = {
 
         // Create and inject login modal and admin panel with delay to ensure DOM is ready
         setTimeout(() => {
+            // Create login modal
             const modalHTML = AuthUtils.createLoginModal();
             document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-            // Create admin panel HTML directly since AuthUtils.createAdminPanel might not be available
+            // Always create admin panel HTML on page load
             const panelHTML = Stack.createAdminPanelHTML();
             document.body.insertAdjacentHTML('beforeend', panelHTML);
 
@@ -75,6 +76,8 @@ let Stack = {
 
             // Load admin settings on page load
             Stack.loadAdminSettings();
+
+            console.log('Admin panel initialized and ready');
         }, 100);
 
         /**
@@ -213,20 +216,37 @@ let Stack = {
             });
         }
 
-        // Also bind to any element with admin-panel class or text
+        // Global click handler for admin panel - more robust
         document.addEventListener('click', (e) => {
             const target = e.target as HTMLElement;
-            if (target && (target.textContent?.includes('管理面板') || target.closest('a')?.textContent?.includes('管理面板'))) {
-                e.preventDefault();
-                Stack.showAdminPanel();
+
+            // Check if clicked element or its parent contains "管理面板"
+            if (target) {
+                const clickedText = target.textContent || '';
+                const parentText = target.parentElement?.textContent || '';
+                const linkText = target.closest('a')?.textContent || '';
+
+                if (clickedText.includes('管理面板') ||
+                    parentText.includes('管理面板') ||
+                    linkText.includes('管理面板') ||
+                    target.id === 'admin-panel-toggle' ||
+                    target.closest('#admin-panel-toggle')) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Admin panel click detected, opening panel...');
+                    Stack.showAdminPanel();
+                }
             }
-        });
+        }, true); // Use capture phase to ensure we catch the event
     },
 
     /**
      * Bind admin panel related events
      */
     bindAdminPanelEvents: () => {
+        console.log('Binding admin panel events...');
+
         // Admin panel close events
         const panelCloseBtn = document.getElementById('admin-panel-close');
         const panelCancelBtn = document.getElementById('admin-panel-cancel');
@@ -308,6 +328,8 @@ let Stack = {
                 Stack.changeAdminPassword();
             });
         }
+
+        console.log('Admin panel events bound successfully');
     },
 
     /**
@@ -337,7 +359,18 @@ let Stack = {
      * Show admin panel
      */
     showAdminPanel: () => {
-        const panel = document.getElementById('admin-panel-modal');
+        let panel = document.getElementById('admin-panel-modal');
+
+        // If panel doesn't exist, create it
+        if (!panel) {
+            const panelHTML = Stack.createAdminPanelHTML();
+            document.body.insertAdjacentHTML('beforeend', panelHTML);
+            panel = document.getElementById('admin-panel-modal');
+
+            // Bind events after creating panel
+            Stack.bindAdminPanelEvents();
+        }
+
         if (panel) {
             panel.style.display = 'flex';
             // Load current settings
