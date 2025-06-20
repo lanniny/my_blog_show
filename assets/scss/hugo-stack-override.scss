@@ -291,7 +291,7 @@
 /* 文章内容覆盖 */
 .article-content,
 .post-content {
-    max-width: var(--content-width-optimal) !important;
+    max-width: 55ch !important; /* 优化阅读宽度到55字符 */
     margin: 0 auto !important;
     font-size: var(--font-size-base) !important;
     line-height: var(--line-height-relaxed) !important;

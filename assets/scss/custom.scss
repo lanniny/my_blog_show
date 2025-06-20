@@ -6,6 +6,9 @@
 /* Import Hugo Stack theme overrides for proper integration */
 @import "hugo-stack-override";
 
+/* Import fine-tune optimization for icons, fonts, and containers */
+@import "fine-tune-optimization";
+
 /* Keep only essential admin functionality */
 @import "form-validation";
 @import "admin-panel-enhance";
