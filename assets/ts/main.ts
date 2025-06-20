@@ -1625,3 +1625,9 @@ declare global {
 window.Stack = Stack;
 window.createElement = createElement;
 window.StackAuth = globalAuth;
+
+// Import frontend beautification module
+import './frontend-beautify';
+
+// Import navigation enhancement module
+import './navigation-enhance';

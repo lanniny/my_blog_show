@@ -3,6 +3,12 @@
 /* Import form validation styles */
 @import "form-validation";
 
+/* Import frontend beautification styles */
+@import "frontend-beautify";
+
+/* Import navigation beautification styles */
+@import "navigation-beautify";
+
 /* Admin Modal Styles - Enhanced */
 .admin-modal {
     position: fixed;

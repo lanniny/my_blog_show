@@ -1,0 +1,472 @@
+/* Frontend Beautification Styles */
+
+/* ===== 全局变量定义 ===== */
+:root {
+    /* 主色调 */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    
+    /* 卡片阴影 */
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.15);
+    --card-shadow-active: 0 4px 16px rgba(0, 0, 0, 0.12);
+    
+    /* 边框圆角 */
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 20px;
+    
+    /* 动画时间 */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* 间距 */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+}
+
+/* ===== 文章列表美化 ===== */
+.article-list {
+    display: grid;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* 文章卡片整体设计 */
+.article-list article {
+    background: var(--card-background);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--card-shadow);
+    transition: all var(--transition-normal);
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.article-list article::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.article-list article:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.article-list article:hover::before {
+    opacity: 1;
+}
+
+/* 文章图片美化 */
+.article-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+    height: 200px;
+}
+
+.article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.article-list article:hover .article-image img {
+    transform: scale(1.05);
+}
+
+.article-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+    pointer-events: none;
+}
+
+/* 文章详情区域 */
+.article-details {
+    padding: var(--spacing-md);
+    position: relative;
+}
+
+/* 分类标签美化 */
+.article-category {
+    margin-bottom: var(--spacing-sm);
+}
+
+.article-category a {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--accent-gradient);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+}
+
+.article-category a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4);
+}
+
+/* 文章标题美化 */
+.article-title-wrapper {
+    margin-bottom: var(--spacing-sm);
+}
+
+.article-title {
+    margin: 0 0 var(--spacing-xs) 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.article-title a {
+    color: var(--card-text-color-main);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    background: linear-gradient(135deg, var(--card-text-color-main), var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.article-title a:hover {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 文章副标题 */
+.article-subtitle {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--card-text-color-secondary);
+    line-height: 1.5;
+    opacity: 0.8;
+}
+
+/* 文章时间信息美化 */
+.article-time {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--card-separator-color);
+    font-size: 0.9rem;
+    color: var(--card-text-color-tertiary);
+}
+
+.article-time > div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.article-time svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+/* ===== 分页美化 ===== */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin: var(--spacing-xl) 0;
+}
+
+.pagination a,
+.pagination span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 var(--spacing-sm);
+    border-radius: var(--border-radius-sm);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all var(--transition-fast);
+    border: 2px solid transparent;
+}
+
+.pagination a {
+    background: var(--card-background);
+    color: var(--card-text-color-main);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination a:hover {
+    background: var(--primary-gradient);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.pagination .current {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ===== 侧边栏美化 ===== */
+.sidebar {
+    padding: var(--spacing-md);
+}
+
+/* Widget 卡片美化 */
+.widget {
+    background: var(--card-background);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--card-shadow);
+    margin-bottom: var(--spacing-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-normal);
+}
+
+.widget:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.widget-header {
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+    border-bottom: 1px solid var(--card-separator-color);
+}
+
+.widget-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--card-text-color-main);
+}
+
+.widget-body {
+    padding: var(--spacing-md);
+}
+
+/* 搜索框美化 */
+.search-form {
+    position: relative;
+}
+
+.search-form input {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--card-separator-color);
+    border-radius: var(--border-radius-sm);
+    background: var(--body-background);
+    color: var(--card-text-color-main);
+    font-size: 1rem;
+    transition: all var(--transition-fast);
+}
+
+.search-form input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* 标签云美化 */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+}
+
+.tag-cloud a {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background: var(--card-background-selected);
+    color: var(--card-text-color-secondary);
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+    border: 1px solid var(--card-separator-color);
+}
+
+.tag-cloud a:hover {
+    background: var(--accent-gradient);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(79, 172, 254, 0.3);
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 768px) {
+    .article-list {
+        gap: var(--spacing-md);
+    }
+    
+    .article-image {
+        height: 160px;
+    }
+    
+    .article-title {
+        font-size: 1.2rem;
+    }
+    
+    .article-time {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-xs);
+    }
+    
+    .pagination {
+        gap: var(--spacing-xs);
+    }
+    
+    .pagination a,
+    .pagination span {
+        min-width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+}
+
+/* ===== 暗色模式适配 ===== */
+[data-scheme="dark"] {
+    .article-list article {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    .widget {
+        border-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    .search-form input {
+        background: var(--card-background);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .tag-cloud a {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* ===== 动画效果 ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.article-list article {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.article-list article:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.article-list article:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.article-list article:nth-child(4) {
+    animation-delay: 0.3s;
+}
+
+.article-list article:nth-child(5) {
+    animation-delay: 0.4s;
+}
+
+/* ===== 特殊效果 ===== */
+.article-list article::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s ease;
+    pointer-events: none;
+}
+
+.article-list article:hover::after {
+    left: 100%;
+}
+
+/* 阅读进度条 */
+.reading-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: var(--primary-gradient);
+    z-index: 1000;
+    transition: width 0.1s ease;
+}
+
+/* 返回顶部按钮美化 */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    transition: all var(--transition-normal);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+}
+
+.back-to-top svg {
+    width: 20px;
+    height: 20px;
+}
