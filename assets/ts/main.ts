@@ -427,6 +427,14 @@ let Stack = {
             });
         }
 
+        // Image manager
+        const imageManager = document.getElementById('admin-image-manager');
+        if (imageManager) {
+            imageManager.addEventListener('click', () => {
+                Stack.openImageManager();
+            });
+        }
+
         console.log('Admin panel events bound successfully');
     },
 
@@ -1279,6 +1287,22 @@ let Stack = {
             console.error('❌ Password change failed:', error);
             Stack.showErrorMessage('密码更新失败，请重试');
         }
+    },
+
+    /**
+     * Open image manager in new tab
+     */
+    openImageManager: () => {
+        console.log('🖼️ Opening image manager...');
+
+        // Open image manager page in new tab
+        const imageManagerUrl = '/page/image-manager/';
+        window.open(imageManagerUrl, '_blank');
+
+        // Hide admin panel
+        Stack.hideAdminPanel();
+
+        console.log('✅ Image manager opened in new tab');
     },
 
     /**

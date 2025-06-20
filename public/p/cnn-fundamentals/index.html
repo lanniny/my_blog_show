@@ -1683,33 +1683,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     
-        
-        var pageId = md5(location.pathname).substring(0, 50);
+    var pageId = md5(location.pathname).substring(0, 50);
 
-        var gitalk = new Gitalk({
-            clientID: "Ov23li9uepNcJIfMUmP1",
-            clientSecret: "65abca1c431ab760ddc6b52f81533569cc90e5e9",
-            repo: "my_blog_source",
-            owner: "lanniny",
-            admin: ["lanniny"],
-            id: pageId,
-            distractionFreeMode: false,
-            pagerDirection: 'last',
-            createIssueManually: false,proxy: "https:\/\/cors-anywhere.herokuapp.com\/https:\/\/github.com\/login\/oauth\/access_token",
-            language: 'zh-CN',
-            perPage: 10,
-            
-            enableHotKey: true,
-            
-            labels: ['gitalk', 'comment'],
-            
-            theme: document.documentElement.getAttribute('data-scheme') || 'light'
-        });
-
+    var gitalk = new Gitalk({
+        clientID: "Ov23li9uepNcJIfMUmP1",
+        clientSecret: "65abca1c431ab760ddc6b52f81533569cc90e5e9",
+        repo: "my_blog_source",
+        owner: "lanniny",
+        admin: ["lanniny"],
+        id: pageId,
+        distractionFreeMode: false,
+        pagerDirection: 'last',
+        createIssueManually: false,proxy: "https:\/\/cors-anywhere.herokuapp.com\/https:\/\/github.com\/login\/oauth\/access_token",
+        language: 'zh-CN',
+        perPage: 10,
         
-        gitalk.render('gitalk-container');
-
+        enableHotKey: true,
         
+        labels: ['gitalk', 'comment'],
+        
+        theme: document.documentElement.getAttribute('data-scheme') || 'light'
+    });
+
+    
+    gitalk.render('gitalk-container');
+
+    
+    if (window.MutationObserver) {
         var observer = new MutationObserver(function(mutations) {
             for (var i = 0; i < mutations.length; i++) {
                 var mutation = mutations[i];
@@ -1724,14 +1724,6 @@ document.addEventListener('DOMContentLoaded', function() {
             attributes: true,
             attributeFilter: ['data-scheme']
         });
-
-    } catch (error) {
-        console.error('Gitalk initialization error:', error);
-        document.getElementById("gitalk-container").innerHTML =
-            '<div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">' +
-            '<p>❌ 评论系统加载失败</p>' +
-            '<p>请检查网络连接或稍后重试。</p>' +
-            '</div>';
     }});
 </script>
 

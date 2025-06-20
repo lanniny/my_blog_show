@@ -1,0 +1,418 @@
+{{- define "main" -}}
+<div class="image-manager-page">
+    <header class="page-header">
+        <h1>📸 图片管理系统</h1>
+        <p>统一管理博客图片，支持上传到GitHub仓库并生成CDN链接</p>
+    </header>
+
+    <!-- Image Uploader Component -->
+    <section class="image-uploader-section">
+        <div id="image-uploader-container"></div>
+    </section>
+
+    <!-- Image Gallery -->
+    <section class="image-gallery-section">
+        <div class="gallery-header">
+            <h2>📁 图片库</h2>
+            <div class="gallery-controls">
+                <button id="refreshGallery" class="btn btn-secondary">🔄 刷新</button>
+                <button id="toggleView" class="btn btn-secondary">🔲 切换视图</button>
+                <select id="folderFilter" class="folder-filter">
+                    <option value="">所有文件夹</option>
+                </select>
+            </div>
+        </div>
+        
+        <div id="image-gallery" class="image-gallery">
+            <div class="loading-placeholder">
+                <div class="loading-spinner"></div>
+                <p>正在加载图片库...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Details Modal -->
+    <div id="imageModal" class="image-modal" style="display: none;">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>图片详情</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="image-preview">
+                    <img id="modalImage" src="" alt="">
+                </div>
+                <div class="image-details">
+                    <div class="detail-group">
+                        <label>文件名:</label>
+                        <span id="modalImageName"></span>
+                    </div>
+                    <div class="detail-group">
+                        <label>大小:</label>
+                        <span id="modalImageSize"></span>
+                    </div>
+                    <div class="detail-group">
+                        <label>上传时间:</label>
+                        <span id="modalImageDate"></span>
+                    </div>
+                    <div class="detail-group">
+                        <label>CDN链接:</label>
+                        <div class="link-group">
+                            <input type="text" id="modalCdnLink" readonly>
+                            <button onclick="copyToClipboard('modalCdnLink')">复制</button>
+                        </div>
+                    </div>
+                    <div class="detail-group">
+                        <label>Markdown:</label>
+                        <div class="link-group">
+                            <input type="text" id="modalMarkdown" readonly>
+                            <button onclick="copyToClipboard('modalMarkdown')">复制</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="deleteImage" class="btn btn-danger">🗑️ 删除</button>
+                <button class="btn btn-secondary" onclick="closeModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include required styles -->
+<link rel="stylesheet" href="{{ "scss/image-manager.scss" | resources.ToCSS | resources.Minify | relURL }}">
+
+<!-- Include required scripts -->
+<script type="module">
+    import { ImageUploader } from '{{ "ts/image-uploader.js" | resources.ToCSS | relURL }}';
+    import { ImageGallery } from '{{ "ts/image-gallery.js" | resources.ToCSS | relURL }}';
+    
+    // Initialize components when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        // Initialize image uploader
+        const uploader = new ImageUploader('image-uploader-container');
+        
+        // Initialize image gallery
+        const gallery = new ImageGallery('image-gallery');
+        
+        // Refresh gallery when images are uploaded
+        window.addEventListener('image-management', (e) => {
+            if (e.detail.type === 'image-uploaded') {
+                gallery.refresh();
+            }
+        });
+        
+        // Gallery controls
+        document.getElementById('refreshGallery')?.addEventListener('click', () => {
+            gallery.refresh();
+        });
+        
+        document.getElementById('toggleView')?.addEventListener('click', () => {
+            gallery.toggleView();
+        });
+        
+        document.getElementById('folderFilter')?.addEventListener('change', (e) => {
+            gallery.filterByFolder(e.target.value);
+        });
+    });
+    
+    // Global functions for modal
+    window.copyToClipboard = (elementId) => {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.select();
+            document.execCommand('copy');
+            
+            // Show feedback
+            const button = element.nextElementSibling;
+            const originalText = button.textContent;
+            button.textContent = '已复制!';
+            setTimeout(() => {
+                button.textContent = originalText;
+            }, 2000);
+        }
+    };
+    
+    window.closeModal = () => {
+        document.getElementById('imageModal').style.display = 'none';
+    };
+    
+    // Close modal when clicking overlay
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal-overlay')) {
+            closeModal();
+        }
+    });
+</script>
+
+<style>
+/* Additional page-specific styles */
+.image-manager-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+}
+
+.page-header h1 {
+    color: var(--card-text-color-main);
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.page-header p {
+    color: var(--card-text-color-secondary);
+    font-size: 1.1rem;
+}
+
+.image-gallery-section {
+    margin-top: 3rem;
+}
+
+.gallery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+}
+
+.gallery-header h2 {
+    color: var(--card-text-color-main);
+    margin: 0;
+}
+
+.gallery-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary {
+    background: var(--card-separator-color);
+    color: var(--card-text-color-main);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+.folder-filter {
+    padding: 8px 12px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 6px;
+    background: var(--card-background);
+    color: var(--card-text-color-main);
+}
+
+.image-gallery {
+    min-height: 400px;
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l1);
+    padding: 2rem;
+}
+
+.loading-placeholder {
+    text-align: center;
+    padding: 3rem;
+    color: var(--card-text-color-secondary);
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--card-separator-color);
+    border-top: 4px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Modal Styles */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--shadow-l2);
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    width: 90%;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--card-separator-color);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--card-text-color-main);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--card-text-color-secondary);
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.image-preview {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-l1);
+}
+
+.image-details {
+    space-y: 1rem;
+}
+
+.detail-group {
+    margin-bottom: 1rem;
+}
+
+.detail-group label {
+    display: block;
+    font-weight: 600;
+    color: var(--card-text-color-main);
+    margin-bottom: 0.5rem;
+}
+
+.detail-group span {
+    color: var(--card-text-color-secondary);
+}
+
+.link-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.link-group input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 4px;
+    background: var(--body-background);
+    color: var(--card-text-color-main);
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    font-size: 0.85rem;
+}
+
+.modal-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--card-separator-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .image-manager-page {
+        padding: 1rem;
+    }
+    
+    .gallery-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .gallery-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .link-group {
+        flex-direction: column;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+    }
+}
+</style>
+{{- end -}}

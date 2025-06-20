@@ -7,7 +7,99 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Example Person</copyright>
-        <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Fri, 20 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/page/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>图片管理系统</title>
+        <link>http://localhost:1313/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</link>
+        <pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</guid>
+        <description>&lt;h1 id=&#34;图片管理系统&#34;&gt;图片管理系统
+&lt;/h1&gt;&lt;p&gt;欢迎使用博客图片管理系统！这里您可以：&lt;/p&gt;
+&lt;h2 id=&#34;-主要功能&#34;&gt;🚀 主要功能
+&lt;/h2&gt;&lt;h3 id=&#34;-图片上传&#34;&gt;📤 图片上传
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;拖拽上传&lt;/strong&gt;: 直接拖拽图片文件到上传区域&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;批量上传&lt;/strong&gt;: 支持同时上传多张图片&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;格式支持&lt;/strong&gt;: JPG, PNG, GIF, WebP, SVG&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自动压缩&lt;/strong&gt;: 智能压缩图片，节省存储空间&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;进度显示&lt;/strong&gt;: 实时显示上传进度和状态&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;-cdn-集成&#34;&gt;🌐 CDN 集成
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;多CDN支持&lt;/strong&gt;: jsDelivr, GitHub Raw, GitHub Pages&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自动优化&lt;/strong&gt;: 自动生成缩略图和优化链接&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快速访问&lt;/strong&gt;: 全球CDN加速，确保图片快速加载&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;链接复制&lt;/strong&gt;: 一键复制CDN链接和Markdown格式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;-图片管理&#34;&gt;📁 图片管理
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;可视化浏览&lt;/strong&gt;: 网格和列表两种查看模式&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文件夹分类&lt;/strong&gt;: 按日期自动分类，支持自定义文件夹&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;搜索过滤&lt;/strong&gt;: 按文件夹快速筛选图片&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;详情查看&lt;/strong&gt;: 查看图片详细信息和元数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;-高级功能&#34;&gt;🔧 高级功能
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;图片删除&lt;/strong&gt;: 安全删除不需要的图片&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;重命名&lt;/strong&gt;: 重新组织图片文件名&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;批量操作&lt;/strong&gt;: 支持批量管理操作&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;版本控制&lt;/strong&gt;: 基于GitHub，完整的版本历史&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-使用说明&#34;&gt;📋 使用说明
+&lt;/h2&gt;&lt;h3 id=&#34;上传图片&#34;&gt;上传图片
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;点击上传区域或拖拽图片文件&lt;/li&gt;
+&lt;li&gt;选择压缩选项和目标文件夹&lt;/li&gt;
+&lt;li&gt;等待上传完成&lt;/li&gt;
+&lt;li&gt;复制生成的CDN链接&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;管理图片&#34;&gt;管理图片
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;在图片库中浏览已上传的图片&lt;/li&gt;
+&lt;li&gt;点击图片查看详细信息&lt;/li&gt;
+&lt;li&gt;使用工具栏切换视图模式&lt;/li&gt;
+&lt;li&gt;通过文件夹筛选器快速定位&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;在文章中使用&#34;&gt;在文章中使用
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-markdown&#34; data-lang=&#34;markdown&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;![&lt;span class=&#34;nt&#34;&gt;图片描述&lt;/span&gt;](&lt;span class=&#34;na&#34;&gt;CDN链接&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;-安全说明&#34;&gt;🔒 安全说明
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;所有图片存储在GitHub私有仓库中&lt;/li&gt;
+&lt;li&gt;支持访问权限控制&lt;/li&gt;
+&lt;li&gt;自动备份和版本管理&lt;/li&gt;
+&lt;li&gt;安全的API认证机制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;-最佳实践&#34;&gt;💡 最佳实践
+&lt;/h2&gt;&lt;h3 id=&#34;图片优化&#34;&gt;图片优化
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;建议上传前适当压缩图片&lt;/li&gt;
+&lt;li&gt;使用WebP格式获得更好的压缩比&lt;/li&gt;
+&lt;li&gt;为不同用途准备不同尺寸的图片&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;文件组织&#34;&gt;文件组织
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;使用有意义的文件名&lt;/li&gt;
+&lt;li&gt;按项目或日期分类存储&lt;/li&gt;
+&lt;li&gt;定期清理不再使用的图片&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;性能优化&#34;&gt;性能优化
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;优先使用CDN链接&lt;/li&gt;
+&lt;li&gt;为大图片提供缩略图&lt;/li&gt;
+&lt;li&gt;合理使用图片懒加载&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;开始使用图片管理系统，让您的博客图片管理更加高效！&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Archives</title>
         <link>http://localhost:1313/archives/</link>
         <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
