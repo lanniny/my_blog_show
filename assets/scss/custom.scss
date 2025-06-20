@@ -340,18 +340,118 @@ kbd {
     100% { transform: rotate(360deg); }
 }
 
+/* Admin Sidebar Styles */
+.admin-status-indicator {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 24px;
+    height: 24px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-l2);
+    border: 2px solid var(--card-background);
+}
+
+.admin-status-indicator .admin-icon {
+    width: 12px;
+    height: 12px;
+    stroke: var(--accent-color-text);
+}
+
+.admin-menu-section {
+    border-top: 1px solid var(--card-separator-color);
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.admin-menu-section a {
+    color: var(--accent-color);
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.admin-menu-section a:hover {
+    color: var(--accent-color-darker);
+    transform: translateX(5px);
+}
+
+#admin-auth-toggle {
+    border-top: 1px solid var(--card-separator-color);
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+#admin-auth-toggle a {
+    display: flex;
+    align-items: center;
+    gap: var(--menu-icon-separation);
+    color: var(--body-text-color);
+    transition: all 0.2s ease;
+    padding: 5px 0;
+}
+
+#admin-auth-toggle a:hover {
+    color: var(--accent-color);
+}
+
+#admin-auth-toggle [data-admin-only] {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+#admin-auth-toggle [data-admin-only]:hover {
+    color: var(--accent-color-darker);
+}
+
+/* Admin Panel Toggle */
+#admin-panel-toggle {
+    position: relative;
+}
+
+#admin-panel-toggle::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background: var(--accent-color);
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#admin-panel-toggle:hover::after {
+    opacity: 1;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .admin-modal-content {
         margin: 1rem;
         width: calc(100% - 2rem);
     }
-    
+
     .admin-form-actions {
         flex-direction: column;
     }
-    
+
     .admin-form-actions button {
         width: 100%;
+    }
+
+    .admin-status-indicator {
+        width: 20px;
+        height: 20px;
+    }
+
+    .admin-status-indicator .admin-icon {
+        width: 10px;
+        height: 10px;
     }
 }

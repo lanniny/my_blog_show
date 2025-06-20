@@ -186,6 +186,16 @@ let Stack = {
                 AuthUtils.hideLoginModal();
             }
         });
+
+        // Admin panel toggle
+        const adminPanelToggle = document.getElementById('admin-panel-toggle');
+        if (adminPanelToggle) {
+            adminPanelToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                // TODO: Implement admin panel functionality in future tasks
+                console.log('Admin panel toggle clicked - functionality to be implemented');
+            });
+        }
     },
 
     /**
