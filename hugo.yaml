@@ -175,7 +175,6 @@ params:
             - type: archives
               params:
                   limit: 5
-            - type: tag-category-stats
             - type: categories
               params:
                   limit: 15
