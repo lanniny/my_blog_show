@@ -83,9 +83,15 @@ let Stack = {
         Stack.bindAdminPanelEvents();
 
         // Initialize admin state on page load
-        const isAdmin = globalAuth.isAuthenticated();
-        AuthUtils.toggleAdminElements(isAdmin);
-        AuthUtils.updateBodyClass(isAdmin);
+        console.log('🔍 Checking globalAuth:', !!globalAuth);
+        if (globalAuth) {
+            const isAdmin = globalAuth.isAuthenticated();
+            console.log('🔍 Initial admin status:', isAdmin);
+            AuthUtils.toggleAdminElements(isAdmin);
+            AuthUtils.updateBodyClass(isAdmin);
+        } else {
+            console.error('❌ globalAuth not initialized!');
+        }
 
         // Load admin settings on page load
         Stack.loadAdminSettings();
