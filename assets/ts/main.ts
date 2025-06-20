@@ -54,12 +54,36 @@ let Stack = {
         });
 
         // Create and inject login modal and admin panel immediately
+        console.log('Creating login modal...');
         const modalHTML = AuthUtils.createLoginModal();
         document.body.insertAdjacentHTML('beforeend', modalHTML);
+        console.log('Login modal created');
 
         // Always create admin panel HTML immediately on page load
+        console.log('Creating admin panel HTML...');
         const panelHTML = Stack.createAdminPanelHTML();
         document.body.insertAdjacentHTML('beforeend', panelHTML);
+        console.log('Admin panel HTML inserted');
+
+        // Verify panel was created
+        const panel = document.getElementById('admin-panel-modal');
+        if (panel) {
+            console.log('✅ Admin panel verified - exists in DOM');
+        } else {
+            console.error('❌ Admin panel creation failed!');
+            // Try again with a delay
+            setTimeout(() => {
+                console.log('Retrying admin panel creation...');
+                const retryPanelHTML = Stack.createAdminPanelHTML();
+                document.body.insertAdjacentHTML('beforeend', retryPanelHTML);
+                const retryPanel = document.getElementById('admin-panel-modal');
+                if (retryPanel) {
+                    console.log('✅ Admin panel created on retry');
+                } else {
+                    console.error('❌ Admin panel creation failed even on retry');
+                }
+            }, 500);
+        }
 
         // Bind events immediately
         Stack.bindAuthEvents();
@@ -73,7 +97,7 @@ let Stack = {
         // Load admin settings on page load
         Stack.loadAdminSettings();
 
-        console.log('Admin panel initialized and ready - no delay');
+        console.log('✅ Stack initialization complete');
 
         /**
          * Bind menu event
@@ -151,6 +175,25 @@ let Stack = {
         });
 
         new StackColorScheme(document.getElementById('dark-mode-toggle'));
+
+        // Additional backup initialization for admin panel
+        setTimeout(() => {
+            const panel = document.getElementById('admin-panel-modal');
+            if (!panel) {
+                console.log('🔄 Admin panel not found after initialization, creating backup...');
+                const backupPanelHTML = Stack.createAdminPanelHTML();
+                document.body.insertAdjacentHTML('beforeend', backupPanelHTML);
+                const backupPanel = document.getElementById('admin-panel-modal');
+                if (backupPanel) {
+                    console.log('✅ Backup admin panel created successfully');
+                    Stack.bindAdminPanelEvents();
+                } else {
+                    console.error('❌ Backup admin panel creation also failed');
+                }
+            } else {
+                console.log('✅ Admin panel already exists, no backup needed');
+            }
+        }, 1000);
     },
 
     /**
