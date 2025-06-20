@@ -7858,6 +7858,157 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 </description>
         </item>
         <item>
+        <title>Gitalk评论系统配置指南</title>
+        <link>http://localhost:1313/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</link>
+        <pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate>
+        
+        <guid>http://localhost:1313/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</guid>
+        <description>&lt;h1 id=&#34;gitalk评论系统配置指南&#34;&gt;Gitalk评论系统配置指南
+&lt;/h1&gt;&lt;h2 id=&#34;-当前问题403-forbidden错误&#34;&gt;🚨 当前问题：403 Forbidden错误
+&lt;/h2&gt;&lt;p&gt;如果您在使用评论系统时遇到&amp;quot;403 Forbidden&amp;quot;错误，这通常是GitHub OAuth权限配置问题。请按照以下步骤解决：&lt;/p&gt;
+&lt;h2 id=&#34;-解决方案&#34;&gt;🔧 解决方案
+&lt;/h2&gt;&lt;h3 id=&#34;步骤1-检查github-oauth应用配置&#34;&gt;步骤1: 检查GitHub OAuth应用配置
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;访问GitHub OAuth应用设置&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;登录GitHub&lt;/li&gt;
+&lt;li&gt;进入 Settings → Developer settings → OAuth Apps&lt;/li&gt;
+&lt;li&gt;找到您的OAuth应用（Client ID: &lt;code&gt;Ov23li9uepNcJIfMUmP1&lt;/code&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;验证回调URL设置&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Authorization callback URL: https://lanniny-blog.netlify.app/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;重要&lt;/strong&gt;: 确保回调URL完全匹配您的博客域名，包括协议(https://)和尾部斜杠&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;步骤2-检查仓库权限&#34;&gt;步骤2: 检查仓库权限
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;确认my_blog_source仓库状态&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;仓库必须是&lt;strong&gt;公开的&lt;/strong&gt;，或者OAuth应用有访问私有仓库的权限&lt;/li&gt;
+&lt;li&gt;确认您是仓库的所有者或协作者&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;检查仓库设置&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;进入 &lt;code&gt;my_blog_source&lt;/code&gt; 仓库&lt;/li&gt;
+&lt;li&gt;Settings → General → Features&lt;/li&gt;
+&lt;li&gt;确保 &amp;ldquo;Issues&amp;rdquo; 功能已启用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;步骤3-oauth权限范围&#34;&gt;步骤3: OAuth权限范围
+&lt;/h3&gt;&lt;p&gt;确认OAuth应用具有以下权限：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;public_repo&lt;/code&gt; (访问公开仓库)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;repo&lt;/code&gt; (如果仓库是私有的)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;步骤4-重新生成client-secret推荐&#34;&gt;步骤4: 重新生成Client Secret（推荐）
+&lt;/h3&gt;&lt;p&gt;为了安全起见，建议重新生成Client Secret：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在GitHub OAuth应用设置中点击 &amp;ldquo;Generate a new client secret&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;复制新的Client Secret&lt;/li&gt;
+&lt;li&gt;更新 &lt;code&gt;hugo.yaml&lt;/code&gt; 配置文件中的 &lt;code&gt;clientSecret&lt;/code&gt; 值&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;-安全建议&#34;&gt;🔒 安全建议
+&lt;/h2&gt;&lt;h3 id=&#34;当前配置问题&#34;&gt;当前配置问题
+&lt;/h3&gt;&lt;p&gt;目前的配置将Client Secret暴露在前端代码中，这存在安全风险。&lt;/p&gt;
+&lt;h3 id=&#34;推荐的安全配置&#34;&gt;推荐的安全配置
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;使用环境变量&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c&#34;&gt;# hugo.yaml&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;params&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;comments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;gitalk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;clientID&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;Ov23li9uepNcJIfMUmP1&amp;#34;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;clientSecret&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;l&#34;&gt;${GITALK_CLIENT_SECRET} &lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# 从环境变量读取&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Netlify环境变量设置&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在Netlify Dashboard中设置环境变量&lt;/li&gt;
+&lt;li&gt;变量名: &lt;code&gt;GITALK_CLIENT_SECRET&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;变量值: 您的GitHub OAuth Client Secret&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;使用GitHub App替代OAuth App&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub App提供更细粒度的权限控制&lt;/li&gt;
+&lt;li&gt;更安全的认证机制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;-故障排除&#34;&gt;🛠️ 故障排除
+&lt;/h2&gt;&lt;h3 id=&#34;常见错误及解决方案&#34;&gt;常见错误及解决方案
+&lt;/h3&gt;&lt;h4 id=&#34;错误-403-forbidden&#34;&gt;错误: &amp;ldquo;403 Forbidden&amp;rdquo;
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;: OAuth权限不足或配置错误
+&lt;strong&gt;解决&lt;/strong&gt;: 检查上述步骤1-3&lt;/p&gt;
+&lt;h4 id=&#34;错误-404-not-found&#34;&gt;错误: &amp;ldquo;404 Not Found&amp;rdquo;
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;: 正常现象，表示该文章还没有对应的GitHub Issue
+&lt;strong&gt;解决&lt;/strong&gt;: 无需处理，用户首次评论时会自动创建Issue&lt;/p&gt;
+&lt;h4 id=&#34;错误-bad-credentials&#34;&gt;错误: &amp;ldquo;Bad credentials&amp;rdquo;
+&lt;/h4&gt;&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;: Client ID或Client Secret错误
+&lt;strong&gt;解决&lt;/strong&gt;: 重新检查并更新OAuth应用凭据&lt;/p&gt;
+&lt;h3 id=&#34;测试配置&#34;&gt;测试配置
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;清除浏览器缓存&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;在隐私模式下测试&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;检查浏览器控制台错误信息&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;-技术支持&#34;&gt;📞 技术支持
+&lt;/h2&gt;&lt;p&gt;如果按照上述步骤仍无法解决问题，请：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;检查浏览器控制台&lt;/strong&gt;的详细错误信息&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;确认网络连接&lt;/strong&gt;正常&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;联系管理员&lt;/strong&gt;提供具体的错误信息&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;-临时解决方案&#34;&gt;🔄 临时解决方案
+&lt;/h2&gt;&lt;p&gt;在修复OAuth配置期间，您可以：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;使用其他评论系统&lt;/strong&gt;（如Disqus）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;通过GitHub Issues直接评论&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;联系博客管理员&lt;/strong&gt;反馈问题&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-配置检查清单&#34;&gt;📋 配置检查清单
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; GitHub OAuth应用已创建&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 回调URL正确设置&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; my_blog_source仓库为公开或有权限访问&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Issues功能已启用&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; OAuth权限范围正确&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Client Secret已更新&lt;/li&gt;
+&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; 环境变量已配置（推荐）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;完成所有检查项后，评论系统应该能正常工作。&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>图片管理系统</title>
         <link>http://localhost:1313/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</link>
         <pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate>

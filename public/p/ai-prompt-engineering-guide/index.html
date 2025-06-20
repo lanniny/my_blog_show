@@ -242,6 +242,18 @@
             </a>
         </li>
         
+        
+        <li >
+            <a href='/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/' >
+                
+                
+                
+                    
+                
+                <span>评论配置</span>
+            </a>
+        </li>
+        
 
         
         <li class="admin-menu-section" data-admin-only>
@@ -945,15 +957,15 @@ document.addEventListener('DOMContentLoaded', function() {
         var pageId = md5(location.pathname).substring(0, 50);
 
         var gitalk = new Gitalk({
-            clientID: "Ov23li9uepNcJIfMUmP1",
-            clientSecret: "65abca1c431ab760ddc6b52f81533569cc90e5e9",
+            clientID: "PLACEHOLDER_CLIENT_ID",
+            clientSecret: "PLACEHOLDER_CLIENT_SECRET",
             repo: "my_blog_source",
             owner: "lanniny",
             admin: ["lanniny"],
             id: pageId,
             distractionFreeMode: false,
             pagerDirection: 'last',
-            createIssueManually: false,
+            createIssueManually: true,  
             language: 'zh-CN',
             perPage: 10,
             
@@ -967,6 +979,32 @@ document.addEventListener('DOMContentLoaded', function() {
         
         gitalk.render('gitalk-container');
         console.log('✅ Gitalk initialized successfully');
+
+        
+        gitalk.on('error', function(error) {
+            console.error('Gitalk error:', error);
+            var container = document.getElementById('gitalk-container');
+            if (container && error.message) {
+                if (error.message.includes('403')) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">
+                            <h4>🔐 评论系统配置提示</h4>
+                            <p>评论功能需要管理员配置GitHub OAuth权限。</p>
+                            <p>如果您是管理员，请检查：</p>
+                            <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                                <li>GitHub OAuth应用的回调URL设置</li>
+                                <li>my_blog_source仓库的访问权限</li>
+                                <li>OAuth应用的权限范围</li>
+                            </ul>
+                            <p><small>错误代码: 403 Forbidden</small></p>
+                        </div>
+                    `;
+                } else if (error.message.includes('404')) {
+                    
+                    console.log('ℹ️ No existing issue found, this is normal for new posts');
+                }
+            }
+        });
 
         
         if (window.MutationObserver) {

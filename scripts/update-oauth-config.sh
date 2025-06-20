@@ -35,12 +35,18 @@ cp hugo.yaml hugo.yaml.backup.$(date +%Y%m%d_%H%M%S)
 echo "✅ 已备份原配置文件"
 
 # 更新Client ID
+sed -i.tmp "s/clientID: \"PLACEHOLDER_CLIENT_ID\"/clientID: \"$CLIENT_ID\"/" hugo.yaml
 sed -i.tmp "s/clientID: \".*\"/clientID: \"$CLIENT_ID\"/" hugo.yaml
 echo "✅ 已更新Client ID"
 
 # 更新Client Secret
+sed -i.tmp "s/clientSecret: \"PLACEHOLDER_CLIENT_SECRET\"/clientSecret: \"$CLIENT_SECRET\"/" hugo.yaml
 sed -i.tmp "s/clientSecret: \".*\"/clientSecret: \"$CLIENT_SECRET\"/" hugo.yaml
 echo "✅ 已更新Client Secret"
+
+# 启用Gitalk
+sed -i.tmp "s/enabled: false/enabled: true/" hugo.yaml
+echo "✅ 已启用Gitalk"
 
 # 清理临时文件
 rm -f hugo.yaml.tmp

@@ -93,8 +93,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // 检查必要的配置
-    {{- if and .clientID .clientSecret .owner .repo -}}
+    // 检查是否启用Gitalk和必要的配置
+    {{- if and (ne .enabled false) .clientID .clientSecret .owner .repo -}}
+    {{- if and (ne .clientID "PLACEHOLDER_CLIENT_ID") (ne .clientSecret "PLACEHOLDER_CLIENT_SECRET") -}}
 
     // 确保在DOM加载完成后初始化
     function initializeGitalk() {
@@ -196,12 +197,35 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeGitalk();
     }
     {{- else -}}
-    // 配置不完整的提示
-    document.getElementById("gitalk-container").innerHTML =
-        '<div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary);">' +
-        '<p>⚙️ 评论系统配置中</p>' +
-        '<p>管理员正在配置GitHub OAuth应用，评论功能即将开放。</p>' +
-        '</div>';
+    // 显示详细的配置指南
+    document.getElementById("gitalk-container").innerHTML = `
+        <div style="text-align: center; padding: 2rem; color: var(--card-text-color-secondary); border: 1px solid var(--card-separator-color); border-radius: 8px; background: var(--card-background);">
+            <h4>🔧 评论系统配置指南</h4>
+            <p>评论功能需要配置GitHub OAuth应用。</p>
+            <details style="margin-top: 1rem; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <summary style="cursor: pointer; font-weight: 500; color: var(--accent-color);">📋 点击查看配置步骤</summary>
+                <div style="margin-top: 1rem; padding: 1rem; background: var(--accent-color-lighter); border-radius: 6px; font-size: 0.9rem;">
+                    <p><strong>步骤1: 创建OAuth应用</strong></p>
+                    <p>访问: <a href="https://github.com/settings/applications/new" target="_blank" style="color: var(--accent-color);">GitHub OAuth Apps</a></p>
+
+                    <p><strong>步骤2: 填写应用信息</strong></p>
+                    <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                        <li>Application name: <code>Lanniny Blog Comments</code></li>
+                        <li>Homepage URL: <code>https://lanniny-blog.netlify.app</code></li>
+                        <li>Authorization callback URL: <code>https://lanniny-blog.netlify.app/</code></li>
+                    </ul>
+
+                    <p><strong>步骤3: 更新配置</strong></p>
+                    <p>将获得的Client ID和Client Secret更新到博客配置文件中，并设置 <code>enabled: true</code></p>
+
+                    <p style="margin-top: 1rem; padding: 0.5rem; background: var(--card-background); border-radius: 4px; border-left: 3px solid var(--accent-color);">
+                        <strong>💡 提示:</strong> 确保my_blog_source仓库是公开的，并启用了Issues功能。
+                    </p>
+                </div>
+            </details>
+        </div>
+    `;
+    console.log('ℹ️ 已显示Gitalk配置指南');
     {{- end -}}
 });
 </script>
