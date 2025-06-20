@@ -1031,7 +1031,7 @@ kbd {
     }
 
     input {
-        padding: 45px 20px 18px 20px !important; /* 增加top padding为label留出空间 */
+        padding: 48px 20px 18px 20px !important; /* 增加top padding为label留出足够空间 */
         border-radius: var(--card-border-radius);
         background-color: var(--card-background);
         box-shadow: var(--shadow-l1);
@@ -1080,7 +1080,7 @@ kbd {
 
         input {
             font-size: 1.4rem !important;
-            padding: 35px 20px 12px 20px !important; /* Widget版本的padding调整 */
+            padding: 38px 20px 12px 20px !important; /* Widget版本的padding调整 */
         }
     }
 
