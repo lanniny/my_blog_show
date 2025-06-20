@@ -29,11 +29,15 @@ let Stack = {
             console.error('❌ Failed to create globalAuth:', error);
             console.log('🔧 Attempting fallback auth creation...');
 
-            // Fallback: create a simple auth object
+            // Fallback: create a simple auth object with config support
             globalAuth = {
+                config: {
+                    adminPassword: localStorage.getItem('adminPassword') || 'admit'
+                },
                 isAuthenticated: () => localStorage.getItem('adminAuth') === 'authenticated',
-                authenticate: (password: string) => {
-                    if (password === 'admit') {
+                authenticate: function(password: string) {
+                    // Use dynamic password from config
+                    if (password === this.config.adminPassword) {
                         localStorage.setItem('adminAuth', 'authenticated');
                         // Manually trigger UI update
                         setTimeout(() => {
@@ -61,6 +65,11 @@ let Stack = {
                     guestElements.forEach(el => {
                         (el as HTMLElement).style.display = 'block';
                     });
+                },
+                updatePassword: function(newPassword: string) {
+                    this.config.adminPassword = newPassword;
+                    localStorage.setItem('adminPassword', newPassword);
+                    console.log('✅ Fallback auth password updated');
                 }
             };
             console.log('✅ Fallback auth created');
@@ -675,9 +684,17 @@ let Stack = {
 
         try {
             // 更新globalAuth配置中的密码
-            if (globalAuth && globalAuth.config) {
-                globalAuth.config.adminPassword = newPassword;
-                console.log('✅ Updated globalAuth.config.adminPassword');
+            if (globalAuth) {
+                if (globalAuth.config) {
+                    globalAuth.config.adminPassword = newPassword;
+                    console.log('✅ Updated globalAuth.config.adminPassword');
+                }
+
+                // 如果有updatePassword方法，也调用它
+                if (typeof globalAuth.updatePassword === 'function') {
+                    globalAuth.updatePassword(newPassword);
+                    console.log('✅ Called globalAuth.updatePassword()');
+                }
             }
 
             // 保存新密码到localStorage (用于持久化)
