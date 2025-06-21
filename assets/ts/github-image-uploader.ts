@@ -481,27 +481,292 @@ export class GitHubImageUploader {
     }
 }
 
+/**
+ * Image Manager UI Class
+ */
+class ImageManagerUI {
+    private uploader: GitHubImageUploader;
+    private container: HTMLElement | null = null;
+
+    constructor(uploader: GitHubImageUploader) {
+        this.uploader = uploader;
+    }
+
+    /**
+     * Open image manager interface
+     */
+    public openManager(): void {
+        if (!this.container) {
+            this.createInterface();
+        }
+        if (this.container) {
+            this.container.style.display = 'block';
+        }
+    }
+
+    /**
+     * Close image manager interface
+     */
+    public closeManager(): void {
+        if (this.container) {
+            this.container.style.display = 'none';
+        }
+    }
+
+    /**
+     * Create image manager interface
+     */
+    private createInterface(): void {
+        const imageManagerHTML = `
+            <div class="image-manager" id="image-manager" style="display: none;">
+                <div class="image-manager-header">
+                    <h3>📷 图片管理</h3>
+                    <button class="close-btn" onclick="window.imageManagerUI.closeManager()">×</button>
+                </div>
+
+                <div class="image-manager-content">
+                    <!-- Upload Section -->
+                    <div class="upload-section">
+                        <h4>📤 上传图片</h4>
+                        <div class="upload-area" id="image-upload-area">
+                            <div class="upload-placeholder">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <path d="M21 15l-5-5L5 21"></path>
+                                </svg>
+                                <p>拖拽图片到此处或点击上传</p>
+                                <small>支持 JPG, PNG, WebP 格式，最大 10MB</small>
+                            </div>
+                            <input type="file" id="image-file-input" accept="image/*" multiple hidden>
+                        </div>
+
+                        <div class="upload-progress" id="upload-progress" style="display: none;">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <div class="progress-text" id="progress-text">准备上传...</div>
+                        </div>
+                    </div>
+
+                    <!-- Image Gallery -->
+                    <div class="gallery-section">
+                        <h4>🖼️ 图片库</h4>
+                        <div class="gallery-controls">
+                            <select id="category-filter">
+                                <option value="">所有分类</option>
+                                <option value="general">通用</option>
+                                <option value="posts">文章</option>
+                                <option value="avatars">头像</option>
+                                <option value="backgrounds">背景</option>
+                            </select>
+                            <button class="btn btn-secondary" id="refresh-gallery">刷新</button>
+                        </div>
+                        <div class="image-gallery" id="image-gallery">
+                            <div class="gallery-placeholder">
+                                <p>暂无图片，请先上传</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.insertAdjacentHTML('beforeend', imageManagerHTML);
+        this.container = document.getElementById('image-manager');
+        this.setupEventListeners();
+    }
+
+    /**
+     * Setup event listeners
+     */
+    private setupEventListeners(): void {
+        // Upload area click
+        const uploadArea = document.getElementById('image-upload-area');
+        const fileInput = document.getElementById('image-file-input') as HTMLInputElement;
+
+        uploadArea?.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // File input change
+        fileInput?.addEventListener('change', (e) => {
+            const files = (e.target as HTMLInputElement).files;
+            if (files && files.length > 0) {
+                this.handleFileUpload(Array.from(files));
+            }
+        });
+
+        // Drag and drop
+        uploadArea?.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea?.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea?.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+
+            const files = e.dataTransfer?.files;
+            if (files && files.length > 0) {
+                this.handleFileUpload(Array.from(files));
+            }
+        });
+
+        // Refresh gallery
+        document.getElementById('refresh-gallery')?.addEventListener('click', () => {
+            this.loadGallery();
+        });
+
+        // Category filter
+        document.getElementById('category-filter')?.addEventListener('change', () => {
+            this.loadGallery();
+        });
+    }
+
+    /**
+     * Handle file upload
+     */
+    private async handleFileUpload(files: File[]): Promise<void> {
+        const progressContainer = document.getElementById('upload-progress');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+
+        if (progressContainer) progressContainer.style.display = 'block';
+
+        this.uploader.setProgressCallback((progress) => {
+            if (progressFill) {
+                progressFill.style.width = `${progress.progress}%`;
+            }
+            if (progressText) {
+                progressText.textContent = progress.message;
+            }
+        });
+
+        try {
+            const results = await this.uploader.uploadImages(files);
+
+            // Show results
+            const successCount = results.filter(r => r.success).length;
+            const failCount = results.length - successCount;
+
+            if (progressText) {
+                progressText.textContent = `上传完成：${successCount} 成功，${failCount} 失败`;
+            }
+
+            // Refresh gallery
+            setTimeout(() => {
+                this.loadGallery();
+                if (progressContainer) progressContainer.style.display = 'none';
+            }, 2000);
+
+        } catch (error) {
+            if (progressText) {
+                progressText.textContent = `上传失败：${error.message}`;
+            }
+        }
+    }
+
+    /**
+     * Load image gallery
+     */
+    private async loadGallery(): Promise<void> {
+        const gallery = document.getElementById('image-gallery');
+        const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement;
+
+        if (!gallery) return;
+
+        gallery.innerHTML = '<div class="loading">加载中...</div>';
+
+        try {
+            const category = categoryFilter?.value || undefined;
+            const images = await this.uploader.listImages(category);
+
+            if (images.length === 0) {
+                gallery.innerHTML = '<div class="gallery-placeholder"><p>暂无图片</p></div>';
+                return;
+            }
+
+            const imageHTML = images.map(image => `
+                <div class="gallery-item">
+                    <img src="${image.download_url}" alt="${image.name}" loading="lazy">
+                    <div class="gallery-item-info">
+                        <div class="image-name">${image.name}</div>
+                        <div class="image-actions">
+                            <button class="btn btn-sm" onclick="navigator.clipboard.writeText('${image.download_url}')">复制链接</button>
+                            <button class="btn btn-sm btn-danger" onclick="window.imageManagerUI.deleteImage('${image.name}')">删除</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            gallery.innerHTML = imageHTML;
+
+        } catch (error) {
+            gallery.innerHTML = `<div class="error">加载失败：${error.message}</div>`;
+        }
+    }
+
+    /**
+     * Delete image
+     */
+    public async deleteImage(fileName: string): Promise<void> {
+        if (!confirm(`确定要删除图片 "${fileName}" 吗？`)) {
+            return;
+        }
+
+        try {
+            const success = await this.uploader.deleteImage(fileName);
+            if (success) {
+                alert('删除成功');
+                this.loadGallery();
+            } else {
+                alert('删除失败');
+            }
+        } catch (error) {
+            alert(`删除失败：${error.message}`);
+        }
+    }
+}
+
 // Global functions
 declare global {
     interface Window {
         GitHubImageUploader: typeof GitHubImageUploader;
         githubImageUploader: GitHubImageUploader;
+        imageManagerUI: ImageManagerUI;
+        openImageManager: () => void;
     }
 }
 
 // Auto-initialize
 let githubImageUploader: GitHubImageUploader;
+let imageManagerUI: ImageManagerUI;
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         githubImageUploader = new GitHubImageUploader();
+        imageManagerUI = new ImageManagerUI(githubImageUploader);
+
         window.githubImageUploader = githubImageUploader;
+        window.imageManagerUI = imageManagerUI;
+        window.openImageManager = () => imageManagerUI.openManager();
+
         console.log('📤 GitHub Image Uploader initialized');
     });
 } else {
     githubImageUploader = new GitHubImageUploader();
+    imageManagerUI = new ImageManagerUI(githubImageUploader);
+
     window.githubImageUploader = githubImageUploader;
+    window.imageManagerUI = imageManagerUI;
+    window.openImageManager = () => imageManagerUI.openManager();
+
     console.log('📤 GitHub Image Uploader initialized');
 }
 

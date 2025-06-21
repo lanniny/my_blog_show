@@ -34,11 +34,11 @@
 <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M14.5 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
 <span>新建文章</span>
 </button>
-<button class=admin-action-btn id=admin-manage-posts>
+<button class=admin-action-btn id=admin-manage-posts onclick=window.openArticleManager()>
 <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M14 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
 <span>管理文章</span>
 </button>
-<button class=admin-action-btn id=admin-image-manager>
+<button class=admin-action-btn id=admin-image-manager-main onclick=window.openImageManager()>
 <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
 <span>图片管理</span>
 </button>
@@ -52,15 +52,7 @@
 </button>
 <button class=admin-action-btn id=admin-background-manager onclick=window.openBackgroundManager()>
 <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M9 9h6v6H9z"/><path d="M3 15l3-3 3 3"/><path d="M21 9l-3 3-3-3"/></svg>
-<span>背景管理</span>
-</button>
-<button class=admin-action-btn id=admin-image-manager onclick=window.openImageManager()>
-<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-<span>图片管理</span>
-</button>
-<button class=admin-action-btn id=admin-article-manager onclick=window.openArticleManager()>
-<svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M14 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
-<span>文章管理</span></button></div></div><div class=admin-section><h3>最近文章</h3><div class=admin-recent-posts><div class=admin-post-item><div class=admin-post-info><h4>Vision Transformer (VIT) 源码解读</h4><p>Deep Learning • 2025-01-19</p></div><div class=admin-post-actions><button class=admin-btn-small>编辑</button>
+<span>背景管理</span></button></div></div><div class=admin-section><h3>最近文章</h3><div class=admin-recent-posts><div class=admin-post-item><div class=admin-post-info><h4>Vision Transformer (VIT) 源码解读</h4><p>Deep Learning • 2025-01-19</p></div><div class=admin-post-actions><button class=admin-btn-small>编辑</button>
 <button class="admin-btn-small admin-btn-danger">删除</button></div></div><div class=admin-post-item><div class=admin-post-info><h4>Transformer架构深度解析</h4><p>Deep Learning • 2025-01-19</p></div><div class=admin-post-actions><button class=admin-btn-small>编辑</button>
 <button class="admin-btn-small admin-btn-danger">删除</button></div></div></div></div></div><div id=admin-tab-settings class=admin-tab-panel><div class=admin-section><h3>主题设置</h3><div class=admin-form-group><label for=admin-theme-color>主题色彩</label><div class=admin-color-picker><input type=color id=admin-theme-color value=#34495e>
 <span class=admin-color-preview></span></div></div><div class=admin-form-group><label><input type=checkbox id=admin-dark-mode-default> 默认深色模式</label></div></div><div class=admin-section><h3>安全设置</h3><div class=admin-form-group><label for=admin-new-password>更改管理员密码</label>
@@ -68,4 +60,4 @@
 <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
 保存设置
 </button>
-<button class="admin-btn admin-btn-secondary" id=admin-panel-cancel>取消</button></div></div></div></div></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.ab5dc5b4144ea1866d8cceb29696c6a4e253b4efd5591cfd038d167fbb7252df.js defer></script><script type=text/javascript src=/ts/custom.59b1c0f78d34c2f55f31f430b225cc71902ea74514721ee14e3f11026618e809.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
+<button class="admin-btn admin-btn-secondary" id=admin-panel-cancel>取消</button></div></div></div></div></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.4a61aaf12dc965e4862cce274814479d11cb86752ccacb44b5d9e13834e43cf0.js defer></script><script type=text/javascript src=/ts/custom.59b1c0f78d34c2f55f31f430b225cc71902ea74514721ee14e3f11026618e809.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>

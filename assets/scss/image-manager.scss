@@ -450,3 +450,321 @@
 .preview-container > * {
     animation: fadeIn 0.3s ease-out;
 }
+
+/* ========================================
+   Image Manager Modal Styles
+   ======================================== */
+
+.image-manager {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--card-background);
+    z-index: 10000;
+    display: none;
+    overflow: hidden;
+
+    &.active {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .image-manager-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: var(--accent-color);
+        color: white;
+        border-bottom: 1px solid var(--card-separator-color);
+
+        h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
+
+    .image-manager-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        padding: 2rem;
+        gap: 2rem;
+
+        .upload-section,
+        .gallery-section {
+            h4 {
+                margin: 0 0 1rem 0;
+                color: var(--card-text-color-main);
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+        }
+
+        .upload-section {
+            .upload-area {
+                border: 2px dashed var(--card-separator-color);
+                border-radius: 8px;
+                padding: 2rem;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                background: var(--card-background-selected);
+
+                &:hover,
+                &.drag-over {
+                    border-color: var(--accent-color);
+                    background: var(--accent-color-lighter);
+                }
+
+                .upload-placeholder {
+                    svg {
+                        width: 48px;
+                        height: 48px;
+                        color: var(--card-text-color-tertiary);
+                        margin-bottom: 1rem;
+                    }
+
+                    p {
+                        margin: 0 0 0.5rem 0;
+                        color: var(--card-text-color-main);
+                        font-weight: 500;
+                    }
+
+                    small {
+                        color: var(--card-text-color-tertiary);
+                        font-size: 0.85rem;
+                    }
+                }
+            }
+
+            .upload-progress {
+                margin-top: 1rem;
+                padding: 1rem;
+                background: var(--card-background-selected);
+                border-radius: 6px;
+
+                .progress-bar {
+                    width: 100%;
+                    height: 8px;
+                    background: var(--card-separator-color);
+                    border-radius: 4px;
+                    overflow: hidden;
+                    margin-bottom: 0.5rem;
+
+                    .progress-fill {
+                        height: 100%;
+                        background: var(--accent-color);
+                        transition: width 0.3s ease;
+                        width: 0%;
+                    }
+                }
+
+                .progress-text {
+                    font-size: 0.9rem;
+                    color: var(--card-text-color-secondary);
+                    text-align: center;
+                }
+            }
+        }
+
+        .gallery-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+            .gallery-controls {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                align-items: center;
+
+                select,
+                .btn {
+                    padding: 0.5rem 1rem;
+                    border: 1px solid var(--card-separator-color);
+                    border-radius: 4px;
+                    background: var(--card-background);
+                    color: var(--card-text-color-main);
+                    font-size: 0.9rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:focus,
+                    &:hover {
+                        outline: none;
+                        border-color: var(--accent-color);
+                        background: var(--accent-color-lighter);
+                        color: var(--accent-color);
+                    }
+                }
+            }
+
+            .image-gallery {
+                flex: 1;
+                overflow-y: auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+                padding: 1rem 0;
+
+                .gallery-placeholder,
+                .loading,
+                .error {
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    padding: 2rem;
+                    color: var(--card-text-color-tertiary);
+                    font-size: 0.9rem;
+                }
+
+                .error {
+                    color: #ef4444;
+                }
+
+                .gallery-item {
+                    background: var(--card-background);
+                    border-radius: 8px;
+                    overflow: hidden;
+                    box-shadow: var(--shadow-l1);
+                    border: 1px solid var(--card-separator-color);
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        transform: translateY(-2px);
+                        box-shadow: var(--shadow-l2);
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 150px;
+                        object-fit: cover;
+                        display: block;
+                    }
+
+                    .gallery-item-info {
+                        padding: 1rem;
+
+                        .image-name {
+                            font-size: 0.85rem;
+                            color: var(--card-text-color-main);
+                            font-weight: 500;
+                            margin-bottom: 0.75rem;
+                            word-break: break-all;
+                        }
+
+                        .image-actions {
+                            display: flex;
+                            gap: 0.5rem;
+
+                            .btn {
+                                flex: 1;
+                                padding: 0.4rem 0.8rem;
+                                border: 1px solid var(--card-separator-color);
+                                border-radius: 4px;
+                                background: var(--card-background-selected);
+                                color: var(--card-text-color-main);
+                                font-size: 0.75rem;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+
+                                &:hover {
+                                    background: var(--accent-color-lighter);
+                                    color: var(--accent-color);
+                                    border-color: var(--accent-color);
+                                }
+
+                                &.btn-danger {
+                                    background: #fee2e2;
+                                    color: #dc2626;
+                                    border-color: #fecaca;
+
+                                    &:hover {
+                                        background: #dc2626;
+                                        color: white;
+                                        border-color: #dc2626;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* ========================================
+   Image Manager Responsive Design
+   ======================================== */
+
+@media (max-width: 768px) {
+    .image-manager {
+        .image-manager-content {
+            padding: 1rem;
+            gap: 1rem;
+
+            .upload-section .upload-area {
+                padding: 1.5rem 1rem;
+
+                .upload-placeholder svg {
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+
+            .gallery-section {
+                .gallery-controls {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 0.5rem;
+                }
+
+                .image-gallery {
+                    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                    gap: 0.75rem;
+
+                    .gallery-item {
+                        img {
+                            height: 120px;
+                        }
+
+                        .gallery-item-info {
+                            padding: 0.75rem;
+
+                            .image-name {
+                                font-size: 0.8rem;
+                                margin-bottom: 0.5rem;
+                            }
+
+                            .image-actions {
+                                flex-direction: column;
+                                gap: 0.4rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
