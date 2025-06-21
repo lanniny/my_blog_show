@@ -16,6 +16,7 @@ import StackAuth, { AuthUtils } from 'ts/auth';
 import './performance';
 import './links-enhance';
 import './background-manager';
+import './github-image-uploader';
 
 // Global auth instance
 let globalAuth: StackAuth;
