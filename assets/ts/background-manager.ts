@@ -927,6 +927,14 @@ export class BackgroundManager {
                     const dataUrl = style.value.match(/url\("([^"]+)"\)/)?.[1];
                     if (dataUrl && dataUrl.startsWith('data:image/')) {
                         console.log('✅ 自定义图片背景数据有效');
+
+                        // Ensure custom style is in customStyles array for management
+                        const existingCustom = this.customStyles.find(s => s.id === style.id);
+                        if (!existingCustom && style.category === 'custom') {
+                            console.log('🔄 添加当前自定义背景到样式库');
+                            this.customStyles.push(style);
+                            this.saveCustomStyles();
+                        }
                     } else {
                         console.warn('⚠️ 自定义图片背景数据可能损坏');
                     }
