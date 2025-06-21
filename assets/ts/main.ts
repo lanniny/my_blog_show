@@ -17,6 +17,7 @@ import './performance';
 import './links-enhance';
 import './background-manager';
 import './github-image-uploader';
+import './article-manager';
 
 // Global auth instance
 let globalAuth: StackAuth;
