@@ -1129,7 +1129,302 @@
       window.dispatchEvent(event);
     }
   };
+  var ImageManagerUI = class {
+    imageManager;
+    isOpen = false;
+    constructor(imageManager2) {
+      this.imageManager = imageManager2;
+      this.createInterface();
+      this.setupEventListeners();
+    }
+    /**
+     * Create image manager interface
+     */
+    createInterface() {
+      const imageManagerHTML = `
+            <div class="image-manager-modal" id="image-manager-modal" style="display: none;">
+                <div class="image-manager-container">
+                    <div class="image-manager-header">
+                        <h3>\u{1F5BC}\uFE0F \u56FE\u7247\u7BA1\u7406</h3>
+                        <button class="close-btn" id="image-manager-close">\xD7</button>
+                    </div>
+
+                    <div class="image-manager-content">
+                        <!-- Upload Section -->
+                        <div class="upload-section">
+                            <div class="upload-area" id="image-upload-area">
+                                <div class="upload-placeholder">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7,10 12,15 17,10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    <p>\u62D6\u62FD\u56FE\u7247\u5230\u6B64\u5904\u6216\u70B9\u51FB\u4E0A\u4F20</p>
+                                    <small>\u652F\u6301 JPG\u3001PNG\u3001GIF\u3001WebP \u683C\u5F0F\uFF0C\u6700\u5927 10MB</small>
+                                </div>
+                                <input type="file" id="image-file-input" accept="image/*" multiple style="display: none;">
+                            </div>
+
+                            <div class="upload-progress" id="upload-progress" style="display: none;">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progress-fill"></div>
+                                </div>
+                                <div class="progress-text" id="progress-text">\u51C6\u5907\u4E0A\u4F20...</div>
+                            </div>
+                        </div>
+
+                        <!-- Image Gallery -->
+                        <div class="image-gallery-section">
+                            <div class="gallery-header">
+                                <h4>\u{1F4DA} \u56FE\u7247\u5E93</h4>
+                                <div class="gallery-controls">
+                                    <input type="text" id="image-search" placeholder="\u641C\u7D22\u56FE\u7247...">
+                                    <select id="image-filter">
+                                        <option value="">\u6240\u6709\u56FE\u7247</option>
+                                        <option value="recent">\u6700\u8FD1\u4E0A\u4F20</option>
+                                        <option value="large">\u5927\u56FE\u7247</option>
+                                        <option value="small">\u5C0F\u56FE\u7247</option>
+                                    </select>
+                                    <button class="btn btn-secondary" id="refresh-gallery">\u5237\u65B0</button>
+                                </div>
+                            </div>
+
+                            <div class="image-gallery" id="image-gallery">
+                                <div class="loading-state">\u6B63\u5728\u52A0\u8F7D\u56FE\u7247...</div>
+                            </div>
+
+                            <div class="gallery-pagination" id="gallery-pagination" style="display: none;">
+                                <button class="btn btn-secondary" id="prev-page" disabled>\u4E0A\u4E00\u9875</button>
+                                <span class="page-info" id="page-info">\u7B2C 1 \u9875\uFF0C\u5171 1 \u9875</span>
+                                <button class="btn btn-secondary" id="next-page" disabled>\u4E0B\u4E00\u9875</button>
+                            </div>
+                        </div>
+
+                        <!-- Image Details Panel -->
+                        <div class="image-details-panel" id="image-details-panel" style="display: none;">
+                            <div class="details-header">
+                                <h4>\u56FE\u7247\u8BE6\u60C5</h4>
+                                <button class="close-details" id="close-details">\xD7</button>
+                            </div>
+
+                            <div class="details-content">
+                                <div class="image-preview">
+                                    <img id="details-image" src="" alt="\u56FE\u7247\u9884\u89C8">
+                                </div>
+
+                                <div class="image-info">
+                                    <div class="info-group">
+                                        <label>\u6587\u4EF6\u540D:</label>
+                                        <input type="text" id="details-name" readonly>
+                                        <button class="btn btn-small" id="edit-name">\u7F16\u8F91</button>
+                                    </div>
+
+                                    <div class="info-group">
+                                        <label>CDN\u94FE\u63A5:</label>
+                                        <input type="text" id="details-cdn-url" readonly>
+                                        <button class="btn btn-small" id="copy-cdn-url">\u590D\u5236</button>
+                                    </div>
+
+                                    <div class="info-group">
+                                        <label>Markdown:</label>
+                                        <input type="text" id="details-markdown" readonly>
+                                        <button class="btn btn-small" id="copy-markdown">\u590D\u5236</button>
+                                    </div>
+
+                                    <div class="info-group">
+                                        <label>\u6587\u4EF6\u5927\u5C0F:</label>
+                                        <span id="details-size">-</span>
+                                    </div>
+
+                                    <div class="info-group">
+                                        <label>\u4E0A\u4F20\u65F6\u95F4:</label>
+                                        <span id="details-date">-</span>
+                                    </div>
+                                </div>
+
+                                <div class="details-actions">
+                                    <button class="btn btn-primary" id="use-image">\u4F7F\u7528\u56FE\u7247</button>
+                                    <button class="btn btn-secondary" id="download-image">\u4E0B\u8F7D</button>
+                                    <button class="btn btn-danger" id="delete-image">\u5220\u9664</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+      if (!document.getElementById("image-manager-modal")) {
+        document.body.insertAdjacentHTML("beforeend", imageManagerHTML);
+      }
+    }
+    /**
+     * Setup event listeners
+     */
+    setupEventListeners() {
+      const closeBtn = document.getElementById("image-manager-close");
+      closeBtn?.addEventListener("click", () => this.closeManager());
+      const uploadArea = document.getElementById("image-upload-area");
+      const fileInput = document.getElementById("image-file-input");
+      uploadArea?.addEventListener("click", () => fileInput?.click());
+      fileInput?.addEventListener("change", (e) => {
+        const files = e.target.files;
+        if (files) {
+          this.handleFileUpload(Array.from(files));
+        }
+      });
+      uploadArea?.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.classList.add("drag-over");
+      });
+      uploadArea?.addEventListener("dragleave", () => {
+        uploadArea.classList.remove("drag-over");
+      });
+      uploadArea?.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove("drag-over");
+        const files = Array.from(e.dataTransfer?.files || []);
+        if (files.length > 0) {
+          this.handleFileUpload(files);
+        }
+      });
+      const searchInput = document.getElementById("image-search");
+      searchInput?.addEventListener("input", () => this.filterImages());
+      const filterSelect = document.getElementById("image-filter");
+      filterSelect?.addEventListener("change", () => this.filterImages());
+      const refreshBtn = document.getElementById("refresh-gallery");
+      refreshBtn?.addEventListener("click", () => this.loadImageGallery());
+      const closeDetails = document.getElementById("close-details");
+      closeDetails?.addEventListener("click", () => this.closeDetailsPanel());
+      const copyCdnBtn = document.getElementById("copy-cdn-url");
+      copyCdnBtn?.addEventListener("click", () => this.copyToClipboard("details-cdn-url"));
+      const copyMarkdownBtn = document.getElementById("copy-markdown");
+      copyMarkdownBtn?.addEventListener("click", () => this.copyToClipboard("details-markdown"));
+    }
+    /**
+     * Open image manager
+     */
+    openManager() {
+      const modal = document.getElementById("image-manager-modal");
+      if (modal) {
+        modal.style.display = "flex";
+        this.isOpen = true;
+        this.loadImageGallery();
+      }
+    }
+    /**
+     * Close image manager
+     */
+    closeManager() {
+      const modal = document.getElementById("image-manager-modal");
+      if (modal) {
+        modal.style.display = "none";
+        this.isOpen = false;
+        this.closeDetailsPanel();
+      }
+    }
+    /**
+     * Handle file upload
+     */
+    async handleFileUpload(files) {
+      const progressContainer = document.getElementById("upload-progress");
+      const progressFill = document.getElementById("progress-fill");
+      const progressText = document.getElementById("progress-text");
+      if (!progressContainer || !progressFill || !progressText) return;
+      progressContainer.style.display = "block";
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        try {
+          await this.imageManager.uploadImage(file, {}, (progress) => {
+            const overallProgress = (i / files.length + progress.percentage / 100 / files.length) * 100;
+            progressFill.style.width = `${overallProgress}%`;
+            progressText.textContent = `${progress.message} (${i + 1}/${files.length})`;
+          });
+          console.log(`\u2705 Uploaded: ${file.name}`);
+        } catch (error) {
+          console.error(`\u274C Failed to upload ${file.name}:`, error);
+          this.showMessage(`\u4E0A\u4F20\u5931\u8D25: ${file.name}`, "error");
+        }
+      }
+      setTimeout(() => {
+        progressContainer.style.display = "none";
+        this.loadImageGallery();
+      }, 1e3);
+    }
+    /**
+     * Load image gallery
+     */
+    async loadImageGallery() {
+      const gallery = document.getElementById("image-gallery");
+      if (!gallery) return;
+      gallery.innerHTML = '<div class="loading-state">\u6B63\u5728\u52A0\u8F7D\u56FE\u7247...</div>';
+      try {
+        gallery.innerHTML = `
+                <div class="empty-gallery">
+                    <p>\u6682\u65E0\u56FE\u7247</p>
+                    <p>\u4E0A\u4F20\u60A8\u7684\u7B2C\u4E00\u5F20\u56FE\u7247\u5F00\u59CB\u4F7F\u7528\u56FE\u7247\u7BA1\u7406\u529F\u80FD</p>
+                </div>
+            `;
+      } catch (error) {
+        console.error("Failed to load image gallery:", error);
+        gallery.innerHTML = '<div class="error-state">\u52A0\u8F7D\u56FE\u7247\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5</div>';
+      }
+    }
+    /**
+     * Filter images
+     */
+    filterImages() {
+      console.log("Filtering images...");
+    }
+    /**
+     * Close details panel
+     */
+    closeDetailsPanel() {
+      const panel = document.getElementById("image-details-panel");
+      if (panel) {
+        panel.style.display = "none";
+      }
+    }
+    /**
+     * Copy text to clipboard
+     */
+    async copyToClipboard(elementId) {
+      const element = document.getElementById(elementId);
+      if (element) {
+        try {
+          await navigator.clipboard.writeText(element.value);
+          this.showMessage("\u5DF2\u590D\u5236\u5230\u526A\u8D34\u677F", "success");
+        } catch (error) {
+          console.error("Failed to copy to clipboard:", error);
+          this.showMessage("\u590D\u5236\u5931\u8D25", "error");
+        }
+      }
+    }
+    /**
+     * Show message to user
+     */
+    showMessage(message, type) {
+      if (typeof window.Stack !== "undefined") {
+        const Stack = window.Stack;
+        if (type === "success" && Stack.showSuccessMessage) {
+          Stack.showSuccessMessage(message);
+        } else if (type === "error" && Stack.showErrorMessage) {
+          Stack.showErrorMessage(message);
+        } else {
+          console.log(`${type.toUpperCase()}: ${message}`);
+        }
+      } else {
+        alert(message);
+      }
+    }
+  };
   var imageManager = new ImageManager();
+  var imageManagerUI = new ImageManagerUI(imageManager);
+  window.ImageManager = ImageManager;
+  window.CDNLinkGenerator = CDNLinkGenerator;
+  window.ImageProcessor = ImageProcessor;
+  window.imageManager = imageManager;
+  window.imageManagerUI = imageManagerUI;
+  window.openImageManager = () => imageManagerUI.openManager();
 
   // <stdin>
   var ImageUploader = class {

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>lanniny-blog</title><link>http://localhost:1313/</link><description>Recent content on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml"/><item><title>Maix2Dock视觉模块开发学习记录</title><link>http://localhost:1313/p/maix2dock-development/</link><pubDate>Sun, 19 Jan 2025 13:00:00 +0800</pubDate><guid>http://localhost:1313/p/maix2dock-development/</guid><description>&lt;h1 id="maix2dock视觉模块开发学习记录">Maix2Dock视觉模块开发学习记录
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>lanniny-blog</title><link>https://lanniny-blog.netlify.app/</link><description>Recent content on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><atom:link href="https://lanniny-blog.netlify.app/index.xml" rel="self" type="application/rss+xml"/><item><title>Maix2Dock视觉模块开发学习记录</title><link>https://lanniny-blog.netlify.app/p/maix2dock-development/</link><pubDate>Sun, 19 Jan 2025 13:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/maix2dock-development/</guid><description>&lt;h1 id="maix2dock视觉模块开发学习记录">Maix2Dock视觉模块开发学习记录
 &lt;/h1>&lt;p>Maix2Dock是一块基于全志V831芯片的精致小巧AI开发板，集成了强大的AI硬件加速特性，支持常规Linux开发的同时，提供了丰富的AI图像识别、语音识别、人脸识别等开箱即用的功能。本文详细记录了Maix2Dock视觉模块的开发学习过程。&lt;/p>
 &lt;h2 id="基础入门">基础入门
 &lt;/h2>&lt;h3 id="认识maix2dock-v831">认识Maix2Dock V831
@@ -1192,7 +1192,7 @@ alt="Maix2Dock开发板"
 >全志V831技术手册&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://developer.nvidia.com/embedded-computing" target="_blank" rel="noopener"
 >边缘AI开发最佳实践&lt;/a>&lt;/li>
-&lt;/ol></description></item><item><title>卷积神经网络(CNN)深度解析：从基础概念到实战应用</title><link>http://localhost:1313/p/cnn-fundamentals/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>http://localhost:1313/p/cnn-fundamentals/</guid><description>&lt;h1 id="卷积神经网络cnn深度解析从基础概念到实战应用">卷积神经网络(CNN)深度解析：从基础概念到实战应用
+&lt;/ol></description></item><item><title>卷积神经网络(CNN)深度解析：从基础概念到实战应用</title><link>https://lanniny-blog.netlify.app/p/cnn-fundamentals/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/cnn-fundamentals/</guid><description>&lt;h1 id="卷积神经网络cnn深度解析从基础概念到实战应用">卷积神经网络(CNN)深度解析：从基础概念到实战应用
 &lt;/h1>&lt;p>卷积神经网络（Convolutional Neural Network, CNN）是深度学习在计算机视觉领域最重要的突破之一。通过&lt;strong>局部感知、参数共享、层次化特征提取&lt;/strong>，CNN成为了图像处理的基石。本文将深入解析CNN的核心概念、经典架构和实战技巧。&lt;/p>
 &lt;h2 id="一核心概念与专业术语详解">一、核心概念与专业术语详解
 &lt;/h2>&lt;h3 id="1-卷积convolution">1. 卷积（Convolution）
@@ -2136,7 +2136,7 @@ $$f(x_i) = \frac{e^{x_i}}{\sum_{j} e^{x_j}}$$&lt;ul>
 >Batch Normalization: Accelerating Deep Network Training&lt;/a> - BatchNorm论文&lt;/li>
 &lt;li>&lt;a class="link" href="https://pytorch.org/tutorials/" target="_blank" rel="noopener"
 >PyTorch官方教程&lt;/a> - 实战代码参考&lt;/li>
-&lt;/ol></description></item><item><title>Transformer架构深度解析：从RNN到自注意力机制的革命</title><link>http://localhost:1313/p/transformer-architecture/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>http://localhost:1313/p/transformer-architecture/</guid><description>&lt;h1 id="transformer架构深度解析从rnn到自注意力机制的革命">Transformer架构深度解析：从RNN到自注意力机制的革命
+&lt;/ol></description></item><item><title>Transformer架构深度解析：从RNN到自注意力机制的革命</title><link>https://lanniny-blog.netlify.app/p/transformer-architecture/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/transformer-architecture/</guid><description>&lt;h1 id="transformer架构深度解析从rnn到自注意力机制的革命">Transformer架构深度解析：从RNN到自注意力机制的革命
 &lt;/h1>&lt;p>Transformer架构的出现标志着深度学习领域的一个重要转折点。它不仅解决了RNN和CNN在处理序列数据时的根本性问题，更为后续的BERT、GPT、ViT等模型奠定了基础。本文将深入解析Transformer的核心原理和技术细节。&lt;/p>
 &lt;h2 id="一历史背景与技术革命">一、历史背景与技术革命
 &lt;/h2>&lt;h3 id="1-传统序列模型的困境">1. 传统序列模型的困境
@@ -2804,7 +2804,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >An Image is Worth 16x16 Words&lt;/a> - ViT论文&lt;/li>
 &lt;li>&lt;a class="link" href="http://jalammar.github.io/illustrated-transformer/" target="_blank" rel="noopener"
 >The Illustrated Transformer&lt;/a> - 可视化教程&lt;/li>
-&lt;/ol></description></item><item><title>Vision Transformer (VIT) 源码解读与实践指南</title><link>http://localhost:1313/p/vit-source-analysis/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>http://localhost:1313/p/vit-source-analysis/</guid><description>&lt;h1 id="vision-transformer-vit-源码解读与实践指南">Vision Transformer (VIT) 源码解读与实践指南
+&lt;/ol></description></item><item><title>Vision Transformer (VIT) 源码解读与实践指南</title><link>https://lanniny-blog.netlify.app/p/vit-source-analysis/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/vit-source-analysis/</guid><description>&lt;h1 id="vision-transformer-vit-源码解读与实践指南">Vision Transformer (VIT) 源码解读与实践指南
 &lt;/h1>&lt;p>Vision Transformer (VIT) 是一个革命性的计算机视觉模型，它将Transformer架构成功应用到图像分类任务中，打破了卷积神经网络在视觉领域的垄断地位。本文将深入解读VIT的源码实现，帮助读者理解其核心原理和实践应用。&lt;/p>
 &lt;h2 id="项目简介">项目简介
 &lt;/h2>&lt;p>本文基于 &lt;a class="link" href="https://github.com/lucidrains/vit-pytorch" target="_blank" rel="noopener"
@@ -3281,7 +3281,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >Attention Is All You Need&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://pytorch.org/docs/stable/index.html" target="_blank" rel="noopener"
 >PyTorch官方文档&lt;/a>&lt;/li>
-&lt;/ol></description></item><item><title>OpenCV计算机视觉入门</title><link>http://localhost:1313/p/opencv-computer-vision-basics/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>http://localhost:1313/p/opencv-computer-vision-basics/</guid><description>&lt;h1 id="opencv计算机视觉入门">OpenCV计算机视觉入门
+&lt;/ol></description></item><item><title>OpenCV计算机视觉入门</title><link>https://lanniny-blog.netlify.app/p/opencv-computer-vision-basics/</link><pubDate>Sun, 19 Jan 2025 12:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/opencv-computer-vision-basics/</guid><description>&lt;h1 id="opencv计算机视觉入门">OpenCV计算机视觉入门
 &lt;/h1>&lt;h2 id="什么是opencv">什么是OpenCV
 &lt;/h2>&lt;p>OpenCV（Open Source Computer Vision Library）是一个开源的计算机视觉和机器学习库。它包含了超过2500个优化的算法，可以用于检测和识别人脸、识别物体、分类人类行为、跟踪摄像头运动等。&lt;/p>
 &lt;h3 id="opencv的特点">OpenCV的特点
@@ -4659,7 +4659,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >计算机视觉基础&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>单片机基础入门指南</title><link>http://localhost:1313/p/mcu-basics-guide/</link><pubDate>Sun, 19 Jan 2025 11:30:00 +0800</pubDate><guid>http://localhost:1313/p/mcu-basics-guide/</guid><description>&lt;h1 id="单片机基础入门指南">单片机基础入门指南
+&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>单片机基础入门指南</title><link>https://lanniny-blog.netlify.app/p/mcu-basics-guide/</link><pubDate>Sun, 19 Jan 2025 11:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/mcu-basics-guide/</guid><description>&lt;h1 id="单片机基础入门指南">单片机基础入门指南
 &lt;/h1>&lt;h2 id="什么是单片机">什么是单片机
 &lt;/h2>&lt;p>单片机（Microcontroller Unit，MCU）是一种集成了处理器、存储器、输入输出接口等功能的微型计算机系统。它将计算机的主要功能集成在一个芯片上，具有体积小、功耗低、成本低的特点。&lt;/p>
 &lt;h3 id="单片机的组成">单片机的组成
@@ -5489,7 +5489,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 &lt;/ol>
 &lt;p>记住，学习单片机最重要的是多动手实践，从简单的LED闪烁开始，逐步挑战更复杂的项目。&lt;/p>
 &lt;hr>
-&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>C语言文件操作详解</title><link>http://localhost:1313/p/c-language-file-operations/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>http://localhost:1313/p/c-language-file-operations/</guid><description>&lt;h1 id="c语言文件操作详解">C语言文件操作详解
+&lt;p>&lt;em>本指南将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>C语言文件操作详解</title><link>https://lanniny-blog.netlify.app/p/c-language-file-operations/</link><pubDate>Sun, 19 Jan 2025 11:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/c-language-file-operations/</guid><description>&lt;h1 id="c语言文件操作详解">C语言文件操作详解
 &lt;/h1>&lt;h2 id="概述">概述
 &lt;/h2>&lt;p>文件操作是C语言编程中的重要组成部分，它允许程序与外部文件进行数据交换。本文将详细介绍C语言中的文件操作方法，包括文件的打开、读取、写入和关闭等操作。&lt;/p>
 &lt;h2 id="文件操作基础">文件操作基础
@@ -6789,7 +6789,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >C文件操作参考&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本文档持续更新中，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>MCP工具使用指南</title><link>http://localhost:1313/p/mcp-tools-guide/</link><pubDate>Sun, 19 Jan 2025 10:30:00 +0800</pubDate><guid>http://localhost:1313/p/mcp-tools-guide/</guid><description>&lt;h1 id="mcp工具使用指南">MCP工具使用指南
+&lt;p>&lt;em>本文档持续更新中，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>MCP工具使用指南</title><link>https://lanniny-blog.netlify.app/p/mcp-tools-guide/</link><pubDate>Sun, 19 Jan 2025 10:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/mcp-tools-guide/</guid><description>&lt;h1 id="mcp工具使用指南">MCP工具使用指南
 &lt;/h1>&lt;h2 id="什么是mcp">什么是MCP
 &lt;/h2>&lt;p>Model Context Protocol (MCP) 是一个开放标准，用于连接AI助手与各种数据源和工具。通过MCP，AI可以安全地访问本地文件、数据库、API等资源，大大扩展了AI的能力边界。&lt;/p>
 &lt;h2 id="核心概念">核心概念
@@ -7516,7 +7516,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >MCP服务器列表&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本指南将根据MCP协议的更新持续完善。&lt;/em>&lt;/p></description></item><item><title>AI提示词工程指南</title><link>http://localhost:1313/p/ai-prompt-engineering-guide/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>http://localhost:1313/p/ai-prompt-engineering-guide/</guid><description>&lt;h1 id="ai提示词工程指南">AI提示词工程指南
+&lt;p>&lt;em>本指南将根据MCP协议的更新持续完善。&lt;/em>&lt;/p></description></item><item><title>AI提示词工程指南</title><link>https://lanniny-blog.netlify.app/p/ai-prompt-engineering-guide/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/ai-prompt-engineering-guide/</guid><description>&lt;h1 id="ai提示词工程指南">AI提示词工程指南
 &lt;/h1>&lt;h2 id="概述">概述
 &lt;/h2>&lt;p>AI提示词工程是与人工智能模型有效交互的关键技能。通过精心设计的提示词，我们可以显著提升AI的响应质量和准确性。&lt;/p>
 &lt;h2 id="基本原则">基本原则
@@ -7761,7 +7761,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 >AI提示词最佳实践&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本文档将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>Gitalk评论系统配置指南</title><link>http://localhost:1313/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</link><pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate><guid>http://localhost:1313/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</guid><description>&lt;h1 id="gitalk评论系统配置指南">Gitalk评论系统配置指南
+&lt;p>&lt;em>本文档将持续更新，欢迎提供反馈和建议。&lt;/em>&lt;/p></description></item><item><title>Gitalk评论系统配置指南</title><link>https://lanniny-blog.netlify.app/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</link><pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</guid><description>&lt;h1 id="gitalk评论系统配置指南">Gitalk评论系统配置指南
 &lt;/h1>&lt;h2 id="-当前问题403-forbidden错误">🚨 当前问题：403 Forbidden错误
 &lt;/h2>&lt;p>如果您在使用评论系统时遇到&amp;quot;403 Forbidden&amp;quot;错误，这通常是GitHub OAuth权限配置问题。请按照以下步骤解决：&lt;/p>
 &lt;h2 id="-解决方案">🔧 解决方案
@@ -7903,7 +7903,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 &lt;li>&lt;input disabled="" type="checkbox"> Client Secret已更新&lt;/li>
 &lt;li>&lt;input disabled="" type="checkbox"> 环境变量已配置（推荐）&lt;/li>
 &lt;/ul>
-&lt;p>完成所有检查项后，评论系统应该能正常工作。&lt;/p></description></item><item><title>图片管理系统</title><link>http://localhost:1313/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</link><pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate><guid>http://localhost:1313/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</guid><description>&lt;h1 id="图片管理系统">图片管理系统
+&lt;p>完成所有检查项后，评论系统应该能正常工作。&lt;/p></description></item><item><title>图片管理系统</title><link>https://lanniny-blog.netlify.app/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</link><pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</guid><description>&lt;h1 id="图片管理系统">图片管理系统
 &lt;/h1>&lt;p>欢迎使用博客图片管理系统！这里您可以：&lt;/p>
 &lt;h2 id="-主要功能">🚀 主要功能
 &lt;/h2>&lt;h3 id="-图片上传">📤 图片上传
@@ -7986,7 +7986,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 &lt;li>合理使用图片懒加载&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>开始使用图片管理系统，让您的博客图片管理更加高效！&lt;/p></description></item><item><title>测试Gitalk评论系统</title><link>http://localhost:1313/p/test-gitalk-comments/</link><pubDate>Mon, 20 Jan 2025 21:30:00 +0800</pubDate><guid>http://localhost:1313/p/test-gitalk-comments/</guid><description>&lt;h1 id="gitalk评论系统测试">Gitalk评论系统测试
+&lt;p>开始使用图片管理系统，让您的博客图片管理更加高效！&lt;/p></description></item><item><title>测试Gitalk评论系统</title><link>https://lanniny-blog.netlify.app/p/test-gitalk-comments/</link><pubDate>Mon, 20 Jan 2025 21:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/test-gitalk-comments/</guid><description>&lt;h1 id="gitalk评论系统测试">Gitalk评论系统测试
 &lt;/h1>&lt;p>这是一篇用于测试Gitalk评论系统的文章。&lt;/p>
 &lt;h2 id="功能测试">功能测试
 &lt;/h2>&lt;p>本文用于验证以下功能：&lt;/p>
@@ -8022,7 +8022,7 @@ $$\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h)W^
 &lt;li>GitHub Issues正确创建&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;strong>请在下方评论区测试评论功能！&lt;/strong> 👇&lt;/p></description></item><item><title>博客界面美化测试文章</title><link>http://localhost:1313/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</link><pubDate>Mon, 20 Jan 2025 20:30:00 +0800</pubDate><guid>http://localhost:1313/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</guid><description>&lt;img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&amp;h=400&amp;fit=crop" alt="Featured image of post 博客界面美化测试文章" />&lt;h1 id="博客界面美化测试文章">博客界面美化测试文章
+&lt;p>&lt;strong>请在下方评论区测试评论功能！&lt;/strong> 👇&lt;/p></description></item><item><title>博客界面美化测试文章</title><link>https://lanniny-blog.netlify.app/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</link><pubDate>Mon, 20 Jan 2025 20:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</guid><description>&lt;img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&amp;h=400&amp;fit=crop" alt="Featured image of post 博客界面美化测试文章" />&lt;h1 id="博客界面美化测试文章">博客界面美化测试文章
 &lt;/h1>&lt;p>这是一篇专门用于测试博客界面美化效果的示例文章。文章包含了各种常见的内容元素，用于验证文章详情页的显示效果。&lt;/p>
 &lt;h2 id="文章简介">文章简介
 &lt;/h2>&lt;p>本文将展示各种Markdown元素在博客中的显示效果，包括：&lt;/p>
@@ -8212,23 +8212,23 @@ alt="博客界面美化效果"
 &lt;li>&lt;strong>交互增强&lt;/strong>：目录导航和阅读进度&lt;/li>
 &lt;li>&lt;strong>移动适配&lt;/strong>：确保各设备最佳体验&lt;/li>
 &lt;/ol>
-&lt;p>希望这些改进能够为用户带来更好的阅读体验！&lt;/p></description></item><item><title>部署测试页面</title><link>http://localhost:1313/test-deployment/</link><pubDate>Sun, 19 Jan 2025 14:40:00 +0800</pubDate><guid>http://localhost:1313/test-deployment/</guid><description>&lt;h1 id="部署测试成功">部署测试成功！
+&lt;p>希望这些改进能够为用户带来更好的阅读体验！&lt;/p></description></item><item><title>部署测试页面</title><link>https://lanniny-blog.netlify.app/test-deployment/</link><pubDate>Sun, 19 Jan 2025 14:40:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/test-deployment/</guid><description>&lt;h1 id="部署测试成功">部署测试成功！
 &lt;/h1>&lt;p>如果您能看到这个页面，说明Hugo构建和部署都正常工作。&lt;/p>
 &lt;h2 id="深度学习文章状态">深度学习文章状态
 &lt;/h2>&lt;p>以下文章应该可以正常访问：&lt;/p>
 &lt;ol>
-&lt;li>&lt;a class="link" href="http://localhost:1313/p/vit-source-analysis/" >VIT源码解读&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="http://localhost:1313/p/transformer-architecture/" >Transformer架构&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="http://localhost:1313/p/cnn-fundamentals/" >CNN基础&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="http://localhost:1313/p/maix2dock-development/" >Maix2Dock开发&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://lanniny-blog.netlify.app/p/vit-source-analysis/" >VIT源码解读&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://lanniny-blog.netlify.app/p/transformer-architecture/" >Transformer架构&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://lanniny-blog.netlify.app/p/cnn-fundamentals/" >CNN基础&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://lanniny-blog.netlify.app/p/maix2dock-development/" >Maix2Dock开发&lt;/a>&lt;/li>
 &lt;/ol>
 &lt;h2 id="分类页面">分类页面
 &lt;/h2>&lt;ul>
-&lt;li>&lt;a class="link" href="http://localhost:1313/categories/deep-learning/" >Deep Learning分类&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="http://localhost:1313/categories/computer-vision/" >Computer Vision分类&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://lanniny-blog.netlify.app/categories/deep-learning/" >Deep Learning分类&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://lanniny-blog.netlify.app/categories/computer-vision/" >Computer Vision分类&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>测试时间: 2025-01-19 14:40&lt;/p></description></item><item><title>Chinese Test</title><link>http://localhost:1313/p/test-chinese/</link><pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate><guid>http://localhost:1313/p/test-chinese/</guid><description>&lt;img src="http://localhost:1313/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" />&lt;h2 id="正文测试">正文测试
+&lt;p>测试时间: 2025-01-19 14:40&lt;/p></description></item><item><title>Chinese Test</title><link>https://lanniny-blog.netlify.app/p/test-chinese/</link><pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/p/test-chinese/</guid><description>&lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" />&lt;h2 id="正文测试">正文测试
 &lt;/h2>&lt;p>而这些并不是完全重要，更加重要的问题是， 带着这些问题，我们来审视一下学生会退会。 既然如何， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 我们不得不面对一个非常尴尬的事实，那就是， 可是，即使是这样，学生会退会的出现仍然代表了一定的意义。 学生会退会，发生了会如何，不发生又会如何。 经过上述讨论， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 学生会退会，到底应该如何实现。 这样看来， 在这种困难的抉择下，本人思来想去，寝食难安。 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 就我个人来说，学生会退会对我的意义，不能不说非常重大。 莎士比亚曾经提到过，人的一生是短的，但如果卑劣地过这一生，就太长了。这似乎解答了我的疑惑。 莫扎特说过一句富有哲理的话，谁和我一样用功，谁就会和我一样成功。这启发了我， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 学生会退会，到底应该如何实现。 一般来说， 从这个角度来看， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 在这种困难的抉择下，本人思来想去，寝食难安。 了解清楚学生会退会到底是一种怎么样的存在，是解决一切问题的关键。 一般来说， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 问题的关键究竟为何？ 而这些并不是完全重要，更加重要的问题是。&lt;/p>
 &lt;p>奥斯特洛夫斯基曾经说过，共同的事业，共同的斗争，可以使人们产生忍受一切的力量。　带着这句话，我们还要更加慎重的审视这个问题： 一般来讲，我们都必须务必慎重的考虑考虑。 既然如此， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 带着这些问题，我们来审视一下学生会退会。 我认为， 我认为， 在这种困难的抉择下，本人思来想去，寝食难安。 问题的关键究竟为何？ 每个人都不得不面对这些问题。 在面对这种问题时， 要想清楚，学生会退会，到底是一种怎么样的存在。 我认为， 既然如此， 每个人都不得不面对这些问题。 在面对这种问题时， 那么， 我认为， 学生会退会因何而发生。&lt;/p>
 &lt;h2 id="引用">引用
@@ -8240,38 +8240,38 @@ alt="博客界面美化效果"
 &lt;p>&lt;em>&lt;a class="link" href="https://www.youtube.com/watch?v=3aypp_YlBzI" target="_blank" rel="noopener"
 >最暖的憂傷 - 田馥甄&lt;/a>&lt;/em>&lt;/p>&lt;/blockquote>
 &lt;h2 id="图片">图片
-&lt;/h2>&lt;p>&lt;img src="http://localhost:1313/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg"
+&lt;/h2>&lt;p>&lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg"
 width="667"
 height="1000"
-srcset="http://localhost:1313/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, http://localhost:1313/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w"
 loading="lazy"
 alt="Photo by Florian Klauer on Unsplash"
 class="gallery-image"
 data-flex-grow="66"
 data-flex-basis="160px"
-> &lt;img src="http://localhost:1313/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg"
+> &lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg"
 width="1000"
 height="667"
-srcset="http://localhost:1313/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, http://localhost:1313/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w"
 loading="lazy"
 alt="Photo by Luca Bravo on Unsplash"
 class="gallery-image"
 data-flex-grow="149"
 data-flex-basis="359px"
 >&lt;/p>
-&lt;p>&lt;img src="http://localhost:1313/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg"
+&lt;p>&lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg"
 width="1000"
 height="750"
-srcset="http://localhost:1313/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, http://localhost:1313/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w"
 loading="lazy"
 alt="Photo by Helena Hertz on Unsplash"
 class="gallery-image"
 data-flex-grow="133"
 data-flex-basis="320px"
-> &lt;img src="http://localhost:1313/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg"
+> &lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg"
 width="667"
 height="1000"
-srcset="http://localhost:1313/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, http://localhost:1313/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w"
 loading="lazy"
 alt="Photo by Hudai Gayiran on Unsplash"
 class="gallery-image"
@@ -8291,7 +8291,7 @@ data-flex-basis="160px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>相册语法来自 &lt;a class="link" href="https://typlog.com/" target="_blank" rel="noopener"
->Typlog&lt;/a>&lt;/p></description></item><item><title>Archives</title><link>http://localhost:1313/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>http://localhost:1313/archives/</guid><description/></item><item><title>Links</title><link>http://localhost:1313/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/links/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
+>Typlog&lt;/a>&lt;/p></description></item><item><title>Archives</title><link>https://lanniny-blog.netlify.app/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/archives/</guid><description/></item><item><title>Links</title><link>https://lanniny-blog.netlify.app/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/links/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
 &lt;p>This page&amp;rsquo;s frontmatter:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -8317,4 +8317,138 @@ data-flex-basis="160px"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ts-logo-128.jpg&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>&lt;code>image&lt;/code> field accepts both local and external images.&lt;/p></description></item><item><title>Search</title><link>http://localhost:1313/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/search/</guid><description/></item><item><title>关于</title><link>http://localhost:1313/%E5%85%B3%E4%BA%8E/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/%E5%85%B3%E4%BA%8E/</guid><description>&lt;p>This is a test page for i18n support.&lt;/p></description></item></channel></rss>
+&lt;/div>&lt;p>&lt;code>image&lt;/code> field accepts both local and external images.&lt;/p></description></item><item><title>Search</title><link>https://lanniny-blog.netlify.app/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/search/</guid><description/></item><item><title>关于我</title><link>https://lanniny-blog.netlify.app/%E5%85%B3%E4%BA%8E%E6%88%91/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/%E5%85%B3%E4%BA%8E%E6%88%91/</guid><description>&lt;div class="about-page">
+&lt;h2 id="-你好我是-lanniny">👋 你好，我是 Lanniny
+&lt;/h2>&lt;p>欢迎来到我的个人博客！我是一名热爱技术的开发者，专注于人工智能、深度学习和嵌入式系统开发。&lt;/p>
+&lt;h3 id="-关于我">🎯 关于我
+&lt;/h3>&lt;p>我是一名计算机科学专业的学生，对技术充满热情，喜欢探索新的技术领域和解决复杂的问题。通过这个博客，我希望能够分享我的学习经历、技术见解和项目经验。&lt;/p>
+&lt;h3 id="-技术栈">💻 技术栈
+&lt;/h3>&lt;h4 id="编程语言">编程语言
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>Python&lt;/strong> - 主要用于AI/ML开发和数据分析&lt;/li>
+&lt;li>&lt;strong>C/C++&lt;/strong> - 嵌入式系统和系统编程&lt;/li>
+&lt;li>&lt;strong>JavaScript/TypeScript&lt;/strong> - 前端开发和Node.js&lt;/li>
+&lt;li>&lt;strong>Go&lt;/strong> - 后端服务开发&lt;/li>
+&lt;/ul>
+&lt;h4 id="人工智能--机器学习">人工智能 &amp;amp; 机器学习
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>深度学习框架&lt;/strong>: PyTorch, TensorFlow&lt;/li>
+&lt;li>&lt;strong>计算机视觉&lt;/strong>: OpenCV, PIL, 图像处理&lt;/li>
+&lt;li>&lt;strong>自然语言处理&lt;/strong>: Transformer, BERT, GPT&lt;/li>
+&lt;li>&lt;strong>机器学习&lt;/strong>: scikit-learn, pandas, numpy&lt;/li>
+&lt;/ul>
+&lt;h4 id="嵌入式开发">嵌入式开发
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>硬件平台&lt;/strong>: Arduino, 树莓派, STM32&lt;/li>
+&lt;li>&lt;strong>开发工具&lt;/strong>: Keil, IAR, PlatformIO&lt;/li>
+&lt;li>&lt;strong>通信协议&lt;/strong>: UART, SPI, I2C, CAN&lt;/li>
+&lt;/ul>
+&lt;h4 id="web开发">Web开发
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>前端&lt;/strong>: React, Vue.js, HTML5, CSS3&lt;/li>
+&lt;li>&lt;strong>后端&lt;/strong>: Node.js, Express, FastAPI&lt;/li>
+&lt;li>&lt;strong>数据库&lt;/strong>: MySQL, PostgreSQL, MongoDB&lt;/li>
+&lt;li>&lt;strong>部署&lt;/strong>: Docker, Nginx, GitHub Actions&lt;/li>
+&lt;/ul>
+&lt;h3 id="-项目经历">🚀 项目经历
+&lt;/h3>&lt;h4 id="-ai项目">🤖 AI项目
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>计算机视觉应用&lt;/strong>: 基于深度学习的图像分类和目标检测&lt;/li>
+&lt;li>&lt;strong>自然语言处理&lt;/strong>: 文本分析和情感识别系统&lt;/li>
+&lt;li>&lt;strong>推荐系统&lt;/strong>: 个性化内容推荐算法&lt;/li>
+&lt;/ul>
+&lt;h4 id="-嵌入式项目">🔧 嵌入式项目
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>智能硬件&lt;/strong>: IoT设备开发和传感器数据采集&lt;/li>
+&lt;li>&lt;strong>实时系统&lt;/strong>: 嵌入式实时控制系统&lt;/li>
+&lt;li>&lt;strong>通信系统&lt;/strong>: 无线通信和数据传输&lt;/li>
+&lt;/ul>
+&lt;h4 id="-web项目">🌐 Web项目
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>个人博客&lt;/strong>: 基于Hugo的响应式博客系统&lt;/li>
+&lt;li>&lt;strong>管理系统&lt;/strong>: 全栈Web应用开发&lt;/li>
+&lt;li>&lt;strong>API服务&lt;/strong>: RESTful API设计和开发&lt;/li>
+&lt;/ul>
+&lt;h3 id="-学习与成长">📚 学习与成长
+&lt;/h3>&lt;p>我相信持续学习是技术人员最重要的品质。我经常通过以下方式提升自己：&lt;/p>
+&lt;ul>
+&lt;li>📖 阅读技术书籍和论文&lt;/li>
+&lt;li>💡 参与开源项目贡献&lt;/li>
+&lt;li>🎓 在线课程和技术培训&lt;/li>
+&lt;li>🤝 技术社区交流和分享&lt;/li>
+&lt;/ul>
+&lt;h3 id="-兴趣爱好">🎯 兴趣爱好
+&lt;/h3>&lt;p>除了编程，我还喜欢：&lt;/p>
+&lt;ul>
+&lt;li>🎵 音乐 - 喜欢听各种类型的音乐&lt;/li>
+&lt;li>📚 阅读 - 科技、历史、哲学类书籍&lt;/li>
+&lt;li>🎮 游戏 - 策略类和角色扮演游戏&lt;/li>
+&lt;li>🏃 运动 - 跑步和健身&lt;/li>
+&lt;/ul>
+&lt;h3 id="-联系我">📞 联系我
+&lt;/h3>&lt;p>如果你对我的项目感兴趣，或者想要技术交流，欢迎通过以下方式联系我：&lt;/p>
+&lt;ul>
+&lt;li>📧 &lt;strong>邮箱&lt;/strong>: &lt;a class="link" href="mailto:2024329600074@mails.zstu.edu.cn" >2024329600074@mails.zstu.edu.cn&lt;/a>&lt;/li>
+&lt;li>🐙 &lt;strong>GitHub&lt;/strong>: &lt;a class="link" href="https://github.com/lanniny" target="_blank" rel="noopener"
+>https://github.com/lanniny&lt;/a>&lt;/li>
+&lt;li>💬 &lt;strong>博客留言&lt;/strong>: 欢迎在文章下方留言交流&lt;/li>
+&lt;/ul>
+&lt;h3 id="-致谢">🙏 致谢
+&lt;/h3>&lt;p>感谢你访问我的博客！如果你觉得我的内容对你有帮助，欢迎：&lt;/p>
+&lt;ul>
+&lt;li>⭐ 给我的GitHub项目点星&lt;/li>
+&lt;li>💬 在博客文章下留言交流&lt;/li>
+&lt;li>🔗 分享给更多有需要的朋友&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;blockquote>
+&lt;p>&amp;ldquo;Stay hungry, stay foolish.&amp;rdquo; - Steve Jobs&lt;/p>&lt;/blockquote>
+&lt;p>让我们一起在技术的道路上不断探索和成长！&lt;/p>
+&lt;/div>
+&lt;style>
+.about-page {
+max-width: 800px;
+margin: 0 auto;
+line-height: 1.8;
+}
+.about-page h2 {
+color: var(--accent-color);
+border-bottom: 2px solid var(--accent-color);
+padding-bottom: 10px;
+margin-top: 2em;
+}
+.about-page h3 {
+color: var(--card-text-color-main);
+margin-top: 1.5em;
+}
+.about-page h4 {
+color: var(--accent-color);
+margin-top: 1.2em;
+margin-bottom: 0.5em;
+}
+.about-page ul {
+margin-left: 1.5em;
+}
+.about-page li {
+margin-bottom: 0.3em;
+}
+.about-page blockquote {
+border-left: 4px solid var(--accent-color);
+padding-left: 1em;
+margin: 2em 0;
+font-style: italic;
+color: var(--card-text-color-secondary);
+}
+.about-page a {
+color: var(--accent-color);
+text-decoration: none;
+}
+.about-page a:hover {
+text-decoration: underline;
+}
+@media (max-width: 768px) {
+.about-page {
+padding: 0 1em;
+}
+}
+&lt;/style></description></item></channel></rss>

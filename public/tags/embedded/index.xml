@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on lanniny-blog</title><link>http://localhost:1313/tags/embedded/</link><description>Recent content in Embedded on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Fri, 20 Jun 2025 14:03:27 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/embedded/index.xml" rel="self" type="application/rss+xml"/><item><title>Maix2Dock视觉模块开发学习记录</title><link>http://localhost:1313/p/maix2dock-development/</link><pubDate>Sun, 19 Jan 2025 13:00:00 +0800</pubDate><guid>http://localhost:1313/p/maix2dock-development/</guid><description>&lt;h1 id="maix2dock视觉模块开发学习记录">Maix2Dock视觉模块开发学习记录
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Embedded on lanniny-blog</title><link>https://lanniny-blog.netlify.app/tags/embedded/</link><description>Recent content in Embedded on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Fri, 20 Jun 2025 14:03:27 +0800</lastBuildDate><atom:link href="https://lanniny-blog.netlify.app/tags/embedded/index.xml" rel="self" type="application/rss+xml"/><item><title>Maix2Dock视觉模块开发学习记录</title><link>https://lanniny-blog.netlify.app/p/maix2dock-development/</link><pubDate>Sun, 19 Jan 2025 13:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/maix2dock-development/</guid><description>&lt;h1 id="maix2dock视觉模块开发学习记录">Maix2Dock视觉模块开发学习记录
 &lt;/h1>&lt;p>Maix2Dock是一块基于全志V831芯片的精致小巧AI开发板，集成了强大的AI硬件加速特性，支持常规Linux开发的同时，提供了丰富的AI图像识别、语音识别、人脸识别等开箱即用的功能。本文详细记录了Maix2Dock视觉模块的开发学习过程。&lt;/p>
 &lt;h2 id="基础入门">基础入门
 &lt;/h2>&lt;h3 id="认识maix2dock-v831">认识Maix2Dock V831
@@ -1192,7 +1192,7 @@ alt="Maix2Dock开发板"
 >全志V831技术手册&lt;/a>&lt;/li>
 &lt;li>&lt;a class="link" href="https://developer.nvidia.com/embedded-computing" target="_blank" rel="noopener"
 >边缘AI开发最佳实践&lt;/a>&lt;/li>
-&lt;/ol></description></item><item><title>单片机基础入门指南</title><link>http://localhost:1313/p/mcu-basics-guide/</link><pubDate>Sun, 19 Jan 2025 11:30:00 +0800</pubDate><guid>http://localhost:1313/p/mcu-basics-guide/</guid><description>&lt;h1 id="单片机基础入门指南">单片机基础入门指南
+&lt;/ol></description></item><item><title>单片机基础入门指南</title><link>https://lanniny-blog.netlify.app/p/mcu-basics-guide/</link><pubDate>Sun, 19 Jan 2025 11:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/mcu-basics-guide/</guid><description>&lt;h1 id="单片机基础入门指南">单片机基础入门指南
 &lt;/h1>&lt;h2 id="什么是单片机">什么是单片机
 &lt;/h2>&lt;p>单片机（Microcontroller Unit，MCU）是一种集成了处理器、存储器、输入输出接口等功能的微型计算机系统。它将计算机的主要功能集成在一个芯片上，具有体积小、功耗低、成本低的特点。&lt;/p>
 &lt;h3 id="单片机的组成">单片机的组成

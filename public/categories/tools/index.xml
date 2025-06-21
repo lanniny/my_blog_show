@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tools on lanniny-blog</title><link>http://localhost:1313/categories/tools/</link><description>Recent content in Tools on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Fri, 20 Jun 2025 14:03:27 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/tools/index.xml" rel="self" type="application/rss+xml"/><item><title>MCP工具使用指南</title><link>http://localhost:1313/p/mcp-tools-guide/</link><pubDate>Sun, 19 Jan 2025 10:30:00 +0800</pubDate><guid>http://localhost:1313/p/mcp-tools-guide/</guid><description>&lt;h1 id="mcp工具使用指南">MCP工具使用指南
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tools on lanniny-blog</title><link>https://lanniny-blog.netlify.app/categories/tools/</link><description>Recent content in Tools on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Fri, 20 Jun 2025 14:03:27 +0800</lastBuildDate><atom:link href="https://lanniny-blog.netlify.app/categories/tools/index.xml" rel="self" type="application/rss+xml"/><item><title>MCP工具使用指南</title><link>https://lanniny-blog.netlify.app/p/mcp-tools-guide/</link><pubDate>Sun, 19 Jan 2025 10:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/mcp-tools-guide/</guid><description>&lt;h1 id="mcp工具使用指南">MCP工具使用指南
 &lt;/h1>&lt;h2 id="什么是mcp">什么是MCP
 &lt;/h2>&lt;p>Model Context Protocol (MCP) 是一个开放标准，用于连接AI助手与各种数据源和工具。通过MCP，AI可以安全地访问本地文件、数据库、API等资源，大大扩展了AI的能力边界。&lt;/p>
 &lt;h2 id="核心概念">核心概念
@@ -725,7 +725,7 @@
 >MCP服务器列表&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;em>本指南将根据MCP协议的更新持续完善。&lt;/em>&lt;/p></description></item><item><title>AI提示词工程指南</title><link>http://localhost:1313/p/ai-prompt-engineering-guide/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>http://localhost:1313/p/ai-prompt-engineering-guide/</guid><description>&lt;h1 id="ai提示词工程指南">AI提示词工程指南
+&lt;p>&lt;em>本指南将根据MCP协议的更新持续完善。&lt;/em>&lt;/p></description></item><item><title>AI提示词工程指南</title><link>https://lanniny-blog.netlify.app/p/ai-prompt-engineering-guide/</link><pubDate>Sun, 19 Jan 2025 10:00:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/ai-prompt-engineering-guide/</guid><description>&lt;h1 id="ai提示词工程指南">AI提示词工程指南
 &lt;/h1>&lt;h2 id="概述">概述
 &lt;/h2>&lt;p>AI提示词工程是与人工智能模型有效交互的关键技能。通过精心设计的提示词，我们可以显著提升AI的响应质量和准确性。&lt;/p>
 &lt;h2 id="基本原则">基本原则

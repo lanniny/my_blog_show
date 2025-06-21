@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>测试 on lanniny-blog</title><link>http://localhost:1313/categories/%E6%B5%8B%E8%AF%95/</link><description>Recent content in 测试 on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Fri, 20 Jun 2025 22:06:39 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml"/><item><title>测试Gitalk评论系统</title><link>http://localhost:1313/p/test-gitalk-comments/</link><pubDate>Mon, 20 Jan 2025 21:30:00 +0800</pubDate><guid>http://localhost:1313/p/test-gitalk-comments/</guid><description>&lt;h1 id="gitalk评论系统测试">Gitalk评论系统测试
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>测试 on lanniny-blog</title><link>https://lanniny-blog.netlify.app/categories/%E6%B5%8B%E8%AF%95/</link><description>Recent content in 测试 on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Fri, 20 Jun 2025 22:06:39 +0800</lastBuildDate><atom:link href="https://lanniny-blog.netlify.app/categories/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml"/><item><title>测试Gitalk评论系统</title><link>https://lanniny-blog.netlify.app/p/test-gitalk-comments/</link><pubDate>Mon, 20 Jan 2025 21:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/test-gitalk-comments/</guid><description>&lt;h1 id="gitalk评论系统测试">Gitalk评论系统测试
 &lt;/h1>&lt;p>这是一篇用于测试Gitalk评论系统的文章。&lt;/p>
 &lt;h2 id="功能测试">功能测试
 &lt;/h2>&lt;p>本文用于验证以下功能：&lt;/p>
@@ -34,7 +34,7 @@
 &lt;li>GitHub Issues正确创建&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>&lt;strong>请在下方评论区测试评论功能！&lt;/strong> 👇&lt;/p></description></item><item><title>博客界面美化测试文章</title><link>http://localhost:1313/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</link><pubDate>Mon, 20 Jan 2025 20:30:00 +0800</pubDate><guid>http://localhost:1313/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</guid><description>&lt;img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&amp;h=400&amp;fit=crop" alt="Featured image of post 博客界面美化测试文章" />&lt;h1 id="博客界面美化测试文章">博客界面美化测试文章
+&lt;p>&lt;strong>请在下方评论区测试评论功能！&lt;/strong> 👇&lt;/p></description></item><item><title>博客界面美化测试文章</title><link>https://lanniny-blog.netlify.app/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</link><pubDate>Mon, 20 Jan 2025 20:30:00 +0800</pubDate><guid>https://lanniny-blog.netlify.app/p/%E5%8D%9A%E5%AE%A2%E7%95%8C%E9%9D%A2%E7%BE%8E%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</guid><description>&lt;img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&amp;h=400&amp;fit=crop" alt="Featured image of post 博客界面美化测试文章" />&lt;h1 id="博客界面美化测试文章">博客界面美化测试文章
 &lt;/h1>&lt;p>这是一篇专门用于测试博客界面美化效果的示例文章。文章包含了各种常见的内容元素，用于验证文章详情页的显示效果。&lt;/p>
 &lt;h2 id="文章简介">文章简介
 &lt;/h2>&lt;p>本文将展示各种Markdown元素在博客中的显示效果，包括：&lt;/p>
@@ -224,7 +224,7 @@ alt="博客界面美化效果"
 &lt;li>&lt;strong>交互增强&lt;/strong>：目录导航和阅读进度&lt;/li>
 &lt;li>&lt;strong>移动适配&lt;/strong>：确保各设备最佳体验&lt;/li>
 &lt;/ol>
-&lt;p>希望这些改进能够为用户带来更好的阅读体验！&lt;/p></description></item><item><title>Chinese Test</title><link>http://localhost:1313/p/test-chinese/</link><pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate><guid>http://localhost:1313/p/test-chinese/</guid><description>&lt;img src="http://localhost:1313/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" />&lt;h2 id="正文测试">正文测试
+&lt;p>希望这些改进能够为用户带来更好的阅读体验！&lt;/p></description></item><item><title>Chinese Test</title><link>https://lanniny-blog.netlify.app/p/test-chinese/</link><pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/p/test-chinese/</guid><description>&lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" />&lt;h2 id="正文测试">正文测试
 &lt;/h2>&lt;p>而这些并不是完全重要，更加重要的问题是， 带着这些问题，我们来审视一下学生会退会。 既然如何， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 我们不得不面对一个非常尴尬的事实，那就是， 可是，即使是这样，学生会退会的出现仍然代表了一定的意义。 学生会退会，发生了会如何，不发生又会如何。 经过上述讨论， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 学生会退会，到底应该如何实现。 这样看来， 在这种困难的抉择下，本人思来想去，寝食难安。 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 就我个人来说，学生会退会对我的意义，不能不说非常重大。 莎士比亚曾经提到过，人的一生是短的，但如果卑劣地过这一生，就太长了。这似乎解答了我的疑惑。 莫扎特说过一句富有哲理的话，谁和我一样用功，谁就会和我一样成功。这启发了我， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 学生会退会，到底应该如何实现。 一般来说， 从这个角度来看， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 在这种困难的抉择下，本人思来想去，寝食难安。 了解清楚学生会退会到底是一种怎么样的存在，是解决一切问题的关键。 一般来说， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 问题的关键究竟为何？ 而这些并不是完全重要，更加重要的问题是。&lt;/p>
 &lt;p>奥斯特洛夫斯基曾经说过，共同的事业，共同的斗争，可以使人们产生忍受一切的力量。　带着这句话，我们还要更加慎重的审视这个问题： 一般来讲，我们都必须务必慎重的考虑考虑。 既然如此， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 带着这些问题，我们来审视一下学生会退会。 我认为， 我认为， 在这种困难的抉择下，本人思来想去，寝食难安。 问题的关键究竟为何？ 每个人都不得不面对这些问题。 在面对这种问题时， 要想清楚，学生会退会，到底是一种怎么样的存在。 我认为， 既然如此， 每个人都不得不面对这些问题。 在面对这种问题时， 那么， 我认为， 学生会退会因何而发生。&lt;/p>
 &lt;h2 id="引用">引用
@@ -236,38 +236,38 @@ alt="博客界面美化效果"
 &lt;p>&lt;em>&lt;a class="link" href="https://www.youtube.com/watch?v=3aypp_YlBzI" target="_blank" rel="noopener"
 >最暖的憂傷 - 田馥甄&lt;/a>&lt;/em>&lt;/p>&lt;/blockquote>
 &lt;h2 id="图片">图片
-&lt;/h2>&lt;p>&lt;img src="http://localhost:1313/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg"
+&lt;/h2>&lt;p>&lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg"
 width="667"
 height="1000"
-srcset="http://localhost:1313/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, http://localhost:1313/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w"
 loading="lazy"
 alt="Photo by Florian Klauer on Unsplash"
 class="gallery-image"
 data-flex-grow="66"
 data-flex-basis="160px"
-> &lt;img src="http://localhost:1313/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg"
+> &lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg"
 width="1000"
 height="667"
-srcset="http://localhost:1313/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, http://localhost:1313/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w"
 loading="lazy"
 alt="Photo by Luca Bravo on Unsplash"
 class="gallery-image"
 data-flex-grow="149"
 data-flex-basis="359px"
 >&lt;/p>
-&lt;p>&lt;img src="http://localhost:1313/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg"
+&lt;p>&lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg"
 width="1000"
 height="750"
-srcset="http://localhost:1313/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, http://localhost:1313/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w"
 loading="lazy"
 alt="Photo by Helena Hertz on Unsplash"
 class="gallery-image"
 data-flex-grow="133"
 data-flex-basis="320px"
-> &lt;img src="http://localhost:1313/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg"
+> &lt;img src="https://lanniny-blog.netlify.app/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg"
 width="667"
 height="1000"
-srcset="http://localhost:1313/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, http://localhost:1313/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w"
+srcset="https://lanniny-blog.netlify.app/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, https://lanniny-blog.netlify.app/p/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w"
 loading="lazy"
 alt="Photo by Hudai Gayiran on Unsplash"
 class="gallery-image"

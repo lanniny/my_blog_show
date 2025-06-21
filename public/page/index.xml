@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on lanniny-blog</title><link>http://localhost:1313/page/</link><description>Recent content in Pages on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Fri, 20 Jun 2025 23:04:56 +0800</lastBuildDate><atom:link href="http://localhost:1313/page/index.xml" rel="self" type="application/rss+xml"/><item><title>Gitalk评论系统配置指南</title><link>http://localhost:1313/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</link><pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate><guid>http://localhost:1313/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</guid><description>&lt;h1 id="gitalk评论系统配置指南">Gitalk评论系统配置指南
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pages on lanniny-blog</title><link>https://lanniny-blog.netlify.app/page/</link><description>Recent content in Pages on lanniny-blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Sat, 21 Jun 2025 04:10:01 +0800</lastBuildDate><atom:link href="https://lanniny-blog.netlify.app/page/index.xml" rel="self" type="application/rss+xml"/><item><title>Gitalk评论系统配置指南</title><link>https://lanniny-blog.netlify.app/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</link><pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/gitalk%E8%AF%84%E8%AE%BA%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</guid><description>&lt;h1 id="gitalk评论系统配置指南">Gitalk评论系统配置指南
 &lt;/h1>&lt;h2 id="-当前问题403-forbidden错误">🚨 当前问题：403 Forbidden错误
 &lt;/h2>&lt;p>如果您在使用评论系统时遇到&amp;quot;403 Forbidden&amp;quot;错误，这通常是GitHub OAuth权限配置问题。请按照以下步骤解决：&lt;/p>
 &lt;h2 id="-解决方案">🔧 解决方案
@@ -140,7 +140,7 @@
 &lt;li>&lt;input disabled="" type="checkbox"> Client Secret已更新&lt;/li>
 &lt;li>&lt;input disabled="" type="checkbox"> 环境变量已配置（推荐）&lt;/li>
 &lt;/ul>
-&lt;p>完成所有检查项后，评论系统应该能正常工作。&lt;/p></description></item><item><title>图片管理系统</title><link>http://localhost:1313/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</link><pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate><guid>http://localhost:1313/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</guid><description>&lt;h1 id="图片管理系统">图片管理系统
+&lt;p>完成所有检查项后，评论系统应该能正常工作。&lt;/p></description></item><item><title>图片管理系统</title><link>https://lanniny-blog.netlify.app/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</link><pubDate>Fri, 20 Jun 2025 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/%E5%9B%BE%E7%89%87%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/</guid><description>&lt;h1 id="图片管理系统">图片管理系统
 &lt;/h1>&lt;p>欢迎使用博客图片管理系统！这里您可以：&lt;/p>
 &lt;h2 id="-主要功能">🚀 主要功能
 &lt;/h2>&lt;h3 id="-图片上传">📤 图片上传
@@ -223,7 +223,7 @@
 &lt;li>合理使用图片懒加载&lt;/li>
 &lt;/ul>
 &lt;hr>
-&lt;p>开始使用图片管理系统，让您的博客图片管理更加高效！&lt;/p></description></item><item><title>Archives</title><link>http://localhost:1313/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>http://localhost:1313/archives/</guid><description/></item><item><title>Links</title><link>http://localhost:1313/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/links/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
+&lt;p>开始使用图片管理系统，让您的博客图片管理更加高效！&lt;/p></description></item><item><title>Archives</title><link>https://lanniny-blog.netlify.app/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/archives/</guid><description/></item><item><title>Links</title><link>https://lanniny-blog.netlify.app/links/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/links/</guid><description>&lt;p>To use this feature, add &lt;code>links&lt;/code> section to frontmatter.&lt;/p>
 &lt;p>This page&amp;rsquo;s frontmatter:&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -249,4 +249,138 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ts-logo-128.jpg&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>&lt;code>image&lt;/code> field accepts both local and external images.&lt;/p></description></item><item><title>Search</title><link>http://localhost:1313/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/search/</guid><description/></item><item><title>关于</title><link>http://localhost:1313/%E5%85%B3%E4%BA%8E/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>http://localhost:1313/%E5%85%B3%E4%BA%8E/</guid><description>&lt;p>This is a test page for i18n support.&lt;/p></description></item></channel></rss>
+&lt;/div>&lt;p>&lt;code>image&lt;/code> field accepts both local and external images.&lt;/p></description></item><item><title>Search</title><link>https://lanniny-blog.netlify.app/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/search/</guid><description/></item><item><title>关于我</title><link>https://lanniny-blog.netlify.app/%E5%85%B3%E4%BA%8E%E6%88%91/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://lanniny-blog.netlify.app/%E5%85%B3%E4%BA%8E%E6%88%91/</guid><description>&lt;div class="about-page">
+&lt;h2 id="-你好我是-lanniny">👋 你好，我是 Lanniny
+&lt;/h2>&lt;p>欢迎来到我的个人博客！我是一名热爱技术的开发者，专注于人工智能、深度学习和嵌入式系统开发。&lt;/p>
+&lt;h3 id="-关于我">🎯 关于我
+&lt;/h3>&lt;p>我是一名计算机科学专业的学生，对技术充满热情，喜欢探索新的技术领域和解决复杂的问题。通过这个博客，我希望能够分享我的学习经历、技术见解和项目经验。&lt;/p>
+&lt;h3 id="-技术栈">💻 技术栈
+&lt;/h3>&lt;h4 id="编程语言">编程语言
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>Python&lt;/strong> - 主要用于AI/ML开发和数据分析&lt;/li>
+&lt;li>&lt;strong>C/C++&lt;/strong> - 嵌入式系统和系统编程&lt;/li>
+&lt;li>&lt;strong>JavaScript/TypeScript&lt;/strong> - 前端开发和Node.js&lt;/li>
+&lt;li>&lt;strong>Go&lt;/strong> - 后端服务开发&lt;/li>
+&lt;/ul>
+&lt;h4 id="人工智能--机器学习">人工智能 &amp;amp; 机器学习
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>深度学习框架&lt;/strong>: PyTorch, TensorFlow&lt;/li>
+&lt;li>&lt;strong>计算机视觉&lt;/strong>: OpenCV, PIL, 图像处理&lt;/li>
+&lt;li>&lt;strong>自然语言处理&lt;/strong>: Transformer, BERT, GPT&lt;/li>
+&lt;li>&lt;strong>机器学习&lt;/strong>: scikit-learn, pandas, numpy&lt;/li>
+&lt;/ul>
+&lt;h4 id="嵌入式开发">嵌入式开发
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>硬件平台&lt;/strong>: Arduino, 树莓派, STM32&lt;/li>
+&lt;li>&lt;strong>开发工具&lt;/strong>: Keil, IAR, PlatformIO&lt;/li>
+&lt;li>&lt;strong>通信协议&lt;/strong>: UART, SPI, I2C, CAN&lt;/li>
+&lt;/ul>
+&lt;h4 id="web开发">Web开发
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>前端&lt;/strong>: React, Vue.js, HTML5, CSS3&lt;/li>
+&lt;li>&lt;strong>后端&lt;/strong>: Node.js, Express, FastAPI&lt;/li>
+&lt;li>&lt;strong>数据库&lt;/strong>: MySQL, PostgreSQL, MongoDB&lt;/li>
+&lt;li>&lt;strong>部署&lt;/strong>: Docker, Nginx, GitHub Actions&lt;/li>
+&lt;/ul>
+&lt;h3 id="-项目经历">🚀 项目经历
+&lt;/h3>&lt;h4 id="-ai项目">🤖 AI项目
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>计算机视觉应用&lt;/strong>: 基于深度学习的图像分类和目标检测&lt;/li>
+&lt;li>&lt;strong>自然语言处理&lt;/strong>: 文本分析和情感识别系统&lt;/li>
+&lt;li>&lt;strong>推荐系统&lt;/strong>: 个性化内容推荐算法&lt;/li>
+&lt;/ul>
+&lt;h4 id="-嵌入式项目">🔧 嵌入式项目
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>智能硬件&lt;/strong>: IoT设备开发和传感器数据采集&lt;/li>
+&lt;li>&lt;strong>实时系统&lt;/strong>: 嵌入式实时控制系统&lt;/li>
+&lt;li>&lt;strong>通信系统&lt;/strong>: 无线通信和数据传输&lt;/li>
+&lt;/ul>
+&lt;h4 id="-web项目">🌐 Web项目
+&lt;/h4>&lt;ul>
+&lt;li>&lt;strong>个人博客&lt;/strong>: 基于Hugo的响应式博客系统&lt;/li>
+&lt;li>&lt;strong>管理系统&lt;/strong>: 全栈Web应用开发&lt;/li>
+&lt;li>&lt;strong>API服务&lt;/strong>: RESTful API设计和开发&lt;/li>
+&lt;/ul>
+&lt;h3 id="-学习与成长">📚 学习与成长
+&lt;/h3>&lt;p>我相信持续学习是技术人员最重要的品质。我经常通过以下方式提升自己：&lt;/p>
+&lt;ul>
+&lt;li>📖 阅读技术书籍和论文&lt;/li>
+&lt;li>💡 参与开源项目贡献&lt;/li>
+&lt;li>🎓 在线课程和技术培训&lt;/li>
+&lt;li>🤝 技术社区交流和分享&lt;/li>
+&lt;/ul>
+&lt;h3 id="-兴趣爱好">🎯 兴趣爱好
+&lt;/h3>&lt;p>除了编程，我还喜欢：&lt;/p>
+&lt;ul>
+&lt;li>🎵 音乐 - 喜欢听各种类型的音乐&lt;/li>
+&lt;li>📚 阅读 - 科技、历史、哲学类书籍&lt;/li>
+&lt;li>🎮 游戏 - 策略类和角色扮演游戏&lt;/li>
+&lt;li>🏃 运动 - 跑步和健身&lt;/li>
+&lt;/ul>
+&lt;h3 id="-联系我">📞 联系我
+&lt;/h3>&lt;p>如果你对我的项目感兴趣，或者想要技术交流，欢迎通过以下方式联系我：&lt;/p>
+&lt;ul>
+&lt;li>📧 &lt;strong>邮箱&lt;/strong>: &lt;a class="link" href="mailto:2024329600074@mails.zstu.edu.cn" >2024329600074@mails.zstu.edu.cn&lt;/a>&lt;/li>
+&lt;li>🐙 &lt;strong>GitHub&lt;/strong>: &lt;a class="link" href="https://github.com/lanniny" target="_blank" rel="noopener"
+>https://github.com/lanniny&lt;/a>&lt;/li>
+&lt;li>💬 &lt;strong>博客留言&lt;/strong>: 欢迎在文章下方留言交流&lt;/li>
+&lt;/ul>
+&lt;h3 id="-致谢">🙏 致谢
+&lt;/h3>&lt;p>感谢你访问我的博客！如果你觉得我的内容对你有帮助，欢迎：&lt;/p>
+&lt;ul>
+&lt;li>⭐ 给我的GitHub项目点星&lt;/li>
+&lt;li>💬 在博客文章下留言交流&lt;/li>
+&lt;li>🔗 分享给更多有需要的朋友&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;blockquote>
+&lt;p>&amp;ldquo;Stay hungry, stay foolish.&amp;rdquo; - Steve Jobs&lt;/p>&lt;/blockquote>
+&lt;p>让我们一起在技术的道路上不断探索和成长！&lt;/p>
+&lt;/div>
+&lt;style>
+.about-page {
+max-width: 800px;
+margin: 0 auto;
+line-height: 1.8;
+}
+.about-page h2 {
+color: var(--accent-color);
+border-bottom: 2px solid var(--accent-color);
+padding-bottom: 10px;
+margin-top: 2em;
+}
+.about-page h3 {
+color: var(--card-text-color-main);
+margin-top: 1.5em;
+}
+.about-page h4 {
+color: var(--accent-color);
+margin-top: 1.2em;
+margin-bottom: 0.5em;
+}
+.about-page ul {
+margin-left: 1.5em;
+}
+.about-page li {
+margin-bottom: 0.3em;
+}
+.about-page blockquote {
+border-left: 4px solid var(--accent-color);
+padding-left: 1em;
+margin: 2em 0;
+font-style: italic;
+color: var(--card-text-color-secondary);
+}
+.about-page a {
+color: var(--accent-color);
+text-decoration: none;
+}
+.about-page a:hover {
+text-decoration: underline;
+}
+@media (max-width: 768px) {
+.about-page {
+padding: 0 1em;
+}
+}
+&lt;/style></description></item></channel></rss>
