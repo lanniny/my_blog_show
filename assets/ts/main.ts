@@ -15,6 +15,7 @@ import { setupSmoothAnchors } from "ts/smoothAnchors";
 import StackAuth, { AuthUtils } from 'ts/auth';
 import './performance';
 import './links-enhance';
+import './background-manager';
 
 // Global auth instance
 let globalAuth: StackAuth;
