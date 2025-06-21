@@ -393,24 +393,36 @@ let Stack = {
             });
         });
 
-        // Avatar upload
-        const avatarUpload = document.getElementById('admin-avatar-upload');
-        if (avatarUpload) {
-            avatarUpload.addEventListener('change', (e) => {
-                const target = e.target as HTMLInputElement;
-                if (target.files && target.files[0]) {
-                    Stack.handleAvatarUpload(target.files[0]);
-                }
-            });
-        }
+        // Avatar upload - use setTimeout to ensure DOM is ready
+        setTimeout(() => {
+            const avatarUpload = document.getElementById('admin-avatar-upload');
+            if (avatarUpload) {
+                avatarUpload.addEventListener('change', (e) => {
+                    const target = e.target as HTMLInputElement;
+                    if (target.files && target.files[0]) {
+                        console.log('📁 头像文件选择:', target.files[0].name);
+                        Stack.handleAvatarUpload(target.files[0]);
+                    }
+                });
+                console.log('✅ 头像上传事件监听器已绑定');
+            } else {
+                console.warn('⚠️ 头像上传元素未找到');
+            }
+        }, 200);
 
-        // Avatar reset
-        const avatarReset = document.getElementById('admin-avatar-reset');
-        if (avatarReset) {
-            avatarReset.addEventListener('click', () => {
-                Stack.resetAvatar();
-            });
-        }
+        // Avatar reset - use setTimeout to ensure DOM is ready
+        setTimeout(() => {
+            const avatarReset = document.getElementById('admin-avatar-reset');
+            if (avatarReset) {
+                avatarReset.addEventListener('click', () => {
+                    console.log('🔄 重置头像');
+                    Stack.resetAvatar();
+                });
+                console.log('✅ 头像重置事件监听器已绑定');
+            } else {
+                console.warn('⚠️ 头像重置元素未找到');
+            }
+        }, 200);
 
         // Save settings
         const saveSettings = document.getElementById('admin-save-settings');
@@ -562,33 +574,104 @@ let Stack = {
      * Handle avatar upload
      */
     handleAvatarUpload: (file: File) => {
-        if (file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
+        console.log('📁 开始处理头像上传:', file.name, file.type, file.size);
+
+        // 验证文件类型
+        if (!file.type.startsWith('image/')) {
+            console.error('❌ 文件类型错误:', file.type);
+            Stack.showErrorMessage('请选择图片文件（JPG、PNG、GIF等）');
+            return;
+        }
+
+        // 验证文件大小 (5MB限制)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+            console.error('❌ 文件过大:', file.size);
+            Stack.showErrorMessage('图片文件不能超过5MB');
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            try {
                 const result = e.target?.result as string;
+                if (!result) {
+                    throw new Error('图片读取失败');
+                }
+
+                console.log('📷 图片读取成功，大小:', result.length);
+
                 const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
                 if (avatarImg) {
                     avatarImg.src = result;
-                    // Save to localStorage
-                    localStorage.setItem('adminAvatar', result);
-                    // Update site avatar immediately
-                    Stack.updateSiteAvatar(result);
+                    console.log('✅ 管理面板头像已更新');
+                } else {
+                    console.warn('⚠️ 管理面板头像元素未找到');
                 }
-            };
-            reader.readAsDataURL(file);
-        }
+
+                // Save to localStorage
+                try {
+                    localStorage.setItem('adminAvatar', result);
+                    console.log('💾 头像已保存到localStorage');
+                } catch (storageError) {
+                    console.error('❌ localStorage保存失败:', storageError);
+                    Stack.showErrorMessage('头像保存失败，可能是存储空间不足');
+                    return;
+                }
+
+                // Update site avatar immediately
+                Stack.updateSiteAvatar(result);
+
+                // 显示成功消息
+                Stack.showSuccessMessage('头像上传成功！');
+                console.log('✅ 头像上传处理完成');
+
+            } catch (error) {
+                console.error('❌ 头像处理失败:', error);
+                Stack.showErrorMessage('头像处理失败，请重试');
+            }
+        };
+
+        reader.onerror = () => {
+            console.error('❌ 文件读取失败');
+            Stack.showErrorMessage('文件读取失败，请重试');
+        };
+
+        reader.readAsDataURL(file);
     },
 
     /**
      * Reset avatar to default
      */
     resetAvatar: () => {
-        const defaultAvatar = '/img/avatar_hu_f509edb42ecc0ebd.png';
-        const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
-        if (avatarImg) {
-            avatarImg.src = defaultAvatar;
+        console.log('🔄 重置头像到默认状态');
+
+        try {
+            const defaultAvatar = '/img/avatar_hu_f509edb42ecc0ebd.png';
+            const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
+
+            if (avatarImg) {
+                avatarImg.src = defaultAvatar;
+                console.log('✅ 管理面板头像已重置');
+            } else {
+                console.warn('⚠️ 管理面板头像元素未找到');
+            }
+
+            // Remove from localStorage
             localStorage.removeItem('adminAvatar');
+            console.log('🗑️ 已从localStorage移除自定义头像');
+
+            // Update site avatar
             Stack.updateSiteAvatar(defaultAvatar);
+
+            // 显示成功消息
+            Stack.showSuccessMessage('头像已重置为默认头像');
+            console.log('✅ 头像重置完成');
+
+        } catch (error) {
+            console.error('❌ 头像重置失败:', error);
+            Stack.showErrorMessage('头像重置失败，请重试');
         }
     },
 
