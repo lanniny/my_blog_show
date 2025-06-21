@@ -481,7 +481,7 @@ export class BackgroundManager {
         const reader = new FileReader();
         reader.onload = (e) => {
             const dataUrl = e.target?.result as string;
-            
+
             // Create custom style
             const customStyle: BackgroundStyle = {
                 id: `custom-${Date.now()}`,
@@ -495,12 +495,15 @@ export class BackgroundManager {
             this.customStyles.push(customStyle);
             this.saveCustomStyles();
 
-            // Apply the uploaded image
+            // Apply the uploaded image immediately
             this.currentSettings.style = customStyle;
             this.updatePreview();
             this.renderStyleLibrary('custom');
 
-            console.log('✅ 背景图片上传成功');
+            // 🔧 修复：自动应用背景，确保持久化
+            this.applyBackground();
+
+            console.log('✅ 背景图片上传成功并已自动应用');
         };
 
         reader.readAsDataURL(file);
