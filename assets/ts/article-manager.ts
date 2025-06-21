@@ -702,7 +702,7 @@ export class ArticleManager {
                         <span class="article-status ${article.metadata.draft ? 'draft' : 'published'}">
                             ${article.metadata.draft ? '草稿' : '已发布'}
                         </span>
-                        <span class="article-date">${article.metadata.date.toLocaleDateString()}</span>
+                        <span class="article-date">${new Date(article.metadata.date).toLocaleDateString()}</span>
                         <span class="article-categories">${article.metadata.categories.join(', ')}</span>
                     </div>
                     <div class="article-description">${article.metadata.description || '暂无描述'}</div>
