@@ -500,8 +500,14 @@ export class BackgroundManager {
             this.updatePreview();
             this.renderStyleLibrary('custom');
 
-            // 🔧 修复：自动应用背景，确保持久化
+            // 🔧 修复：强制应用背景并保存，确保持久化
             this.applyBackground();
+
+            // 🔧 额外保险：强制保存当前设置到localStorage
+            setTimeout(() => {
+                localStorage.setItem('background-current-settings', JSON.stringify(this.currentSettings));
+                console.log('🔒 强制保存设置到localStorage');
+            }, 100);
 
             console.log('✅ 背景图片上传成功并已自动应用');
         };
@@ -977,6 +983,27 @@ export class BackgroundManager {
                 }
 
                 console.log('✅ 自动应用保存的背景设置 - 包括自定义背景');
+
+                // 🔧 额外验证：确保背景真的被应用了
+                setTimeout(() => {
+                    const bodyStyle = window.getComputedStyle(document.body);
+                    const overlay = document.getElementById('background-overlay');
+                    const hasBackground = bodyStyle.background !== 'rgba(0, 0, 0, 0)' &&
+                                        bodyStyle.background !== 'transparent' &&
+                                        bodyStyle.background !== 'none' ||
+                                        !!overlay;
+
+                    if (!hasBackground && style.value) {
+                        console.log('🔄 背景未正确应用，重新尝试...');
+                        // 重新应用背景
+                        document.body.style.background = style.value;
+                        document.body.style.backgroundPosition = position;
+                        document.body.style.backgroundSize = size;
+                        document.body.style.backgroundRepeat = 'no-repeat';
+                        document.body.style.backgroundAttachment = 'fixed';
+                    }
+                }, 1000);
+
             } catch (error) {
                 console.warn('Failed to auto-apply background:', error);
                 // Clear corrupted settings
