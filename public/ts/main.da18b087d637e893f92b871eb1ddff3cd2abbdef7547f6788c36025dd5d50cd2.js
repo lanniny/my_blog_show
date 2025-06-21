@@ -1393,7 +1393,7 @@ Category: ${t.category}`),i}updateProgress(e,t,i){this.progressCallback&&this.pr
             cursor: pointer;
             margin-left: 0.5rem;
         ">\u7A0D\u540E</button>
-    `,document.body.appendChild(n),setTimeout(()=>{n.parentElement&&n.remove()},1e4)};window.Stack=l;console.log("\u2705 Stack object exported to window");console.log("\u{1F680} Hugo Stack Theme Enhanced - v2.1 - All modules loaded successfully!");})();
+    `,document.body.appendChild(n),setTimeout(()=>{n.parentElement&&n.remove()},1e4)};window.Stack=l;console.log("\u2705 Stack object exported to window");console.log("\u{1F680} Hugo Stack Theme Enhanced - v2.2 FINAL - All modules loaded successfully!");})();
 /*!
 *   Hugo Theme Stack - Article Manager
 *
