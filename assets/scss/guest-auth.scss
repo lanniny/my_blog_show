@@ -1,0 +1,428 @@
+/*!
+*   Hugo Theme Stack - Guest Authentication Styles
+*
+*   @author: Alex (Engineer)
+*   @project: Hugo Blog Guest Authentication System
+*   @description: Styles for guest login, registration and user interface
+*/
+
+/* Guest Auth Section in Navigation */
+.guest-auth-section {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    
+    .guest-auth-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        
+        &:hover {
+            background: var(--accent-color-darker);
+            transform: translateY(-1px);
+        }
+        
+        .guest-icon {
+            width: 1rem;
+            height: 1rem;
+        }
+    }
+    
+    .guest-user-area {
+        .guest-user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--card-background);
+            border-radius: 20px;
+            border: 1px solid var(--card-separator-color);
+            
+            .guest-avatar {
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            
+            .guest-username {
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: var(--card-text-color-main);
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            
+            .guest-logout-btn {
+                background: none;
+                border: none;
+                color: var(--card-text-color-secondary);
+                cursor: pointer;
+                padding: 0.25rem;
+                border-radius: 4px;
+                transition: all 0.2s ease;
+                
+                &:hover {
+                    background: var(--accent-color-lighter);
+                    color: var(--accent-color);
+                }
+                
+                svg {
+                    width: 1rem;
+                    height: 1rem;
+                }
+            }
+        }
+    }
+}
+
+/* Guest Modal Styles */
+.guest-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    backdrop-filter: blur(5px);
+    animation: modalFadeIn 0.3s ease-out;
+    
+    .guest-modal-content {
+        background: var(--card-background);
+        border-radius: 12px;
+        box-shadow: var(--shadow-l3);
+        max-width: 400px;
+        width: 90%;
+        max-height: 90vh;
+        overflow: hidden;
+        animation: modalSlideUp 0.3s ease-out;
+    }
+    
+    .guest-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid var(--card-separator-color);
+        background: var(--accent-color);
+        color: white;
+        
+        h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .guest-modal-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+            
+            &:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
+    
+    .guest-modal-body {
+        padding: 2rem;
+    }
+}
+
+/* Guest Form Styles */
+.guest-form-group {
+    margin-bottom: 1.5rem;
+    
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--card-text-color-main);
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+    
+    input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--card-separator-color);
+        border-radius: 6px;
+        background: var(--card-background);
+        color: var(--card-text-color-main);
+        font-size: 1rem;
+        transition: border-color 0.2s ease;
+        
+        &:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.1);
+        }
+        
+        &:invalid {
+            border-color: #ef4444;
+        }
+    }
+    
+    small {
+        display: block;
+        margin-top: 0.25rem;
+        color: var(--card-text-color-secondary);
+        font-size: 0.8rem;
+    }
+}
+
+.guest-form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    
+    .guest-btn {
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        min-width: 100px;
+        
+        &.guest-btn-primary {
+            background: var(--accent-color);
+            color: white;
+            
+            &:hover {
+                background: var(--accent-color-darker);
+                transform: translateY(-1px);
+            }
+            
+            &:active {
+                transform: translateY(0);
+            }
+        }
+        
+        &.guest-btn-secondary {
+            background: var(--card-separator-color);
+            color: var(--card-text-color-main);
+            
+            &:hover {
+                background: var(--card-separator-color-darker);
+            }
+        }
+    }
+}
+
+/* Article Rating System */
+.article-rating {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--card-background);
+    border-radius: 8px;
+    border: 1px solid var(--card-separator-color);
+    
+    .rating-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        
+        h4 {
+            margin: 0;
+            color: var(--card-text-color-main);
+            font-size: 1.1rem;
+        }
+        
+        .rating-stats {
+            font-size: 0.9rem;
+            color: var(--card-text-color-secondary);
+        }
+    }
+    
+    .rating-stars {
+        display: flex;
+        gap: 0.25rem;
+        margin-bottom: 1rem;
+        
+        .star {
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s ease;
+            
+            &:hover,
+            &.active {
+                color: #fbbf24;
+            }
+            
+            &.disabled {
+                cursor: not-allowed;
+                opacity: 0.5;
+            }
+        }
+    }
+    
+    .rating-message {
+        font-size: 0.9rem;
+        color: var(--card-text-color-secondary);
+        text-align: center;
+        padding: 0.5rem;
+        background: var(--accent-color-lighter);
+        border-radius: 4px;
+        margin-top: 1rem;
+    }
+}
+
+/* Animations */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .guest-auth-section {
+        margin-left: 0.5rem;
+        
+        .guest-auth-btn {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            
+            .guest-icon {
+                width: 0.9rem;
+                height: 0.9rem;
+            }
+        }
+        
+        .guest-user-area {
+            .guest-user-info {
+                padding: 0.2rem 0.4rem;
+                
+                .guest-avatar {
+                    width: 1.5rem;
+                    height: 1.5rem;
+                }
+                
+                .guest-username {
+                    font-size: 0.8rem;
+                    max-width: 80px;
+                }
+            }
+        }
+    }
+    
+    .guest-modal {
+        .guest-modal-content {
+            width: 95%;
+            margin: 1rem;
+        }
+        
+        .guest-modal-header {
+            padding: 1rem 1.5rem;
+            
+            h3 {
+                font-size: 1.1rem;
+            }
+        }
+        
+        .guest-modal-body {
+            padding: 1.5rem;
+        }
+    }
+    
+    .guest-form-actions {
+        flex-direction: column;
+        
+        .guest-btn {
+            width: 100%;
+        }
+    }
+    
+    .article-rating {
+        margin: 1rem 0;
+        padding: 1rem;
+        
+        .rating-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .rating-stars {
+            justify-content: center;
+            
+            .star {
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+    }
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .guest-modal {
+        background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .guest-form-group input {
+        &:focus {
+            box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.2);
+        }
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .guest-auth-btn,
+    .guest-btn-primary {
+        border: 2px solid currentColor;
+    }
+    
+    .guest-form-group input {
+        border-width: 2px;
+        
+        &:focus {
+            border-width: 3px;
+        }
+    }
+}

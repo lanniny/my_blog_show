@@ -607,5 +607,355 @@ export class ImageManager {
     }
 }
 
+/**
+ * Image Manager UI
+ * Provides user interface for image management
+ */
+export class ImageManagerUI {
+    private imageManager: ImageManager;
+    private isOpen: boolean = false;
+
+    constructor(imageManager: ImageManager) {
+        this.imageManager = imageManager;
+        this.createInterface();
+        this.setupEventListeners();
+    }
+
+    /**
+     * Create image manager interface
+     */
+    private createInterface(): void {
+        const imageManagerHTML = `
+            <div class="image-manager-modal" id="image-manager-modal" style="display: none;">
+                <div class="image-manager-container">
+                    <div class="image-manager-header">
+                        <h3>🖼️ 图片管理</h3>
+                        <button class="close-btn" id="image-manager-close">×</button>
+                    </div>
+
+                    <div class="image-manager-content">
+                        <!-- Upload Section -->
+                        <div class="upload-section">
+                            <div class="upload-area" id="image-upload-area">
+                                <div class="upload-placeholder">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="7,10 12,15 17,10"></polyline>
+                                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                                    </svg>
+                                    <p>拖拽图片到此处或点击上传</p>
+                                    <small>支持 JPG、PNG、GIF、WebP 格式，最大 10MB</small>
+                                </div>
+                                <input type="file" id="image-file-input" accept="image/*" multiple style="display: none;">
+                            </div>
+
+                            <div class="upload-progress" id="upload-progress" style="display: none;">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="progress-fill"></div>
+                                </div>
+                                <div class="progress-text" id="progress-text">准备上传...</div>
+                            </div>
+                        </div>
+
+                        <!-- Image Gallery -->
+                        <div class="image-gallery-section">
+                            <div class="gallery-header">
+                                <h4>📚 图片库</h4>
+                                <div class="gallery-controls">
+                                    <input type="text" id="image-search" placeholder="搜索图片...">
+                                    <select id="image-filter">
+                                        <option value="">所有图片</option>
+                                        <option value="recent">最近上传</option>
+                                        <option value="large">大图片</option>
+                                        <option value="small">小图片</option>
+                                    </select>
+                                    <button class="btn btn-secondary" id="refresh-gallery">刷新</button>
+                                </div>
+                            </div>
+
+                            <div class="image-gallery" id="image-gallery">
+                                <div class="loading-state">正在加载图片...</div>
+                            </div>
+
+                            <div class="gallery-pagination" id="gallery-pagination" style="display: none;">
+                                <button class="btn btn-secondary" id="prev-page" disabled>上一页</button>
+                                <span class="page-info" id="page-info">第 1 页，共 1 页</span>
+                                <button class="btn btn-secondary" id="next-page" disabled>下一页</button>
+                            </div>
+                        </div>
+
+                        <!-- Image Details Panel -->
+                        <div class="image-details-panel" id="image-details-panel" style="display: none;">
+                            <div class="details-header">
+                                <h4>图片详情</h4>
+                                <button class="close-details" id="close-details">×</button>
+                            </div>
+
+                            <div class="details-content">
+                                <div class="image-preview">
+                                    <img id="details-image" src="" alt="图片预览">
+                                </div>
+
+                                <div class="image-info">
+                                    <div class="info-group">
+                                        <label>文件名:</label>
+                                        <input type="text" id="details-name" readonly>
+                                        <button class="btn btn-small" id="edit-name">编辑</button>
+                                    </div>
+
+                                    <div class="info-group">
+                                        <label>CDN链接:</label>
+                                        <input type="text" id="details-cdn-url" readonly>
+                                        <button class="btn btn-small" id="copy-cdn-url">复制</button>
+                                    </div>
+
+                                    <div class="info-group">
+                                        <label>Markdown:</label>
+                                        <input type="text" id="details-markdown" readonly>
+                                        <button class="btn btn-small" id="copy-markdown">复制</button>
+                                    </div>
+
+                                    <div class="info-group">
+                                        <label>文件大小:</label>
+                                        <span id="details-size">-</span>
+                                    </div>
+
+                                    <div class="info-group">
+                                        <label>上传时间:</label>
+                                        <span id="details-date">-</span>
+                                    </div>
+                                </div>
+
+                                <div class="details-actions">
+                                    <button class="btn btn-primary" id="use-image">使用图片</button>
+                                    <button class="btn btn-secondary" id="download-image">下载</button>
+                                    <button class="btn btn-danger" id="delete-image">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add to body if not exists
+        if (!document.getElementById('image-manager-modal')) {
+            document.body.insertAdjacentHTML('beforeend', imageManagerHTML);
+        }
+    }
+
+    /**
+     * Setup event listeners
+     */
+    private setupEventListeners(): void {
+        // Close modal
+        const closeBtn = document.getElementById('image-manager-close');
+        closeBtn?.addEventListener('click', () => this.closeManager());
+
+        // Upload area click
+        const uploadArea = document.getElementById('image-upload-area');
+        const fileInput = document.getElementById('image-file-input') as HTMLInputElement;
+
+        uploadArea?.addEventListener('click', () => fileInput?.click());
+
+        // File input change
+        fileInput?.addEventListener('change', (e) => {
+            const files = (e.target as HTMLInputElement).files;
+            if (files) {
+                this.handleFileUpload(Array.from(files));
+            }
+        });
+
+        // Drag and drop
+        uploadArea?.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea?.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea?.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+
+            const files = Array.from(e.dataTransfer?.files || []);
+            if (files.length > 0) {
+                this.handleFileUpload(files);
+            }
+        });
+
+        // Search and filter
+        const searchInput = document.getElementById('image-search');
+        searchInput?.addEventListener('input', () => this.filterImages());
+
+        const filterSelect = document.getElementById('image-filter');
+        filterSelect?.addEventListener('change', () => this.filterImages());
+
+        // Refresh gallery
+        const refreshBtn = document.getElementById('refresh-gallery');
+        refreshBtn?.addEventListener('click', () => this.loadImageGallery());
+
+        // Close details panel
+        const closeDetails = document.getElementById('close-details');
+        closeDetails?.addEventListener('click', () => this.closeDetailsPanel());
+
+        // Copy buttons
+        const copyCdnBtn = document.getElementById('copy-cdn-url');
+        copyCdnBtn?.addEventListener('click', () => this.copyToClipboard('details-cdn-url'));
+
+        const copyMarkdownBtn = document.getElementById('copy-markdown');
+        copyMarkdownBtn?.addEventListener('click', () => this.copyToClipboard('details-markdown'));
+    }
+
+    /**
+     * Open image manager
+     */
+    public openManager(): void {
+        const modal = document.getElementById('image-manager-modal');
+        if (modal) {
+            modal.style.display = 'flex';
+            this.isOpen = true;
+            this.loadImageGallery();
+        }
+    }
+
+    /**
+     * Close image manager
+     */
+    public closeManager(): void {
+        const modal = document.getElementById('image-manager-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            this.isOpen = false;
+            this.closeDetailsPanel();
+        }
+    }
+
+    /**
+     * Handle file upload
+     */
+    private async handleFileUpload(files: File[]): Promise<void> {
+        const progressContainer = document.getElementById('upload-progress');
+        const progressFill = document.getElementById('progress-fill');
+        const progressText = document.getElementById('progress-text');
+
+        if (!progressContainer || !progressFill || !progressText) return;
+
+        progressContainer.style.display = 'block';
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            try {
+                await this.imageManager.uploadImage(file, {}, (progress) => {
+                    const overallProgress = ((i / files.length) + (progress.percentage / 100 / files.length)) * 100;
+                    progressFill.style.width = `${overallProgress}%`;
+                    progressText.textContent = `${progress.message} (${i + 1}/${files.length})`;
+                });
+
+                console.log(`✅ Uploaded: ${file.name}`);
+            } catch (error) {
+                console.error(`❌ Failed to upload ${file.name}:`, error);
+                this.showMessage(`上传失败: ${file.name}`, 'error');
+            }
+        }
+
+        // Hide progress and refresh gallery
+        setTimeout(() => {
+            progressContainer.style.display = 'none';
+            this.loadImageGallery();
+        }, 1000);
+    }
+
+    /**
+     * Load image gallery
+     */
+    private async loadImageGallery(): Promise<void> {
+        const gallery = document.getElementById('image-gallery');
+        if (!gallery) return;
+
+        gallery.innerHTML = '<div class="loading-state">正在加载图片...</div>';
+
+        try {
+            // This would typically load from GitHub repository
+            // For now, we'll show a placeholder
+            gallery.innerHTML = `
+                <div class="empty-gallery">
+                    <p>暂无图片</p>
+                    <p>上传您的第一张图片开始使用图片管理功能</p>
+                </div>
+            `;
+        } catch (error) {
+            console.error('Failed to load image gallery:', error);
+            gallery.innerHTML = '<div class="error-state">加载图片失败，请重试</div>';
+        }
+    }
+
+    /**
+     * Filter images
+     */
+    private filterImages(): void {
+        // Implementation for filtering images
+        console.log('Filtering images...');
+    }
+
+    /**
+     * Close details panel
+     */
+    private closeDetailsPanel(): void {
+        const panel = document.getElementById('image-details-panel');
+        if (panel) {
+            panel.style.display = 'none';
+        }
+    }
+
+    /**
+     * Copy text to clipboard
+     */
+    private async copyToClipboard(elementId: string): Promise<void> {
+        const element = document.getElementById(elementId) as HTMLInputElement;
+        if (element) {
+            try {
+                await navigator.clipboard.writeText(element.value);
+                this.showMessage('已复制到剪贴板', 'success');
+            } catch (error) {
+                console.error('Failed to copy to clipboard:', error);
+                this.showMessage('复制失败', 'error');
+            }
+        }
+    }
+
+    /**
+     * Show message to user
+     */
+    private showMessage(message: string, type: 'success' | 'error' | 'info'): void {
+        if (typeof (window as any).Stack !== 'undefined') {
+            const Stack = (window as any).Stack;
+            if (type === 'success' && Stack.showSuccessMessage) {
+                Stack.showSuccessMessage(message);
+            } else if (type === 'error' && Stack.showErrorMessage) {
+                Stack.showErrorMessage(message);
+            } else {
+                console.log(`${type.toUpperCase()}: ${message}`);
+            }
+        } else {
+            alert(message);
+        }
+    }
+}
+
 // Export singleton instance
 export const imageManager = new ImageManager();
+export const imageManagerUI = new ImageManagerUI(imageManager);
+
+// Export to global
+window.ImageManager = ImageManager;
+window.CDNLinkGenerator = CDNLinkGenerator;
+window.ImageProcessor = ImageProcessor;
+window.imageManager = imageManager;
+window.imageManagerUI = imageManagerUI;
+window.openImageManager = () => imageManagerUI.openManager();
+
+export default ImageManager;

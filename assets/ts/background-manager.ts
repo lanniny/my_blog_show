@@ -69,18 +69,22 @@ export class BackgroundManager {
      * Setup the background manager interface
      */
     private setupInterface(): void {
-        // Check if admin panel exists
-        const adminPanel = document.querySelector('.admin-panel');
-        if (!adminPanel) {
-            console.log('❌ Admin panel not found, background manager not initialized');
-            return;
-        }
+        // Wait for admin panel to be available
+        const checkAdminPanel = () => {
+            const adminPanel = document.getElementById('admin-panel-modal');
+            if (adminPanel) {
+                this.createBackgroundManagerInterface();
+                this.setupEventListeners();
+                this.loadCurrentSettings();
+                this.bindBackgroundManagerButton();
+                console.log('✅ 背景图片管理系统已启用');
+            } else {
+                // Retry after a short delay
+                setTimeout(checkAdminPanel, 500);
+            }
+        };
 
-        this.createBackgroundManagerInterface();
-        this.setupEventListeners();
-        this.loadCurrentSettings();
-        
-        console.log('✅ 背景图片管理系统已启用');
+        checkAdminPanel();
     }
 
     /**
@@ -89,10 +93,11 @@ export class BackgroundManager {
     private createBackgroundManagerInterface(): void {
         const backgroundManagerHTML = `
             <div class="background-manager" id="background-manager">
-                <div class="background-manager-header">
-                    <h3>🎨 背景图片管理</h3>
-                    <button class="close-btn" id="close-background-manager">×</button>
-                </div>
+                <div class="background-manager-modal">
+                    <div class="background-manager-header">
+                        <h3>🎨 背景图片管理</h3>
+                        <button class="close-btn" id="close-background-manager">×</button>
+                    </div>
                 
                 <div class="background-manager-content">
                     <!-- Upload Area -->
@@ -182,20 +187,87 @@ export class BackgroundManager {
                         <button class="btn btn-secondary" id="reset-background">重置</button>
                         <button class="btn btn-secondary" id="save-preset">保存为预设</button>
                     </div>
+                    </div>
                 </div>
             </div>
         `;
 
-        // Add to admin panel
-        const adminPanel = document.querySelector('.admin-panel');
+        // Add to body (as a modal)
+        document.body.insertAdjacentHTML('beforeend', backgroundManagerHTML);
+
+        // Get references to elements
+        this.container = document.getElementById('background-manager') as HTMLElement;
+        this.previewArea = document.getElementById('preview-area') as HTMLElement;
+        this.uploadArea = document.getElementById('upload-area') as HTMLElement;
+        this.styleLibrary = document.getElementById('style-library') as HTMLElement;
+
+        // Initially hide the manager
+        if (this.container) {
+            this.container.style.display = 'none';
+            this.container.style.position = 'fixed';
+            this.container.style.top = '0';
+            this.container.style.left = '0';
+            this.container.style.width = '100%';
+            this.container.style.height = '100%';
+            this.container.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+            this.container.style.zIndex = '10000';
+            this.container.style.overflow = 'auto';
+        }
+    }
+
+    /**
+     * Bind background manager button in admin panel
+     */
+    private bindBackgroundManagerButton(): void {
+        // Try multiple times to find the button
+        const tryBindButton = (attempts = 0) => {
+            const backgroundBtn = document.getElementById('admin-background-manager');
+            if (backgroundBtn) {
+                backgroundBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    console.log('🎨 Opening background manager...');
+                    this.openManager();
+                });
+                console.log('✅ Background manager button bound');
+            } else if (attempts < 10) {
+                // Retry after a delay
+                setTimeout(() => tryBindButton(attempts + 1), 500);
+            } else {
+                console.warn('⚠️ Background manager button not found after multiple attempts');
+                // Create a fallback button if needed
+                this.createFallbackButton();
+            }
+        };
+
+        tryBindButton();
+    }
+
+    /**
+     * Create fallback background manager button
+     */
+    private createFallbackButton(): void {
+        // Add button to admin panel if it doesn't exist
+        const adminPanel = document.querySelector('.admin-actions, .admin-content');
         if (adminPanel) {
-            adminPanel.insertAdjacentHTML('beforeend', backgroundManagerHTML);
-            
-            // Get references to elements
-            this.container = document.getElementById('background-manager') as HTMLElement;
-            this.previewArea = document.getElementById('preview-area') as HTMLElement;
-            this.uploadArea = document.getElementById('upload-area') as HTMLElement;
-            this.styleLibrary = document.getElementById('style-library') as HTMLElement;
+            const fallbackBtn = document.createElement('button');
+            fallbackBtn.id = 'admin-background-manager-fallback';
+            fallbackBtn.className = 'admin-action-btn';
+            fallbackBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21,15 16,10 5,21"></polyline>
+                </svg>
+                背景管理
+            `;
+            fallbackBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('🎨 Opening background manager (fallback)...');
+                this.openManager();
+            });
+
+            adminPanel.appendChild(fallbackBtn);
+            console.log('✅ Fallback background manager button created');
         }
     }
 
@@ -751,7 +823,15 @@ export class BackgroundManager {
      */
     public openManager(): void {
         if (this.container) {
-            this.container.style.display = 'block';
+            this.container.style.display = 'flex';
+            this.container.style.alignItems = 'center';
+            this.container.style.justifyContent = 'center';
+
+            // Load current settings and render library
+            this.loadCurrentSettings();
+            this.renderStyleLibrary('preset');
+
+            console.log('✅ Background manager opened');
         }
     }
 

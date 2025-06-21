@@ -18,106 +18,84 @@ import './links-enhance';
 import './background-manager';
 import './github-image-uploader';
 import './article-manager';
+import './guest-auth';
+import './article-rating';
+import './github-integration';
 
 // Global auth instance
 let globalAuth: StackAuth;
+let isStackInitialized = false;
 
 let Stack = {
     init: () => {
-        /**
-         * Initialize authentication system
-         */
-        try {
-            globalAuth = new StackAuth();
-            console.log('✅ globalAuth created successfully');
-        } catch (error) {
-            console.error('❌ Failed to create globalAuth:', error);
-            console.log('🔧 Attempting fallback auth creation...');
-
-            // Fallback: create a simple auth object with config support
-            globalAuth = {
-                config: {
-                    adminPassword: localStorage.getItem('adminPassword') || 'admit'
-                },
-                isAuthenticated: () => localStorage.getItem('adminAuth') === 'authenticated',
-                authenticate: function(password: string) {
-                    // Use dynamic password from config
-                    if (password === this.config.adminPassword) {
-                        localStorage.setItem('adminAuth', 'authenticated');
-                        // Manually trigger UI update
-                        setTimeout(() => {
-                            const adminElements = document.querySelectorAll('[data-admin-only]');
-                            adminElements.forEach(el => {
-                                (el as HTMLElement).style.display = 'block';
-                            });
-                            const guestElements = document.querySelectorAll('[data-guest-only]');
-                            guestElements.forEach(el => {
-                                (el as HTMLElement).style.display = 'none';
-                            });
-                            console.log('✅ Fallback auth UI updated');
-                        }, 100);
-                        return true;
-                    }
-                    return false;
-                },
-                logout: () => {
-                    localStorage.removeItem('adminAuth');
-                    const adminElements = document.querySelectorAll('[data-admin-only]');
-                    adminElements.forEach(el => {
-                        (el as HTMLElement).style.display = 'none';
-                    });
-                    const guestElements = document.querySelectorAll('[data-guest-only]');
-                    guestElements.forEach(el => {
-                        (el as HTMLElement).style.display = 'block';
-                    });
-                },
-                updatePassword: function(newPassword: string) {
-                    this.config.adminPassword = newPassword;
-                    localStorage.setItem('adminPassword', newPassword);
-                    console.log('✅ Fallback auth password updated');
-                }
-            };
-            console.log('✅ Fallback auth created');
+        // Prevent multiple initializations
+        if (isStackInitialized) {
+            console.log('ℹ️ Stack already initialized, skipping...');
+            return;
         }
-        
-        // Listen for auth status changes
-        window.addEventListener('onAuthStatusChange', (e: CustomEvent) => {
-            const { status, isAuthenticated, isAdmin, remainingAttempts } = e.detail;
-            
-            // Update UI based on auth status
-            AuthUtils.toggleAdminElements(isAdmin);
-            AuthUtils.updateBodyClass(isAdmin);
-            
-            // Handle different auth events
-            switch (status) {
-                case 'authenticated':
-                    AuthUtils.hideLoginModal();
-                    console.log('Admin authenticated successfully');
+        isStackInitialized = true;
+        /**
+         * Initialize authentication system - prevent multiple instances
+         */
+        if (!globalAuth) {
+            try {
+                globalAuth = new StackAuth();
+                console.log('✅ globalAuth created successfully');
+            } catch (error) {
+                console.error('❌ Failed to create globalAuth:', error);
+                console.log('🔧 Attempting fallback auth creation...');
 
-                    // Force show admin elements after successful authentication
-                    setTimeout(() => {
-                        console.log('🔧 Force showing admin elements after authentication');
+                // Fallback: create a simple auth object with config support
+                globalAuth = {
+                    config: {
+                        adminPassword: localStorage.getItem('adminPassword') || 'admit'
+                    },
+                    isAuthenticated: () => localStorage.getItem('adminAuth') === 'authenticated',
+                    authenticate: function(password: string) {
+                        // Use dynamic password from config
+                        if (password === this.config.adminPassword) {
+                            localStorage.setItem('adminAuth', 'authenticated');
+                            // Manually trigger UI update
+                            setTimeout(() => {
+                                const adminElements = document.querySelectorAll('[data-admin-only]');
+                                adminElements.forEach(el => {
+                                    (el as HTMLElement).style.display = 'block';
+                                });
+                                const guestElements = document.querySelectorAll('[data-guest-only]');
+                                guestElements.forEach(el => {
+                                    (el as HTMLElement).style.display = 'none';
+                                });
+                                console.log('✅ Fallback auth UI updated');
+                            }, 100);
+                            return true;
+                        }
+                        return false;
+                    },
+                    logout: () => {
+                        localStorage.removeItem('adminAuth');
                         const adminElements = document.querySelectorAll('[data-admin-only]');
                         adminElements.forEach(el => {
+                            (el as HTMLElement).style.display = 'none';
+                        });
+                        const guestElements = document.querySelectorAll('[data-guest-only]');
+                        guestElements.forEach(el => {
                             (el as HTMLElement).style.display = 'block';
                         });
-                        console.log('✅ Admin elements forced to show');
-                    }, 100);
-                    break;
-                case 'failed':
-                    AuthUtils.showLoginError('密码错误');
-                    if (remainingAttempts > 0) {
-                        AuthUtils.showAttemptsInfo(remainingAttempts);
+                    },
+                    updatePassword: function(newPassword: string) {
+                        this.config.adminPassword = newPassword;
+                        localStorage.setItem('adminPassword', newPassword);
+                        console.log('✅ Fallback auth password updated');
                     }
-                    break;
-                case 'blocked':
-                    AuthUtils.showLoginError('登录尝试次数过多，请稍后再试');
-                    break;
-                case 'guest':
-                    console.log('User logged out or session expired');
-                    break;
+                } as any;
+                console.log('✅ Fallback auth created');
             }
-        });
+        } else {
+            console.log('ℹ️ globalAuth already exists, skipping creation');
+        }
+        
+        // No longer using authentication events to avoid recursion
+        // UI updates are now handled manually in login/logout methods
 
         // Create and inject login modal
         console.log('Creating login modal...');
@@ -251,8 +229,39 @@ let Stack = {
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const passwordInput = document.getElementById('admin-password') as HTMLInputElement;
-                if (passwordInput) {
-                    globalAuth.authenticate(passwordInput.value);
+                if (passwordInput && globalAuth) {
+                    const success = globalAuth.authenticate(passwordInput.value);
+                    if (success) {
+                        // Manually handle successful login
+                        AuthUtils.hideLoginModal();
+                        console.log('Admin authenticated successfully');
+
+                        // Force show admin elements
+                        setTimeout(() => {
+                            console.log('🔧 Force showing admin elements after authentication');
+                            const adminElements = document.querySelectorAll('[data-admin-only]');
+                            adminElements.forEach(el => {
+                                (el as HTMLElement).style.display = 'block';
+                            });
+                            const guestElements = document.querySelectorAll('[data-guest-only]');
+                            guestElements.forEach(el => {
+                                (el as HTMLElement).style.display = 'none';
+                            });
+                            AuthUtils.updateBodyClass(true);
+                            console.log('✅ Admin elements forced to show');
+                        }, 100);
+                    } else {
+                        // Manually handle failed login
+                        if (globalAuth.isBlocked()) {
+                            AuthUtils.showLoginError('登录尝试次数过多，请稍后再试');
+                        } else {
+                            AuthUtils.showLoginError('密码错误');
+                            const remaining = globalAuth.getRemainingAttempts();
+                            if (remaining > 0) {
+                                AuthUtils.showAttemptsInfo(remaining);
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -520,6 +529,17 @@ let Stack = {
     logout: () => {
         if (globalAuth) {
             globalAuth.logout();
+            // Manually update UI after logout
+            const adminElements = document.querySelectorAll('[data-admin-only]');
+            adminElements.forEach(el => {
+                (el as HTMLElement).style.display = 'none';
+            });
+            const guestElements = document.querySelectorAll('[data-guest-only]');
+            guestElements.forEach(el => {
+                (el as HTMLElement).style.display = 'block';
+            });
+            AuthUtils.updateBodyClass(false);
+            console.log('User logged out successfully');
         }
     },
 
@@ -571,9 +591,9 @@ let Stack = {
     },
 
     /**
-     * Handle avatar upload
+     * Handle avatar upload with GitHub integration
      */
-    handleAvatarUpload: (file: File) => {
+    handleAvatarUpload: async (file: File) => {
         console.log('📁 开始处理头像上传:', file.name, file.type, file.size);
 
         // 验证文件类型
@@ -591,60 +611,133 @@ let Stack = {
             return;
         }
 
-        const reader = new FileReader();
+        // 显示上传进度
+        Stack.showSuccessMessage('正在上传头像到GitHub...');
 
-        reader.onload = (e) => {
-            try {
-                const result = e.target?.result as string;
-                if (!result) {
-                    throw new Error('图片读取失败');
-                }
+        try {
+            // 检查GitHub上传器是否可用
+            if (typeof window !== 'undefined' && (window as any).githubImageUploader) {
+                console.log('📤 使用GitHub上传器上传头像');
 
-                console.log('📷 图片读取成功，大小:', result.length);
+                // 设置进度回调
+                const uploader = (window as any).githubImageUploader;
+                uploader.setProgressCallback((progress: any) => {
+                    console.log(`📊 上传进度: ${progress.progress}% - ${progress.message}`);
+                });
 
-                const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
-                if (avatarImg) {
-                    avatarImg.src = result;
-                    console.log('✅ 管理面板头像已更新');
+                // 上传到GitHub (avatars分类)
+                const result = await uploader.uploadImage(file, {
+                    title: '用户头像',
+                    description: '博客管理员头像',
+                    category: 'avatars',
+                    alt: 'Admin Avatar'
+                }, 'avatars');
+
+                if (result.success && result.cdnUrl) {
+                    console.log('✅ 头像上传到GitHub成功:', result.cdnUrl);
+
+                    // 更新管理面板头像
+                    const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
+                    if (avatarImg) {
+                        avatarImg.src = result.cdnUrl;
+                        console.log('✅ 管理面板头像已更新');
+                    }
+
+                    // 保存GitHub URL到localStorage
+                    localStorage.setItem('adminAvatar', result.cdnUrl);
+                    localStorage.setItem('adminAvatarGitHubUrl', result.url || '');
+                    localStorage.setItem('adminAvatarFileName', result.fileName || '');
+                    console.log('💾 头像GitHub URL已保存到localStorage');
+
+                    // 更新网站头像
+                    Stack.updateSiteAvatar(result.cdnUrl);
+
+                    // 显示成功消息
+                    Stack.showSuccessMessage('头像上传成功！已保存到GitHub');
+                    console.log('✅ 头像上传处理完成');
                 } else {
-                    console.warn('⚠️ 管理面板头像元素未找到');
+                    throw new Error(result.error || '上传失败');
                 }
-
-                // Save to localStorage
-                try {
-                    localStorage.setItem('adminAvatar', result);
-                    console.log('💾 头像已保存到localStorage');
-                } catch (storageError) {
-                    console.error('❌ localStorage保存失败:', storageError);
-                    Stack.showErrorMessage('头像保存失败，可能是存储空间不足');
-                    return;
-                }
-
-                // Update site avatar immediately
-                Stack.updateSiteAvatar(result);
-
-                // 显示成功消息
-                Stack.showSuccessMessage('头像上传成功！');
-                console.log('✅ 头像上传处理完成');
-
-            } catch (error) {
-                console.error('❌ 头像处理失败:', error);
-                Stack.showErrorMessage('头像处理失败，请重试');
+            } else {
+                // 回退到本地存储方案
+                console.log('⚠️ GitHub上传器不可用，使用本地存储');
+                await Stack.handleAvatarUploadLocal(file);
             }
-        };
 
-        reader.onerror = () => {
-            console.error('❌ 文件读取失败');
-            Stack.showErrorMessage('文件读取失败，请重试');
-        };
+        } catch (error) {
+            console.error('❌ GitHub头像上传失败:', error);
+            Stack.showErrorMessage(`头像上传失败: ${error.message}`);
 
-        reader.readAsDataURL(file);
+            // 尝试本地存储作为备选方案
+            console.log('🔄 尝试本地存储作为备选方案');
+            try {
+                await Stack.handleAvatarUploadLocal(file);
+            } catch (localError) {
+                console.error('❌ 本地存储也失败:', localError);
+                Stack.showErrorMessage('头像上传完全失败，请重试');
+            }
+        }
+    },
+
+    /**
+     * Handle avatar upload locally (fallback method)
+     */
+    handleAvatarUploadLocal: async (file: File): Promise<void> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                try {
+                    const result = e.target?.result as string;
+                    if (!result) {
+                        throw new Error('图片读取失败');
+                    }
+
+                    console.log('📷 图片读取成功，大小:', result.length);
+
+                    const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
+                    if (avatarImg) {
+                        avatarImg.src = result;
+                        console.log('✅ 管理面板头像已更新');
+                    }
+
+                    // Save to localStorage
+                    try {
+                        localStorage.setItem('adminAvatar', result);
+                        console.log('💾 头像已保存到localStorage');
+                    } catch (storageError) {
+                        console.error('❌ localStorage保存失败:', storageError);
+                        reject(new Error('头像保存失败，可能是存储空间不足'));
+                        return;
+                    }
+
+                    // Update site avatar immediately
+                    Stack.updateSiteAvatar(result);
+
+                    // 显示成功消息
+                    Stack.showSuccessMessage('头像上传成功！(本地存储)');
+                    console.log('✅ 头像本地上传处理完成');
+                    resolve();
+
+                } catch (error) {
+                    console.error('❌ 头像处理失败:', error);
+                    reject(error);
+                }
+            };
+
+            reader.onerror = () => {
+                console.error('❌ 文件读取失败');
+                reject(new Error('文件读取失败'));
+            };
+
+            reader.readAsDataURL(file);
+        });
     },
 
     /**
      * Reset avatar to default
      */
-    resetAvatar: () => {
+    resetAvatar: async () => {
         console.log('🔄 重置头像到默认状态');
 
         try {
@@ -658,9 +751,28 @@ let Stack = {
                 console.warn('⚠️ 管理面板头像元素未找到');
             }
 
+            // 尝试删除GitHub上的头像文件
+            const githubFileName = localStorage.getItem('adminAvatarFileName');
+            if (githubFileName && typeof window !== 'undefined' && (window as any).githubImageUploader) {
+                try {
+                    console.log('🗑️ 尝试从GitHub删除旧头像:', githubFileName);
+                    const uploader = (window as any).githubImageUploader;
+                    const deleteSuccess = await uploader.deleteImage(githubFileName);
+                    if (deleteSuccess) {
+                        console.log('✅ GitHub头像文件删除成功');
+                    } else {
+                        console.warn('⚠️ GitHub头像文件删除失败，但继续重置');
+                    }
+                } catch (deleteError) {
+                    console.warn('⚠️ GitHub头像删除出错:', deleteError);
+                }
+            }
+
             // Remove from localStorage
             localStorage.removeItem('adminAvatar');
-            console.log('🗑️ 已从localStorage移除自定义头像');
+            localStorage.removeItem('adminAvatarGitHubUrl');
+            localStorage.removeItem('adminAvatarFileName');
+            console.log('🗑️ 已从localStorage移除自定义头像信息');
 
             // Update site avatar
             Stack.updateSiteAvatar(defaultAvatar);
@@ -679,31 +791,67 @@ let Stack = {
      * Update site avatar
      */
     updateSiteAvatar: (avatarUrl: string) => {
-        // 扩展选择器覆盖范围，确保所有头像位置都更新
+        console.log('🔄 Updating site avatar to:', avatarUrl);
+
+        // 更全面的头像选择器列表
         const avatarSelectors = [
-            '.site-avatar img',      // 通用头像选择器
-            '.site-logo',            // sidebar中的头像类
-            '.site-avatar .site-logo', // 组合选择器
-            '[data-avatar]'          // 自定义头像属性
+            '.site-avatar img',           // 通用头像选择器
+            '.site-logo',                 // sidebar中的头像类
+            '.site-avatar .site-logo',    // 组合选择器
+            '[data-avatar]',              // 自定义头像属性
+            '.sidebar .site-avatar img',  // sidebar中的头像
+            '.sidebar img[alt*="avatar"]', // sidebar中包含avatar的图片
+            '.sidebar img[alt*="Avatar"]', // sidebar中包含Avatar的图片
+            '.header-avatar img',         // header中的头像
+            '.user-avatar img',           // 用户头像
+            '.profile-avatar img',        // 个人资料头像
+            'img.avatar',                 // 直接使用avatar类的图片
+            'img.site-logo'               // 直接使用site-logo类的图片
         ];
 
+        let updatedCount = 0;
         avatarSelectors.forEach(selector => {
-            const avatar = document.querySelector(selector) as HTMLImageElement;
-            if (avatar) {
-                avatar.src = avatarUrl;
-                console.log(`✅ Updated avatar for selector: ${selector}`);
+            const avatars = document.querySelectorAll(selector);
+            avatars.forEach((avatar: HTMLImageElement) => {
+                if (avatar && avatar.tagName === 'IMG') {
+                    avatar.src = avatarUrl;
+                    updatedCount++;
+                    console.log(`✅ Updated avatar for selector: ${selector}`);
+                }
+            });
+        });
+
+        // 额外检查：查找所有可能的头像元素
+        const allImages = document.querySelectorAll('img');
+        allImages.forEach((img: HTMLImageElement) => {
+            // 检查图片的alt、class、id等属性是否包含头像相关关键词
+            const altText = (img.alt || '').toLowerCase();
+            const className = (img.className || '').toLowerCase();
+            const idName = (img.id || '').toLowerCase();
+
+            const isAvatar = altText.includes('avatar') ||
+                           className.includes('avatar') ||
+                           idName.includes('avatar') ||
+                           className.includes('site-logo') ||
+                           altText.includes('logo');
+
+            // 排除管理面板的头像
+            const isAdminAvatar = idName.includes('admin') || className.includes('admin');
+
+            if (isAvatar && !isAdminAvatar) {
+                img.src = avatarUrl;
+                updatedCount++;
+                console.log(`✅ Updated additional avatar: ${img.className || img.id || img.alt || 'unnamed'}`);
             }
         });
 
-        // 额外检查：确保所有可能的头像元素都被更新
-        const allAvatars = document.querySelectorAll('img[alt*="Avatar"], img[alt*="avatar"]');
-        allAvatars.forEach((img: HTMLImageElement) => {
-            // 只更新非管理面板的头像
-            if (!img.id || !img.id.includes('admin')) {
-                img.src = avatarUrl;
-                console.log(`✅ Updated additional avatar: ${img.className || img.id || 'unnamed'}`);
-            }
-        });
+        console.log(`✅ Total avatars updated: ${updatedCount}`);
+
+        // 强制触发页面重绘
+        setTimeout(() => {
+            const event = new Event('avatarUpdated');
+            document.dispatchEvent(event);
+        }, 100);
     },
 
     /**
@@ -1610,6 +1758,35 @@ let Stack = {
                                             </svg>
                                             <span>站点统计</span>
                                         </button>
+                                        <button class="admin-action-btn" id="admin-image-manager">
+                                            <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                                <path d="M21 15l-5-5L5 21"></path>
+                                            </svg>
+                                            <span>图片管理</span>
+                                        </button>
+                                        <button class="admin-action-btn" id="admin-background-manager">
+                                            <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"></path>
+                                                <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"></path>
+                                                <path d="M12 3c0 1-1 3-3 3s-3-2-3-3 1-3 3-3 3 2 3 3"></path>
+                                                <path d="M12 21c0-1 1-3 3-3s3 2 3 3-1 3-3 3-3-2-3-3"></path>
+                                                <path d="M12 12l-2-2"></path>
+                                                <path d="M12 12l2-2"></path>
+                                                <path d="M12 12l2 2"></path>
+                                                <path d="M12 12l-2 2"></path>
+                                            </svg>
+                                            <span>背景管理</span>
+                                        </button>
+                                        <button class="admin-action-btn" id="admin-archives-manager">
+                                            <svg class="admin-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8z"></path>
+                                                <path d="M3.27 6.96L12 12.01l8.73-5.05"></path>
+                                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                                            </svg>
+                                            <span>归档管理</span>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="admin-section">
@@ -1756,9 +1933,27 @@ let Stack = {
      * Handle post management
      */
     handleManagePosts: () => {
-        console.log('📋 Managing posts...');
-        Stack.showSuccessMessage('文章管理功能正在开发中，敬请期待！');
-        // TODO: Implement GitHub API integration for managing posts
+        console.log('📋 Opening article manager...');
+
+        // Check if article manager is available
+        if (typeof (window as any).articleManager !== 'undefined') {
+            (window as any).articleManager.openManager();
+            console.log('✅ Article manager opened');
+        } else {
+            // Try to initialize article manager if not available
+            console.log('⚠️ Article manager not found, attempting to initialize...');
+
+            // Import and initialize article manager
+            import('./article-manager').then(({ ArticleManager }) => {
+                const articleManager = new ArticleManager();
+                (window as any).articleManager = articleManager;
+                articleManager.openManager();
+                console.log('✅ Article manager initialized and opened');
+            }).catch(error => {
+                console.error('❌ Failed to initialize article manager:', error);
+                Stack.showErrorMessage('文章管理器初始化失败，请刷新页面重试');
+            });
+        }
     },
 
     /**
@@ -1989,3 +2184,6 @@ Stack.showUpdateNotification = () => {
 // Export Stack object to window for global access
 (window as any).Stack = Stack;
 console.log('✅ Stack object exported to window');
+
+// Version identifier to force recompilation - v2.2 FINAL
+console.log('🚀 Hugo Stack Theme Enhanced - v2.2 FINAL - All modules loaded successfully!');

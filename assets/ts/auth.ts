@@ -28,10 +28,14 @@ class StackAuth {
             maxLoginAttempts: 5,
             ...config
         };
-        
+
         this.currentStatus = this.getSavedAuthStatus();
         this.cleanupExpiredSession();
-        this.dispatchAuthEvent(this.currentStatus);
+
+        // Delay initial event dispatch to avoid recursion during initialization
+        setTimeout(() => {
+            this.dispatchAuthEvent(this.currentStatus);
+        }, 100);
     }
 
     /**
@@ -42,7 +46,6 @@ class StackAuth {
     public authenticate(password: string): boolean {
         // Check if too many failed attempts
         if (this.isBlocked()) {
-            this.dispatchAuthEvent('blocked');
             return false;
         }
 
@@ -50,11 +53,9 @@ class StackAuth {
             this.currentStatus = 'authenticated';
             this.saveAuthStatus();
             this.clearLoginAttempts();
-            this.dispatchAuthEvent('authenticated');
             return true;
         } else {
             this.incrementLoginAttempts();
-            this.dispatchAuthEvent('failed');
             return false;
         }
     }
@@ -65,7 +66,7 @@ class StackAuth {
     public logout(): void {
         this.currentStatus = 'guest';
         this.clearAuthData();
-        this.dispatchAuthEvent('guest');
+        // Don't dispatch event to avoid recursion - let UI update manually
     }
 
     /**
@@ -73,11 +74,8 @@ class StackAuth {
      * @returns boolean - Authentication status
      */
     public isAuthenticated(): boolean {
-        if (this.isSessionExpired()) {
-            this.logout();
-            return false;
-        }
-        return this.currentStatus === 'authenticated';
+        // Simple check without any side effects to avoid recursion
+        return this.currentStatus === 'authenticated' && !this.checkSessionExpiredDirect();
     }
 
     /**
@@ -146,7 +144,19 @@ class StackAuth {
     private isSessionExpired(): boolean {
         const timestamp = localStorage.getItem(this.timestampKey);
         if (!timestamp) return true;
-        
+
+        const sessionTime = parseInt(timestamp);
+        const currentTime = Date.now();
+        return (currentTime - sessionTime) > this.config.sessionTimeout;
+    }
+
+    /**
+     * Check if session is expired without triggering logout (to avoid recursion)
+     */
+    private checkSessionExpiredDirect(): boolean {
+        const timestamp = localStorage.getItem(this.timestampKey);
+        if (!timestamp) return true;
+
         const sessionTime = parseInt(timestamp);
         const currentTime = Date.now();
         return (currentTime - sessionTime) > this.config.sessionTimeout;
@@ -156,7 +166,7 @@ class StackAuth {
      * Clean up expired session
      */
     private cleanupExpiredSession(): void {
-        if (this.isSessionExpired()) {
+        if (this.checkSessionExpiredDirect()) {
             this.clearAuthData();
             this.currentStatus = 'guest';
         }
@@ -197,8 +207,8 @@ class StackAuth {
      * Dispatch authentication event
      */
     private dispatchAuthEvent(status: authStatus | 'failed' | 'blocked'): void {
-        // Avoid infinite recursion by directly checking status instead of calling isAuthenticated()
-        const isAuth = this.currentStatus === 'authenticated' && !this.isSessionExpired();
+        // Avoid infinite recursion by directly checking status without calling any methods
+        const isAuth = this.currentStatus === 'authenticated' && !this.checkSessionExpiredDirect();
         const isAdminUser = isAuth;
 
         const event = new CustomEvent('onAuthStatusChange', {

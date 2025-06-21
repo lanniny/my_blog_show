@@ -1,4 +1,5 @@
 {{ define "main" }}
+<!-- FORCE NETLIFY DEPLOYMENT - 2025-06-21T13:25:00Z -->
     {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
     {{ $notHidden := where .Site.RegularPages "Params.hidden" "!=" true }}
     {{ $filtered := ($pages | intersect $notHidden) }}
