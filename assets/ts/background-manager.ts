@@ -48,6 +48,7 @@ export class BackgroundManager {
         this.initializePresetStyles();
         this.loadCustomStyles();
         this.init();
+        this.autoApplyBackground(); // 自动应用保存的背景
     }
 
     /**
@@ -897,6 +898,59 @@ export class BackgroundManager {
         this.currentSettings = { ...this.currentSettings, ...settings };
         this.applySettingsToInterface();
         this.updatePreview();
+    }
+
+    /**
+     * Auto-apply saved background on page load
+     */
+    private autoApplyBackground(): void {
+        const saved = localStorage.getItem('background-current-settings');
+        if (saved) {
+            try {
+                const settings = JSON.parse(saved);
+                this.currentSettings = settings;
+
+                // Apply background immediately
+                const { style, opacity, blur, position, size } = settings;
+
+                // Apply to body
+                document.body.style.background = style.value;
+                document.body.style.backgroundPosition = position;
+                document.body.style.backgroundSize = size;
+                document.body.style.backgroundRepeat = 'no-repeat';
+                document.body.style.backgroundAttachment = 'fixed';
+
+                // Create overlay for opacity and blur if needed
+                if (opacity < 100 || blur > 0) {
+                    const overlay = document.createElement('div');
+                    overlay.id = 'background-overlay';
+                    overlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        pointer-events: none;
+                        z-index: -1;
+                        background: ${style.value};
+                        background-position: ${position};
+                        background-size: ${size};
+                        background-repeat: no-repeat;
+                        background-attachment: fixed;
+                        opacity: ${opacity / 100};
+                        filter: blur(${blur}px);
+                    `;
+                    document.body.appendChild(overlay);
+
+                    // Clear body background
+                    document.body.style.background = 'transparent';
+                }
+
+                console.log('✅ 自动应用保存的背景设置');
+            } catch (error) {
+                console.warn('Failed to auto-apply background:', error);
+            }
+        }
     }
 }
 
