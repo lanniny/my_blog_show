@@ -133,6 +133,66 @@
                 }
             }
         }
+
+        // Advanced Options Panel
+        .advanced-options {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--body-background);
+            border-radius: 8px;
+            border: 1px solid var(--card-separator-color);
+
+            h4 {
+                color: var(--card-text-color-main);
+                margin-bottom: 1rem;
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            .advanced-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+
+                .option-group {
+                    label {
+                        display: block;
+                        font-weight: 500;
+                        color: var(--card-text-color-secondary);
+                        margin-bottom: 0.5rem;
+                        font-size: 0.85rem;
+                    }
+
+                    input,
+                    select {
+                        width: 100%;
+                        padding: 8px 10px;
+                        border: 1px solid var(--card-separator-color);
+                        border-radius: 4px;
+                        background: var(--card-background);
+                        color: var(--card-text-color-main);
+                        font-size: 0.85rem;
+                        transition: border-color 0.2s ease;
+
+                        &:focus {
+                            outline: none;
+                            border-color: var(--accent-color);
+                            box-shadow: 0 0 0 2px var(--accent-color-lighter);
+                        }
+                    }
+
+                    input[type="number"] {
+                        -moz-appearance: textfield;
+
+                        &::-webkit-outer-spin-button,
+                        &::-webkit-inner-spin-button {
+                            -webkit-appearance: none;
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     // Results Info

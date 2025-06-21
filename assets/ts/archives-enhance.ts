@@ -242,6 +242,52 @@ export class ArchivesEnhancer {
                             <button id="apply-filters" class="btn btn-primary">应用筛选</button>
                             <button id="clear-filters" class="btn btn-secondary">清除筛选</button>
                             <button id="export-archives" class="btn btn-secondary">导出归档</button>
+                            <button id="random-article" class="btn btn-secondary">随机文章</button>
+                            <button id="toggle-advanced" class="btn btn-secondary">高级选项</button>
+                        </div>
+
+                        <!-- Advanced Options Panel -->
+                        <div id="advanced-options" class="advanced-options" style="display: none;">
+                            <h4>🔧 高级选项</h4>
+                            <div class="advanced-grid">
+                                <div class="option-group">
+                                    <label for="date-range-start">开始日期</label>
+                                    <input type="date" id="date-range-start" class="filter-input">
+                                </div>
+                                <div class="option-group">
+                                    <label for="date-range-end">结束日期</label>
+                                    <input type="date" id="date-range-end" class="filter-input">
+                                </div>
+                                <div class="option-group">
+                                    <label for="reading-time-min">最少阅读时间(分钟)</label>
+                                    <input type="number" id="reading-time-min" class="filter-input" min="0" placeholder="0">
+                                </div>
+                                <div class="option-group">
+                                    <label for="reading-time-max">最多阅读时间(分钟)</label>
+                                    <input type="number" id="reading-time-max" class="filter-input" min="0" placeholder="无限制">
+                                </div>
+                                <div class="option-group">
+                                    <label for="sort-order">排序方式</label>
+                                    <select id="sort-order" class="filter-select">
+                                        <option value="date-desc">最新优先</option>
+                                        <option value="date-asc">最旧优先</option>
+                                        <option value="title-asc">标题A-Z</option>
+                                        <option value="title-desc">标题Z-A</option>
+                                        <option value="reading-time-asc">阅读时间短→长</option>
+                                        <option value="reading-time-desc">阅读时间长→短</option>
+                                    </select>
+                                </div>
+                                <div class="option-group">
+                                    <label for="items-per-page">每页显示</label>
+                                    <select id="items-per-page" class="filter-select">
+                                        <option value="10">10篇</option>
+                                        <option value="20" selected>20篇</option>
+                                        <option value="50">50篇</option>
+                                        <option value="100">100篇</option>
+                                        <option value="all">全部</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -316,10 +362,42 @@ export class ArchivesEnhancer {
                 const target = e.target as HTMLElement;
                 const viewMode = target.id.replace('view-', '');
                 this.switchViewMode(viewMode);
-                
+
                 // Update active state
                 viewButtons.forEach(b => b.classList.remove('active'));
                 target.classList.add('active');
+            });
+        });
+
+        // Random article button
+        const randomArticle = document.getElementById('random-article');
+        randomArticle?.addEventListener('click', () => {
+            this.goToRandomArticle();
+        });
+
+        // Toggle advanced options
+        const toggleAdvanced = document.getElementById('toggle-advanced');
+        const advancedOptions = document.getElementById('advanced-options');
+        toggleAdvanced?.addEventListener('click', () => {
+            if (advancedOptions) {
+                const isVisible = advancedOptions.style.display !== 'none';
+                advancedOptions.style.display = isVisible ? 'none' : 'block';
+                toggleAdvanced.textContent = isVisible ? '高级选项' : '隐藏选项';
+            }
+        });
+
+        // Advanced filter controls
+        const dateRangeStart = document.getElementById('date-range-start') as HTMLInputElement;
+        const dateRangeEnd = document.getElementById('date-range-end') as HTMLInputElement;
+        const readingTimeMin = document.getElementById('reading-time-min') as HTMLInputElement;
+        const readingTimeMax = document.getElementById('reading-time-max') as HTMLInputElement;
+        const sortOrder = document.getElementById('sort-order') as HTMLSelectElement;
+        const itemsPerPage = document.getElementById('items-per-page') as HTMLSelectElement;
+
+        // Add change listeners for advanced options
+        [dateRangeStart, dateRangeEnd, readingTimeMin, readingTimeMax, sortOrder, itemsPerPage].forEach(element => {
+            element?.addEventListener('change', () => {
+                this.applyAdvancedFilters();
             });
         });
     }
@@ -582,6 +660,78 @@ export class ArchivesEnhancer {
     }
 
     /**
+     * Go to random article
+     */
+    private goToRandomArticle(): void {
+        if (this.filteredItems.length === 0) {
+            alert('没有可用的文章');
+            return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * this.filteredItems.length);
+        const randomArticle = this.filteredItems[randomIndex];
+
+        // Show confirmation with article info
+        const confirmed = confirm(`即将跳转到随机文章：\n\n"${randomArticle.title}"\n\n确定要跳转吗？`);
+        if (confirmed) {
+            window.open(randomArticle.url, '_blank');
+        }
+    }
+
+    /**
+     * Apply advanced filters
+     */
+    private applyAdvancedFilters(): void {
+        const dateRangeStart = (document.getElementById('date-range-start') as HTMLInputElement)?.value;
+        const dateRangeEnd = (document.getElementById('date-range-end') as HTMLInputElement)?.value;
+        const readingTimeMin = parseInt((document.getElementById('reading-time-min') as HTMLInputElement)?.value) || 0;
+        const readingTimeMax = parseInt((document.getElementById('reading-time-max') as HTMLInputElement)?.value) || Infinity;
+        const sortOrder = (document.getElementById('sort-order') as HTMLSelectElement)?.value || 'date-desc';
+
+        // Apply date range filter
+        let filtered = this.filteredItems.filter(item => {
+            if (dateRangeStart && item.date < new Date(dateRangeStart)) return false;
+            if (dateRangeEnd && item.date > new Date(dateRangeEnd + 'T23:59:59')) return false;
+            if (item.readingTime && (item.readingTime < readingTimeMin || item.readingTime > readingTimeMax)) return false;
+            return true;
+        });
+
+        // Apply sorting
+        filtered = this.sortItems(filtered, sortOrder);
+
+        // Update display
+        this.filteredItems = filtered;
+        this.updateResultsCount();
+        this.renderArchives();
+
+        console.log(`🔧 Applied advanced filters, showing ${filtered.length} items`);
+    }
+
+    /**
+     * Sort items based on criteria
+     */
+    private sortItems(items: ArchiveItem[], sortOrder: string): ArchiveItem[] {
+        return [...items].sort((a, b) => {
+            switch (sortOrder) {
+                case 'date-asc':
+                    return a.date.getTime() - b.date.getTime();
+                case 'date-desc':
+                    return b.date.getTime() - a.date.getTime();
+                case 'title-asc':
+                    return a.title.localeCompare(b.title);
+                case 'title-desc':
+                    return b.title.localeCompare(a.title);
+                case 'reading-time-asc':
+                    return (a.readingTime || 0) - (b.readingTime || 0);
+                case 'reading-time-desc':
+                    return (b.readingTime || 0) - (a.readingTime || 0);
+                default:
+                    return b.date.getTime() - a.date.getTime();
+            }
+        });
+    }
+
+    /**
      * Export archives to various formats
      */
     private exportArchives(): void {
@@ -589,28 +739,144 @@ export class ArchivesEnhancer {
             exportDate: new Date().toISOString(),
             totalItems: this.filteredItems.length,
             filters: this.currentFilters,
+            statistics: this.stats,
             items: this.filteredItems.map(item => ({
                 title: item.title,
                 url: item.url,
                 date: item.date.toISOString(),
                 categories: item.categories,
                 tags: item.tags,
-                summary: item.summary
+                summary: item.summary,
+                readingTime: item.readingTime
             }))
         };
 
-        // Create and download JSON file
-        const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+        // Create multiple export formats
+        this.showExportOptions(exportData);
+    }
+
+    /**
+     * Show export options dialog
+     */
+    private showExportOptions(data: any): void {
+        const exportFormats = [
+            { name: 'JSON', extension: 'json', mimeType: 'application/json' },
+            { name: 'CSV', extension: 'csv', mimeType: 'text/csv' },
+            { name: 'Markdown', extension: 'md', mimeType: 'text/markdown' }
+        ];
+
+        const formatChoice = prompt(`选择导出格式：\n1. JSON (完整数据)\n2. CSV (表格格式)\n3. Markdown (文档格式)\n\n请输入数字 (1-3):`);
+
+        if (!formatChoice || !['1', '2', '3'].includes(formatChoice)) {
+            return;
+        }
+
+        const formatIndex = parseInt(formatChoice) - 1;
+        const format = exportFormats[formatIndex];
+
+        let content: string;
+        let filename: string;
+
+        switch (format.extension) {
+            case 'json':
+                content = JSON.stringify(data, null, 2);
+                filename = `archives-export-${new Date().toISOString().split('T')[0]}.json`;
+                break;
+            case 'csv':
+                content = this.convertToCSV(data.items);
+                filename = `archives-export-${new Date().toISOString().split('T')[0]}.csv`;
+                break;
+            case 'md':
+                content = this.convertToMarkdown(data);
+                filename = `archives-export-${new Date().toISOString().split('T')[0]}.md`;
+                break;
+            default:
+                return;
+        }
+
+        // Download file
+        const blob = new Blob([content], { type: format.mimeType });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `archives-export-${new Date().toISOString().split('T')[0]}.json`;
+        a.download = filename;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        console.log('📥 Archives exported successfully');
+        console.log(`📥 Archives exported as ${format.name} successfully`);
+    }
+
+    /**
+     * Convert data to CSV format
+     */
+    private convertToCSV(items: any[]): string {
+        const headers = ['标题', '链接', '日期', '分类', '标签', '摘要', '阅读时间'];
+        const csvContent = [
+            headers.join(','),
+            ...items.map(item => [
+                `"${item.title.replace(/"/g, '""')}"`,
+                `"${item.url}"`,
+                `"${item.date.split('T')[0]}"`,
+                `"${item.categories.join('; ')}"`,
+                `"${item.tags.join('; ')}"`,
+                `"${(item.summary || '').replace(/"/g, '""')}"`,
+                `"${item.readingTime || ''}"`
+            ].join(','))
+        ].join('\n');
+
+        return '\uFEFF' + csvContent; // Add BOM for Excel compatibility
+    }
+
+    /**
+     * Convert data to Markdown format
+     */
+    private convertToMarkdown(data: any): string {
+        const { exportDate, totalItems, statistics, items } = data;
+
+        let markdown = `# 博客文章归档\n\n`;
+        markdown += `**导出日期**: ${new Date(exportDate).toLocaleDateString()}\n`;
+        markdown += `**文章总数**: ${totalItems}\n`;
+        markdown += `**分类数**: ${statistics.totalCategories}\n`;
+        markdown += `**标签数**: ${statistics.totalTags}\n\n`;
+
+        markdown += `## 统计信息\n\n`;
+        markdown += `### 按年份分布\n\n`;
+        Object.entries(statistics.yearlyStats)
+            .sort(([a], [b]) => parseInt(b) - parseInt(a))
+            .forEach(([year, count]) => {
+                markdown += `- **${year}年**: ${count}篇\n`;
+            });
+
+        markdown += `\n### 按分类分布\n\n`;
+        Object.entries(statistics.categoryStats)
+            .sort(([,a], [,b]) => (b as number) - (a as number))
+            .slice(0, 10)
+            .forEach(([category, count]) => {
+                markdown += `- **${category}**: ${count}篇\n`;
+            });
+
+        markdown += `\n## 文章列表\n\n`;
+        items.forEach((item: any, index: number) => {
+            markdown += `### ${index + 1}. [${item.title}](${item.url})\n\n`;
+            markdown += `**日期**: ${item.date.split('T')[0]}\n`;
+            if (item.categories.length > 0) {
+                markdown += `**分类**: ${item.categories.join(', ')}\n`;
+            }
+            if (item.tags.length > 0) {
+                markdown += `**标签**: ${item.tags.join(', ')}\n`;
+            }
+            if (item.readingTime) {
+                markdown += `**阅读时间**: ${item.readingTime}分钟\n`;
+            }
+            if (item.summary) {
+                markdown += `\n${item.summary}\n`;
+            }
+            markdown += `\n---\n\n`;
+        });
+
+        return markdown;
     }
 
     /**
