@@ -226,40 +226,77 @@ export class ArticleManager {
      * Setup event listeners
      */
     private setupEventListeners(): void {
-        // New article button
-        document.getElementById('new-article-btn')?.addEventListener('click', () => {
-            this.createNewArticle();
-        });
+        // Wait for DOM to be ready
+        setTimeout(() => {
+            // New article button
+            const newArticleBtn = document.getElementById('new-article-btn');
+            if (newArticleBtn) {
+                newArticleBtn.addEventListener('click', () => {
+                    console.log('New article button clicked');
+                    this.createNewArticle();
+                });
+                console.log('✅ New article button event listener attached');
+            } else {
+                console.warn('❌ New article button not found');
+            }
 
-        // Search and filters
-        document.getElementById('article-search')?.addEventListener('input', (e) => {
-            this.filterArticles();
-        });
+            // Search and filters
+            const articleSearch = document.getElementById('article-search');
+            if (articleSearch) {
+                articleSearch.addEventListener('input', (e) => {
+                    this.filterArticles();
+                });
+                console.log('✅ Article search event listener attached');
+            }
 
-        document.getElementById('article-filter')?.addEventListener('change', () => {
-            this.filterArticles();
-        });
+            const articleFilter = document.getElementById('article-filter');
+            if (articleFilter) {
+                articleFilter.addEventListener('change', () => {
+                    this.filterArticles();
+                });
+                console.log('✅ Article filter event listener attached');
+            }
 
-        document.getElementById('category-filter')?.addEventListener('change', () => {
-            this.filterArticles();
-        });
+            const categoryFilter = document.getElementById('category-filter');
+            if (categoryFilter) {
+                categoryFilter.addEventListener('change', () => {
+                    this.filterArticles();
+                });
+                console.log('✅ Category filter event listener attached');
+            }
 
-        // Editor actions
-        document.getElementById('save-draft-btn')?.addEventListener('click', () => {
-            this.saveDraft();
-        });
+            // Editor actions
+            const saveDraftBtn = document.getElementById('save-draft-btn');
+            if (saveDraftBtn) {
+                saveDraftBtn.addEventListener('click', () => {
+                    this.saveDraft();
+                });
+                console.log('✅ Save draft button event listener attached');
+            }
 
-        document.getElementById('publish-btn')?.addEventListener('click', () => {
-            this.publishArticle();
-        });
+            const publishBtn = document.getElementById('publish-btn');
+            if (publishBtn) {
+                publishBtn.addEventListener('click', () => {
+                    this.publishArticle();
+                });
+                console.log('✅ Publish button event listener attached');
+            }
 
-        document.getElementById('preview-btn')?.addEventListener('click', () => {
-            this.togglePreview();
-        });
+            const previewBtn = document.getElementById('preview-btn');
+            if (previewBtn) {
+                previewBtn.addEventListener('click', () => {
+                    this.togglePreview();
+                });
+                console.log('✅ Preview button event listener attached');
+            }
 
-        document.getElementById('close-editor-btn')?.addEventListener('click', () => {
-            this.closeEditor();
-        });
+            const closeEditorBtn = document.getElementById('close-editor-btn');
+            if (closeEditorBtn) {
+                closeEditorBtn.addEventListener('click', () => {
+                    this.closeEditor();
+                });
+                console.log('✅ Close editor button event listener attached');
+            }
 
         // Markdown editor
         const markdownEditor = document.getElementById('markdown-editor') as HTMLTextAreaElement;
@@ -284,10 +321,15 @@ export class ArticleManager {
             this.openImageUploader();
         });
 
-        // Sync to GitHub
-        document.getElementById('sync-github-btn')?.addEventListener('click', () => {
-            this.syncToGitHub();
-        });
+            // Sync to GitHub
+            const syncGitHubBtn = document.getElementById('sync-github-btn');
+            if (syncGitHubBtn) {
+                syncGitHubBtn.addEventListener('click', () => {
+                    this.syncToGitHub();
+                });
+                console.log('✅ Sync GitHub button event listener attached');
+            }
+        }, 100); // End of setTimeout
     }
 
     /**
@@ -305,7 +347,78 @@ export class ArticleManager {
                 this.articles = new Map();
             }
         }
+
+        // If no articles exist, create some sample articles
+        if (this.articles.size === 0) {
+            this.createSampleArticles();
+        }
+
         this.renderArticleList();
+    }
+
+    /**
+     * Create sample articles for demonstration
+     */
+    private createSampleArticles(): void {
+        const sampleArticles: ArticleContent[] = [
+            {
+                metadata: {
+                    title: '博客界面美化测试文章',
+                    slug: 'blog-ui-test',
+                    description: '这是一篇用于测试博客界面美化效果的文章',
+                    date: new Date('2024-01-15'),
+                    lastmod: new Date('2024-01-15'),
+                    draft: false,
+                    categories: ['技术', '前端'],
+                    tags: ['博客', 'UI', '美化'],
+                    featured: true
+                },
+                content: '# 博客界面美化测试文章\n\n这是一篇用于测试博客界面美化效果的文章。\n\n## 功能特性\n\n- 现代化设计\n- 响应式布局\n- 用户友好的界面',
+                frontmatter: '',
+                fullContent: ''
+            },
+            {
+                metadata: {
+                    title: '图片管理系统使用指南',
+                    slug: 'image-management-guide',
+                    description: '详细介绍如何使用博客的图片管理系统',
+                    date: new Date('2024-01-10'),
+                    lastmod: new Date('2024-01-10'),
+                    draft: false,
+                    categories: ['教程'],
+                    tags: ['图片', '管理', '指南'],
+                    featured: false
+                },
+                content: '# 图片管理系统使用指南\n\n本文将详细介绍如何使用博客的图片管理系统。\n\n## 上传图片\n\n1. 点击上传按钮\n2. 选择图片文件\n3. 等待上传完成',
+                frontmatter: '',
+                fullContent: ''
+            },
+            {
+                metadata: {
+                    title: '新功能开发计划',
+                    slug: 'new-features-plan',
+                    description: '即将推出的新功能预览',
+                    date: new Date('2024-01-20'),
+                    lastmod: new Date('2024-01-20'),
+                    draft: true,
+                    categories: ['计划'],
+                    tags: ['开发', '新功能', '计划'],
+                    featured: false
+                },
+                content: '# 新功能开发计划\n\n## 即将推出的功能\n\n- 评论系统\n- 搜索功能\n- 标签云\n- 文章推荐',
+                frontmatter: '',
+                fullContent: ''
+            }
+        ];
+
+        sampleArticles.forEach(article => {
+            article.frontmatter = this.generateFrontmatter(article.metadata);
+            article.fullContent = article.frontmatter + '\n\n' + article.content;
+            this.articles.set(article.metadata.slug, article);
+        });
+
+        this.saveArticles();
+        console.log('📝 Created sample articles');
     }
 
     /**

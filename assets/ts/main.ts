@@ -1645,41 +1645,6 @@ let Stack = {
         if (selectedPanel) selectedPanel.classList.add('active');
     },
 
-    /**
-     * Handle avatar upload
-     */
-    handleAvatarUpload: (file: File) => {
-        if (file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const result = e.target?.result as string;
-                const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
-                if (avatarImg) {
-                    avatarImg.src = result;
-                    // Save to localStorage
-                    localStorage.setItem('adminAvatar', result);
-                    // Update site avatar immediately
-                    Stack.updateSiteAvatar(result);
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    },
-
-    /**
-     * Reset avatar to default
-     */
-    resetAvatar: () => {
-        const defaultAvatar = '/img/avatar_hu_f509edb42ecc0ebd.png';
-        const avatarImg = document.getElementById('admin-avatar-img') as HTMLImageElement;
-        if (avatarImg) {
-            avatarImg.src = defaultAvatar;
-            localStorage.removeItem('adminAvatar');
-            // Update site avatar immediately
-            Stack.updateSiteAvatar(defaultAvatar);
-        }
-    },
-
 
 
 
