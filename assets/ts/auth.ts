@@ -197,11 +197,15 @@ class StackAuth {
      * Dispatch authentication event
      */
     private dispatchAuthEvent(status: authStatus | 'failed' | 'blocked'): void {
+        // Avoid infinite recursion by directly checking status instead of calling isAuthenticated()
+        const isAuth = this.currentStatus === 'authenticated' && !this.isSessionExpired();
+        const isAdminUser = isAuth;
+
         const event = new CustomEvent('onAuthStatusChange', {
             detail: {
                 status: status,
-                isAuthenticated: this.isAuthenticated(),
-                isAdmin: this.isAdmin(),
+                isAuthenticated: isAuth,
+                isAdmin: isAdminUser,
                 remainingAttempts: this.getRemainingAttempts()
             }
         });

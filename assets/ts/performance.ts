@@ -127,15 +127,14 @@ class BlogPerformanceOptimizer {
      * 设置资源预加载
      */
     private setupResourcePreloading(): void {
-        // 预加载关键CSS
-        this.preloadResource('/css/critical.css', 'style');
-        
-        // 预加载关键字体
-        this.preloadResource('/fonts/main.woff2', 'font', 'font/woff2');
-        
         // 预连接到外部域名
         this.preconnectDomain('https://fonts.googleapis.com');
         this.preconnectDomain('https://fonts.gstatic.com');
+
+        // 预连接到CDN
+        this.preconnectDomain('https://cdn.jsdelivr.net');
+
+        console.log('✅ 资源预加载设置完成');
     }
 
     /**
