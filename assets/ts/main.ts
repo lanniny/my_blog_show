@@ -1985,3 +1985,7 @@ Stack.showUpdateNotification = () => {
         }
     }, 10000);
 };
+
+// Export Stack object to window for global access
+(window as any).Stack = Stack;
+console.log('✅ Stack object exported to window');
