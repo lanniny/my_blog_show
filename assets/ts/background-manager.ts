@@ -913,6 +913,25 @@ export class BackgroundManager {
                 // Apply background immediately
                 const { style, opacity, blur, position, size } = settings;
 
+                console.log('🎨 恢复背景设置:', {
+                    styleType: style.type,
+                    styleName: style.name,
+                    styleValue: style.value.substring(0, 50) + '...',
+                    opacity,
+                    blur
+                });
+
+                // Validate style value for custom images
+                if (style.type === 'image' && style.value.startsWith('url("data:')) {
+                    // Custom uploaded image - ensure data URL is valid
+                    const dataUrl = style.value.match(/url\("([^"]+)"\)/)?.[1];
+                    if (dataUrl && dataUrl.startsWith('data:image/')) {
+                        console.log('✅ 自定义图片背景数据有效');
+                    } else {
+                        console.warn('⚠️ 自定义图片背景数据可能损坏');
+                    }
+                }
+
                 // Apply to body
                 document.body.style.background = style.value;
                 document.body.style.backgroundPosition = position;
@@ -946,9 +965,11 @@ export class BackgroundManager {
                     document.body.style.background = 'transparent';
                 }
 
-                console.log('✅ 自动应用保存的背景设置');
+                console.log('✅ 自动应用保存的背景设置 - 包括自定义背景');
             } catch (error) {
                 console.warn('Failed to auto-apply background:', error);
+                // Clear corrupted settings
+                localStorage.removeItem('background-current-settings');
             }
         }
     }

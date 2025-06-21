@@ -32,3 +32,27 @@
 @import "../../assets/scss/image-manager.scss";
 @import "../../assets/scss/guest-auth.scss";
 @import "../../assets/scss/admin-panel-enhance.scss";
+
+// Avatar display fixes
+.site-logo,
+#admin-avatar-img,
+.guest-avatar,
+.admin-avatar-preview,
+.site-avatar img {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: inline !important;
+}
+
+// Ensure guest user area is visible when logged in
+.guest-user-area {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+// Fix avatar loading issues
+img[src*="avatar"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
